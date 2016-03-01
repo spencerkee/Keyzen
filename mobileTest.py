@@ -134,9 +134,6 @@ if __name__ == '__main__':
 
 	best = 1.3
 	bestDict = {}
-	#onehundred thousand in 12 seconds
-	#1 million in 122 seconds, 2 results
-	#574332 average of 4 per million
 
 	# for i in range(0,2000000):
 	#found 1043, watch says 3:30
