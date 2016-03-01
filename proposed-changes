@@ -2,3 +2,6 @@
 #calculate time spent on what rows, letter frequencies, bigraph frequencies
 #find out how the time changes for longer input strings
 #once the is a coordList find areas where things are on 1 finger and calculate them together without looking for what hand they are on
+remove extra totalDistance = 0 lines
+are there even letters that are pressed by both?
+make mobileCoordTest return the keyboard?
