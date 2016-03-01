@@ -1,0 +1,59 @@
+home row most optimial?
+fitness: 
+
+-ergonomics/disability
+FLEKSY and KALQ
+are there even ergonomics for mobile keyboards?
+-ease of learning
+least number of character switches
+is this the only thing?
+-efficiency
+test varying sizes (keys have random sizes, must be placed randomly not overlapping) does a larger key increase ease of learning or speed of typing? Do larger keys necessitate other keys being way smaller? How to factor in the multiple keyboard panels
+are there dominant thumbs?
+
+-mobile testing
+figure out if everyone presses space with 1 thumb
+find most often used symbols (how to get corpus?)
+get from online?
+get from myself?
+if a word is mostly on the right i use only right
+some letters are switchable
+thumbs are wide, try is typed with 1 finger. 
+how many 3 letter combinations are there that i can test?
+26*26*26 or blocks of letters
+multiples of space or backspace?
+track how much each thumb is used, both in program and in real life 
+is hurdling as much of a problem? maybe it is better
+is this true for mobile (the chances of stuttering are increased and a rhythm can be broken, thus decreasing speed and increasing errors and fatigue.)
+don't need to preserve shortcuts. on keyboards you can set it so that holding control will switch it to qwerty to preserve shortcuts
+
+
+adjacent letters are always typed together?
+
+find a way to look for words with things like (2 in one direction, then double back)?
+beryl is interesting word
+
+faster to alternate or all with one finger? more errors one way or the other?
+
+
+stop mousepad when typing
+
+-mobile program
+what should yy be?
+2 pointers, right always presses space, left controls shift. right is backspace. backspace is encoded as $?
+iterate along input string
+identify if letter is on the right or left. have 2 variables. track last used. 
+if letter is in last used, add calculate distance from lastused to current letter and add to distance and iterate letters. 
+fitness function can have coefficents for each of the 3 values.
+
+is it possible to track transitions at the beginning liek the orginal? is it better to store hard distances? probably not
+should there be another dictionary for capital letters or just calculated?
+should coordinates be strings?
+you can move 2 thumbs at once
+too much focus on perfect typing, where is backspace
+
+2.077863855664555
+{'j': [2.5, 2], 'm': [2, 3], 'd': [7.5, 2], 'v': [4.5, 1], 'y': [0.5, 2], 'i': [7.5, 1], 'w': [5.5, 2], 'l': [8, 3], 'f': [4.5, 2], 's': [5.5, 0], ' ': [5, 3], 't': [7, 3], 'q': [1, 3], 'b': [6.5, 2], 'a': [4, 3], 'c': [1.5, 1], 'h': [9, 3], 'p': [6.5, 1], 'u': [0, 3], 'z': [3.5, 2], 'g': [2.5, 1], 'x': [5.5, 1], 'k': [3, 3], 'o': [6, 3], 'n': [0, 0], 'r': [1.5, 2], 'shift': [3.5, 1], 'e': [8.5, 2]}
+
+1.8878069911844164
+{'k': [4.5, 2], 'r': [7.5, 2], 't': [6.5, 2], 'z': [6.5, 1], 'e': [3.5, 1], 'l': [7, 3], 'n': [5.5, 1], 'c': [4.5, 1], 'y': [0, 3], 'shift': [8, 3], 'a': [2.5, 2], 's': [1.5, 2], 'b': [5.5, 0], 'h': [1, 3], 'f': [2.5, 1], 'i': [4, 3], 'w': [7.5, 1], 'm': [8.5, 2], 'g': [5, 3], 'j': [0, 0], 'u': [6, 3], 'd': [9, 3], 'q': [3.5, 2], 'p': [1.5, 1], 'v': [2, 3], ' ': [3, 3], 'x': [5.5, 2], 'o': [0.5, 2]}
