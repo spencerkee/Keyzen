@@ -1,8 +1,10 @@
 #if the input string is preprocessed with shift it won't have to check uppper
-#calculate time spent on what rows, letter frequencies, bigraph frequencies
+calculate time spent on what rows, letter frequencies, bigraph frequencies
 #find out how the time changes for longer input strings/more capitals
 #once the is a coordList find areas where things are on 1 finger and calculate them together without looking for what hand they are on
 remove extra totalDistance = 0 lines
 are there even letters that are pressed by both?
-make mobileCoordTest return the keyboard?
+#make mobileCoordTest return the keyboard?
 accurately rename functions and variables more
+should I replace every function call with in program alternatives?
+preprocess coordList to just calculate the distances of all 1 finger sections together? not sure if this changes the total number of calculations
