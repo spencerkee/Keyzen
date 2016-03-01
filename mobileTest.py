@@ -140,22 +140,26 @@ if __name__ == '__main__':
 	theInput = 'With a little plumbing we can create a system that allows one module to directly ask for the interface object of another module without going through the global scope Our goal is a require function that when given a module name will load that modules file from disk or the Web depending on the platform we are running on and return the appropriate interface value'
 	lowerInput = changeCapitals(theInput)
 
-	best = 1.4
+	best = 1.55
 	bestDict = {}
 
 	solNumber = 1
-	for i in range(0,100000):
+	checkValue = 1.52
+	#can test roughly 800 per second
+
+	print checkValue
+ 	for i in range(0,500000):
 		totalDistance = 0
 		trialKeyboard = keyboard(letters,coordinates)
 
 		answer = mobileTest(lowerInput, trialKeyboard)
 		answer = list(answer) #necessary because functions return tuples
-		if answer[0] < 1.4:
+		if answer[0] < checkValue:
 			best = answer[0]
 			bestDict = copy.deepcopy(answer[1])
 			print "keyboard#", i, "solution#", solNumber, "score:", best
 			solNumber += 1
-			with open("results2.txt", "a") as myfile:
+			with open("trash15.txt", "a") as myfile:
 				myfile.write(str(best))
 				myfile.write('\n')
 				myfile.write(str(bestDict))
