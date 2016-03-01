@@ -27,8 +27,8 @@ def update(thumb,destination):
 		leftPosition = destination
 
 def keyboard(inputLetters, inputCoordinates):
-	random.shuffle(inputLetters)
-	random.shuffle(inputCoordinates)
+	# random.shuffle(inputLetters)
+	# random.shuffle(inputCoordinates)
 	myKeyboard = {}
 	for i in range(0,len(inputCoordinates)):
 		myKeyboard[inputLetters[i]] = inputCoordinates[i]
@@ -59,6 +59,32 @@ def mobileTest(inputText, theKeyboard):
 				update('left',nextPosition)
 				# print "dist", totalDistance
 	return (totalDistance/totalTransitions), theKeyboard,
+
+def mobileCoordTest(inputCoordList):
+	totalTransitions = len(inputCoordList)
+	global totalDistance
+	totalDistance = 0
+	for j in range(0,len(inputCoordList)):
+		nextPosition = inputCoordList[j]
+		# nextPosition = theKeyboard[nextLetter]
+		if nextPosition in rightOnly:
+			# print "right to", nextLetter
+			update('right',nextPosition)
+			# print "dist", totalDistance
+		elif nextPosition in leftOnly:
+			# print "left to", nextLetter
+			update('left',nextPosition)
+			# print "dist", totalDistance
+		else:
+			if closerThumb(leftPosition,rightPosition,nextPosition) == 'r':
+				# print "right to", nextLetter
+				update('right',nextPosition)
+				# print "dist", totalDistance
+			elif closerThumb(leftPosition,rightPosition,nextPosition) == 'l':
+				# print "left to", nextLetter
+				update('left',nextPosition)
+				# print "dist", totalDistance
+	return (totalDistance/totalTransitions)
 
 def convertToCoord(string, localDict):
 	coordList = []
@@ -128,22 +154,19 @@ if __name__ == '__main__':
 	leftPosition = [3.5,2]
 	rightPosition = [6.5,2]
 
-	# theInput = 'With a little plumbing we can create a system that allows one module to directly ask for the interface object of another module without going through the global scope Our goal is a require function that when given a module name will load that modules file from disk or the Web depending on the platform we are running on and return the appropriate interface value'
-	theInput = "The Quick Brown Fox"
+	theInput = 'With a little plumbing we can create a system that allows one module to directly ask for the interface object of another module without going through the global scope Our goal is a require function that when given a module name will load that modules file from disk or the Web depending on the platform we are running on and return the appropriate interface value'
+	# theInput = "The Quick Brown Fox"
 	theInput = changeCapitals(theInput)
 
 	best = 1.3
 	bestDict = {}
 
-	# for i in range(0,2000000):
-	#found 1043, watch says 3:30
 	solNumber = 1
 	for i in range(0,1):
 		totalDistance = 0
-		# trialKeyboard = keyboard(letters,coordinates)
-		trialKeyboard = {' ': [2.5, 2], '^': [7.5, 2], 'a': [0, 0], 'c': [3, 3], 'b': [7, 3], 'e': [0.5, 2], 'd': [6, 3], 'g': [5.5, 0], 'f': [8.5, 2], 'i': [4.5, 2], 'h': [1, 3], 'k': [6.5, 1], 'j': [5, 3], 'm': [4, 3], 'l': [3.5, 1], 'o': [8, 3], 'n': [2.5, 1], 'q': [4.5, 1], 'p': [5.5, 2], 's': [1.5, 1], 'r': [6.5, 2], 'u': [7.5, 1], 't': [0, 3], 'w': [2, 3], 'v': [1.5, 2], 'y': [5.5, 1], 'x': [3.5, 2], 'z': [9, 3]}
+		trialKeyboard = keyboard(letters,coordinates)
 		answer = mobileTest(theInput, trialKeyboard)
-		print answer
+
 		answer = list(answer)
 		if answer[0] < 1.3:
 			best = answer[0]
