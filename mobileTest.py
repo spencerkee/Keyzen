@@ -27,8 +27,8 @@ def update(thumb,destination):
 		leftPosition = destination
 
 def keyboard(inputLetters, inputCoordinates):
-	# random.shuffle(inputLetters)
-	# random.shuffle(inputCoordinates)
+	random.shuffle(inputLetters)
+	random.shuffle(inputCoordinates)
 	myKeyboard = {}
 	for i in range(0,len(inputCoordinates)):
 		myKeyboard[inputLetters[i]] = inputCoordinates[i]
@@ -156,22 +156,37 @@ if __name__ == '__main__':
 
 	theInput = 'With a little plumbing we can create a system that allows one module to directly ask for the interface object of another module without going through the global scope Our goal is a require function that when given a module name will load that modules file from disk or the Web depending on the platform we are running on and return the appropriate interface value'
 	# theInput = "The Quick Brown Fox"
-	theInput = changeCapitals(theInput)
+	lowerInput = changeCapitals(theInput)
 
-	best = 1.3
+	best = 1.4
 	bestDict = {}
 
 	solNumber = 1
-	for i in range(0,1):
+	#1hundred thousand takes 125 using previous method
+	for i in range(0,100000):
 		totalDistance = 0
 		trialKeyboard = keyboard(letters,coordinates)
-		answer = mobileTest(theInput, trialKeyboard)
 
-		answer = list(answer)
-		if answer[0] < 1.3:
-			best = answer[0]
-			bestDict = copy.deepcopy(answer[1])
-			print solNumber, best
+		# answer = mobileTest(lowerInput, trialKeyboard)
+		# answer = list(answer) #necessary because functions return tuples
+		# if answer[0] < 1.4:
+		# 	best = answer[0]
+		# 	bestDict = copy.deepcopy(answer[1])
+		# 	print "keyboard#", i, "solution#", solNumber, "score:", best
+		# 	solNumber += 1
+		# 	with open("results2.txt", "a") as myfile:
+		# 		myfile.write(str(best))
+		# 		myfile.write('\n')
+		# 		myfile.write(str(bestDict))
+		# 		myfile.write(keyboardDisplay(bestDict))
+		# 		myfile.write('\n')
+
+		coordInput = convertToCoord(lowerInput, trialKeyboard)
+		answer = mobileCoordTest(coordInput)
+		if answer < 1.4:
+			best = answer
+			bestDict = copy.deepcopy(trialKeyboard)
+			print "keyboard#", i, "solution#", solNumber, "score:", best
 			solNumber += 1
 			with open("results2.txt", "a") as myfile:
 				myfile.write(str(best))
