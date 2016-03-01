@@ -42,22 +42,14 @@ def mobileTest(inputText, theKeyboard):
 		nextLetter = inputText[j]
 		nextPosition = theKeyboard[nextLetter]
 		if nextPosition in rightOnly:
-			# print "right to", nextLetter
 			update('right',nextPosition)
-			# print "dist", totalDistance
 		elif theKeyboard[nextLetter] in leftOnly:
-			# print "left to", nextLetter
 			update('left',nextPosition)
-			# print "dist", totalDistance
 		else:
 			if closerThumb(leftPosition,rightPosition,nextPosition) == 'r':
-				# print "right to", nextLetter
 				update('right',nextPosition)
-				# print "dist", totalDistance
 			elif closerThumb(leftPosition,rightPosition,nextPosition) == 'l':
-				# print "left to", nextLetter
 				update('left',nextPosition)
-				# print "dist", totalDistance
 	return (totalDistance/totalTransitions), theKeyboard,
 
 def mobileCoordTest(inputCoordList):
@@ -66,24 +58,15 @@ def mobileCoordTest(inputCoordList):
 	totalDistance = 0
 	for j in range(0,len(inputCoordList)):
 		nextPosition = inputCoordList[j]
-		# nextPosition = theKeyboard[nextLetter]
 		if nextPosition in rightOnly:
-			# print "right to", nextLetter
 			update('right',nextPosition)
-			# print "dist", totalDistance
 		elif nextPosition in leftOnly:
-			# print "left to", nextLetter
 			update('left',nextPosition)
-			# print "dist", totalDistance
 		else:
 			if closerThumb(leftPosition,rightPosition,nextPosition) == 'r':
-				# print "right to", nextLetter
 				update('right',nextPosition)
-				# print "dist", totalDistance
 			elif closerThumb(leftPosition,rightPosition,nextPosition) == 'l':
-				# print "left to", nextLetter
 				update('left',nextPosition)
-				# print "dist", totalDistance
 	return (totalDistance/totalTransitions)
 
 def convertToCoord(string, localDict):
@@ -155,37 +138,21 @@ if __name__ == '__main__':
 	rightPosition = [6.5,2]
 
 	theInput = 'With a little plumbing we can create a system that allows one module to directly ask for the interface object of another module without going through the global scope Our goal is a require function that when given a module name will load that modules file from disk or the Web depending on the platform we are running on and return the appropriate interface value'
-	# theInput = "The Quick Brown Fox"
 	lowerInput = changeCapitals(theInput)
 
 	best = 1.4
 	bestDict = {}
 
 	solNumber = 1
-	#1hundred thousand takes 125 using previous method
 	for i in range(0,100000):
 		totalDistance = 0
 		trialKeyboard = keyboard(letters,coordinates)
 
-		# answer = mobileTest(lowerInput, trialKeyboard)
-		# answer = list(answer) #necessary because functions return tuples
-		# if answer[0] < 1.4:
-		# 	best = answer[0]
-		# 	bestDict = copy.deepcopy(answer[1])
-		# 	print "keyboard#", i, "solution#", solNumber, "score:", best
-		# 	solNumber += 1
-		# 	with open("results2.txt", "a") as myfile:
-		# 		myfile.write(str(best))
-		# 		myfile.write('\n')
-		# 		myfile.write(str(bestDict))
-		# 		myfile.write(keyboardDisplay(bestDict))
-		# 		myfile.write('\n')
-
-		coordInput = convertToCoord(lowerInput, trialKeyboard)
-		answer = mobileCoordTest(coordInput)
-		if answer < 1.4:
-			best = answer
-			bestDict = copy.deepcopy(trialKeyboard)
+		answer = mobileTest(lowerInput, trialKeyboard)
+		answer = list(answer) #necessary because functions return tuples
+		if answer[0] < 1.4:
+			best = answer[0]
+			bestDict = copy.deepcopy(answer[1])
 			print "keyboard#", i, "solution#", solNumber, "score:", best
 			solNumber += 1
 			with open("results2.txt", "a") as myfile:
@@ -194,3 +161,17 @@ if __name__ == '__main__':
 				myfile.write(str(bestDict))
 				myfile.write(keyboardDisplay(bestDict))
 				myfile.write('\n')
+
+		# coordInput = convertToCoord(lowerInput, trialKeyboard)
+		# answer = mobileCoordTest(coordInput)
+		# if answer < 1.4:
+		# 	best = answer
+		# 	bestDict = copy.deepcopy(trialKeyboard)
+		# 	print "keyboard#", i, "solution#", solNumber, "score:", best
+		# 	solNumber += 1
+		# 	with open("results2.txt", "a") as myfile:
+		# 		myfile.write(str(best))
+		# 		myfile.write('\n')
+		# 		myfile.write(str(bestDict))
+		# 		myfile.write(keyboardDisplay(bestDict))
+		# 		myfile.write('\n')
