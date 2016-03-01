@@ -2,10 +2,6 @@
 import math
 import random
 import copy
-#if the input string is preprocessed with shift it won't have to check uppper
-#calculate time spent on what rows, letter frequencies, bigraph frequencies
-#find out how the time changes for longer input strings
-#once the is a coordList find areas where things are on 1 finger and calculate them together without looking for what hand they are on
 def distance(p0, p1):
 	return math.sqrt((p0[0] - p1[0])**2 + (p0[1] - p1[1])**2)
 
