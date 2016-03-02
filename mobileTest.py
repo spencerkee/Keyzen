@@ -143,21 +143,25 @@ if __name__ == '__main__':
 	bestDict = {}
 
 	solNumber = 1
-	checkValue = 1.7
+	checkValue = 1.5
 	#can test roughly 800 per second
 	print checkValue
 	answerString = ""
-	with open("throwaway.txt", "a") as myfile:
-	 	for i in range(0,250000):
-			totalDistance = 0
-			trialKeyboard = keyboard(letters,coordinates)
+ 	for i in range(0,5000):
+		totalDistance = 0
+		trialKeyboard = keyboard(letters,coordinates)
 
-			answer = mobileTest(lowerInput, trialKeyboard)
-			answer = list(answer) #necessary because functions return tuples
-			if answer[0] < checkValue:
-				best = answer[0]
-				bestDict = copy.deepcopy(answer[1])
-				print "keyboard#", i, "solution#", solNumber, "score:", best
-				solNumber += 1
-				trialString = str(best) + '\n' + str(bestDict) + keyboardDisplay(bestDict) + '\n'
-				myfile.write(str(trialString))
+		answer = mobileTest(lowerInput, trialKeyboard)
+		answer = list(answer) #necessary because functions return tuples
+		if answer[0] < checkValue:
+			best = answer[0]
+			bestDict = copy.deepcopy(answer[1])
+			print "keyboard#", i, "solution#", solNumber, "score:", best
+			solNumber += 1
+			trialString = str(best) + '\n' + str(bestDict) + keyboardDisplay(bestDict) + '\n'
+	print checkValue, solNumber
+	with open("longresults.txt", "a") as myfile:
+		myfile.write(str(checkValue))
+		myfile.write('\n')
+		myfile.write(str(solNumber))
+		myfile.write('\n')
