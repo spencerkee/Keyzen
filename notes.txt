@@ -22,3 +22,18 @@ set the keys that can only be pressed by certain thumbs
 #643.452 seconds 10 solutions 500 thousand 1.51
 #619.165 seconds 11 solutions 5 hundred thousand 1.5
 #677.39 seconds 12 solutions 5 hundred thousand 1.5
+
+
+# coordInput = convertToCoord(lowerInput, trialKeyboard)
+# answer = mobileCoordTest(coordInput)
+# if answer < 1.4:
+# 	best = answer
+# 	bestDict = copy.deepcopy(trialKeyboard)
+# 	print "keyboard#", i, "solution#", solNumber, "score:", best
+# 	solNumber += 1
+# 	with open("results2.txt", "a") as myfile:
+# 		myfile.write(str(best))
+# 		myfile.write('\n')
+# 		myfile.write(str(bestDict))
+# 		myfile.write(keyboardDisplay(bestDict))
+# 		myfile.write('\n')
