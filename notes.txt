@@ -1,1 +1,24 @@
 coordData is worse than the stringData method
+
+Pseudocode:
+set the keys that can only be pressed by certain thumbs
+
+#613.75 seconds 563 solutions 500 thousand 1.6
+#362.528 seconds 194 solutions 250 thousand 1.59
+#344.327 seconds 122 solutions 250 thousand 1.58
+#310.939 seconds 106 solutions 250 thousand 1.57
+#704.773 seconds 175 solutions 500 thousand 1.57
+#610.432 seconds 119 solutions 500 thousand 1.56
+#350.392 seconds 75 solutions 250 thousand 1.56
+#606.731 seconds 97 solutions 500 thousand 1.55
+#684.126 seconds 65 solutions 500 thousand 1.54
+#633.906 seconds 36 solutions 500 thousand 1.53
+#625.577 seconds 13 solutions 500 thousand 1.52
+#607.3 seconds 29 solutions 500 thousand 1.52
+27
+
+
+#714.131 seconds 17 solutions 500 thousand 1.51
+#643.452 seconds 10 solutions 500 thousand 1.51
+#619.165 seconds 11 solutions 5 hundred thousand 1.5
+#677.39 seconds 12 solutions 5 hundred thousand 1.5
