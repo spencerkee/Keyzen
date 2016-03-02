@@ -133,7 +133,6 @@ if __name__ == '__main__':
 	[0,0],[1.5,1],[2.5,1],[3.5,1],[4.5,1],[5.5,1],[6.5,1],[7.5,1],
 	[5.5,0]]
 	newcoord = []
-
 	leftPosition = [3.5,2]
 	rightPosition = [6.5,2]
 
@@ -144,38 +143,21 @@ if __name__ == '__main__':
 	bestDict = {}
 
 	solNumber = 1
-	checkValue = 1.52
+	checkValue = 1.7
 	#can test roughly 800 per second
-
 	print checkValue
- 	for i in range(0,500000):
-		totalDistance = 0
-		trialKeyboard = keyboard(letters,coordinates)
+	answerString = ""
+	with open("throwaway.txt", "a") as myfile:
+	 	for i in range(0,250000):
+			totalDistance = 0
+			trialKeyboard = keyboard(letters,coordinates)
 
-		answer = mobileTest(lowerInput, trialKeyboard)
-		answer = list(answer) #necessary because functions return tuples
-		if answer[0] < checkValue:
-			best = answer[0]
-			bestDict = copy.deepcopy(answer[1])
-			print "keyboard#", i, "solution#", solNumber, "score:", best
-			solNumber += 1
-			with open("trash15.txt", "a") as myfile:
-				myfile.write(str(best))
-				myfile.write('\n')
-				myfile.write(str(bestDict))
-				myfile.write(keyboardDisplay(bestDict))
-				myfile.write('\n')
-
-		# coordInput = convertToCoord(lowerInput, trialKeyboard)
-		# answer = mobileCoordTest(coordInput)
-		# if answer < 1.4:
-		# 	best = answer
-		# 	bestDict = copy.deepcopy(trialKeyboard)
-		# 	print "keyboard#", i, "solution#", solNumber, "score:", best
-		# 	solNumber += 1
-		# 	with open("results2.txt", "a") as myfile:
-		# 		myfile.write(str(best))
-		# 		myfile.write('\n')
-		# 		myfile.write(str(bestDict))
-		# 		myfile.write(keyboardDisplay(bestDict))
-		# 		myfile.write('\n')
+			answer = mobileTest(lowerInput, trialKeyboard)
+			answer = list(answer) #necessary because functions return tuples
+			if answer[0] < checkValue:
+				best = answer[0]
+				bestDict = copy.deepcopy(answer[1])
+				print "keyboard#", i, "solution#", solNumber, "score:", best
+				solNumber += 1
+				trialString = str(best) + '\n' + str(bestDict) + keyboardDisplay(bestDict) + '\n'
+				myfile.write(str(trialString))
