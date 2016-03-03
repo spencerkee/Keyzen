@@ -1,9 +1,54 @@
-coordData is worse than the stringData method
+new program with numpy array over 50,000 51.829/66.838
+750, 960
 
+mobileTest
+62.741 seconds
+
+junkTest
+52.692
+new junktest
+47.237
+45.156
+44.51
+45.169
+
+45.5 average
 
 
 Pseudocode:
-set the keys that can only be pressed by certain thumbs
+set the keys that can only be pressed by certain thumbs as numbers
+
+main program()
+for letter in input text:
+ number[letter]
+
+
+
+coordData is worse than the stringData method
+
+systematic approach to get out of local maximum
+
+
+heatmap
+mating
+
+matrix of distances between every pair of points
+===coords[0,3]etc
+refer to it as key 1
+matrix[x,y]
+
+
+linear and integer programming
+don't have symmetry
+backspace key
+shapes and positions of keys
+
+predictive text
+human testing
+
+kalq test, and kalq style test
+
+
 
 
 1.61
