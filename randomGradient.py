@@ -3,6 +3,7 @@ import math
 import random
 import copy
 import numpy
+import itertools
 
 def keyboardDisplay(keyDict):
 	k = invertDict(keyDict)
@@ -22,7 +23,7 @@ def keyboardDisplay(keyDict):
 	|_______|_______|_______|_______|_______|_______|_______|_______|
                          _______________________________________
                         |                                       |
-                        |                       {27}               |
+                        |                           {27}           |
                         |_______________________________________|
 		'''.format(k[1], k[2], k[3], k[4], k[5], k[6], k[7], k[8], k[9], k[10], k[11], k[12], k[13], k[14], k[15], k[16], k[17], k[18], k[19], k[20], k[21], k[22], k[23], k[24], k[25], k[26], k[27], k[28])
 
@@ -79,6 +80,7 @@ def mobileFitness(inputText, letterNumberDict, numberCoordDict):
 	global totalDistance
 	global rightPosition
 	global leftPosition
+	totalDistance = 0
 
 	for j in range(0,len(inputText)):
 		nextLetter = inputText[j]
@@ -121,7 +123,7 @@ def letterToNumber(inputLetters):
 	numbersForKeys = range(1,len(inputLetters)+1)
 	if len(inputLetters) != len(numbersForKeys):
 		print "l2n problem"
-	# random.shuffle(numbersForKeys)
+	random.shuffle(numbersForKeys)
 	myKeyboard = {}
 	for i in range(0,len(inputLetters)):
 		myKeyboard[inputLetters[i]] = numbersForKeys[i]
@@ -136,8 +138,8 @@ def numberToCoord(keyCoords):
 		ntcDict[keyNumbers[i]] = keyCoords[i]
 	return ntcDict
 
-def swapKey(d,key1,key2):
-	d[key1], d[key2] = d[key2], d[key1]
+def swapKey(d,k1,k2):
+	d[k1], d[k2] = d[k2], d[k1]
 	return d
 
 if __name__ == '__main__':
@@ -159,21 +161,29 @@ if __name__ == '__main__':
 	theInput = 'With a little plumbing we can create a system that allows one module to directly ask for the interface object of another module without going through the global scope Our goal is a require function that when given a module name will load that modules file from disk or the Web depending on the platform we are running on and return the appropriate interface value'
 	lowerInput = changeCapitals(theInput)
 
-	solNumber = 0
-	checkValue = 3.0
-	#can test roughly 1100 per second
-	answerString = ''
 	numCoord = numberToCoord(coordinates)
 	distanceMatrix = numpy.zeros(shape=(29,29))
-	for i in range(0,1):
-		letterNum = letterToNumber(letters)
-		totalDistance = 0
-		answer = mobileFitness(lowerInput, letterNum, numCoord)
-		if answer < checkValue:
-			answerString = answerString + str(answer) + ' ' + str(letterNum) + '\n'
-			solNumber += 1
-			print answer
-			print keyboardDisplay(letterNum)
-	# with open("results3.txt", "a") as myfile:
-	# 	myfile.write(str(answerString))
-	print solNumber
+	letterNum = letterToNumber(letters)
+
+
+	totalDistance = 0
+	previousBest = mobileFitness(lowerInput, letterNum, numCoord)
+	testBest = 100
+	print previousBest
+	for i in range(0,100):
+		possibleSwaps = itertools.combinations(letterNum, 2)
+		possibleSwaps = [list(i) for i in possibleSwaps]
+		index = 0
+		while index < len(possibleSwaps):
+			letterNum = swapKey(letterNum, possibleSwaps[index][0],possibleSwaps[index][1])
+			testBest = mobileFitness(lowerInput, letterNum, numCoord)
+			if testBest >= previousBest:
+				letterNum = swapKey(letterNum, possibleSwaps[index][0], possibleSwaps[index][1])
+			else:
+				previousBest = testBest
+				print previousBest
+				break
+			index += 1
+		if index == len(possibleSwaps):
+			break
+	print keyboardDisplay(letterNum)
