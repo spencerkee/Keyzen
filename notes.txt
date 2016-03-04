@@ -1,45 +1,10 @@
-new program with numpy array over 50,000 51.829/66.838
-750, 960
-
-mobileTest
-62.741 seconds
-
-junkTest
-52.692
-new junktest
-47.237
-45.156
-44.51
-45.169
-
-45.5 average
-
-
-Pseudocode:
-set the keys that can only be pressed by certain thumbs as numbers
-
-main program()
-for letter in input text:
- number[letter]
-
-
+switching to numpy sped up the program by approximately 750, 960
 
 coordData is worse than the stringData method
-
 systematic approach to get out of local maximum
 
-
-heatmap
-mating
-
-matrix of distances between every pair of points
-===coords[0,3]etc
-refer to it as key 1
-matrix[x,y]
-
-
 linear and integer programming
-don't have symmetry
+current model doesn't take into account symmetry?
 backspace key
 shapes and positions of keys
 
@@ -47,55 +12,3 @@ predictive text
 human testing
 
 kalq test, and kalq style test
-
-
-
-
-1.61
-183
-1.62
-430
-1.63 351
-1.64 770
-1.65 1320
-1.66 2025
-1.67 2902
-1.69 5486
-
-320.802 seconds 110552 solutions 250 thousand 1.9
-308.344 seconds 18445 solutions 250 thousand 1.8
-353.22 seconds 3504 solutions 250 thousand 1.7
-#613.75 seconds 563 solutions 500 thousand 1.6
-#362.528 seconds 194 solutions 250 thousand 1.59
-#344.327 seconds 122 solutions 250 thousand 1.58
-#310.939 seconds 106 solutions 250 thousand 1.57
-#704.773 seconds 175 solutions 500 thousand 1.57
-#610.432 seconds 119 solutions 500 thousand 1.56
-#350.392 seconds 75 solutions 250 thousand 1.56
-#606.731 seconds 97 solutions 500 thousand 1.55
-#684.126 seconds 65 solutions 500 thousand 1.54
-#633.906 seconds 36 solutions 500 thousand 1.53
-#625.577 seconds 13 solutions 500 thousand 1.52
-#607.3 seconds 29 solutions 500 thousand 1.52
-27
-
-
-#714.131 seconds 17 solutions 500 thousand 1.51
-#643.452 seconds 10 solutions 500 thousand 1.51
-#619.165 seconds 11 solutions 5 hundred thousand 1.5
-#677.39 seconds 12 solutions 5 hundred thousand 1.5
-
-
-# coordInput = convertToCoord(lowerInput, trialKeyboard)
-# answer = mobileCoordTest(coordInput)
-# if answer < 1.4:
-# 	best = answer
-# 	bestDict = copy.deepcopy(trialKeyboard)
-# 	print "keyboard#", i, "solution#", solNumber, "score:", best
-# 	solNumber += 1
-# 	with open("results2.txt", "a") as myfile:
-# 		myfile.write(str(best))
-# 		myfile.write('\n')
-# 		myfile.write(str(bestDict))
-# 		myfile.write(keyboardDisplay(bestDict))
-# 		myfile.write('\n')

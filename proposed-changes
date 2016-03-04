@@ -11,3 +11,7 @@ preprocess coordList to just calculate the distances of all 1 finger sections to
 
 probably would take around 5 hours do to a 5 bounded bfs, colemak changes 27, dvorak 33
 identify rounding error, possibly don't need so many significant figures
+
+heatmap
+mating
+test small keyboard

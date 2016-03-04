@@ -6,24 +6,25 @@ import numpy
 
 def keyboardDisplay(keyDict):
 	k = invertDict(keyDict)
-	return '''
- _______ _______ _______ _______ _______ _______ _______ _______ _______ _______
-|	   |	   |	   |	   |	   |	   |	   |	   |	   |	   |
+	print ''
+	# print k
+	return ''' _______ _______ _______ _______ _______ _______ _______ _______ _______ _______
+|       |       |       |       |       |       |       |       |       |       |
 |   {0}   |   {1}   |   {2}   |   {3}   |   {4}   |   {5}   |   {6}   |   {7}   |   {8}   |   {9}   |
 |_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|
 	 _______ _______ _______ _______ _______ _______ _______ _______ _______
-	|	   |	   |	   |	   |	   |	   |	   |	   |	   |
+	|       |       |       |       |       |       |       |       |       |
 	|   {10}   |   {11}   |   {12}   |   {13}   |   {14}   |   {15}   |   {16}   |   {17}   |   {18}   |
 	|_______|_______|_______|_______|_______|_______|_______|_______|_______|
 	 _______ _______ _______ _______ _______ _______ _______ _______
-	|	   |	   |	   |	   |	   |	   |	   |	   |
+	|       |       |       |       |       |       |       |       |
 	|   {19}   |   {20}   |   {21}   |   {22}   |   {23}   |   {24}   |   {25}   |   {26}   |
 	|_______|_______|_______|_______|_______|_______|_______|_______|
-					 _______________________________________
-					|									   |
-					|				   {27}				   |
-					|_______________________________________|
-		'''.format(k['0, 3'], k['1, 3'], k['2, 3'], k['3, 3'], k['4, 3'], k['5, 3'], k['6, 3'], k['7, 3'], k['8, 3'], k['9, 3'], k['0.5, 2'], k['1.5, 2'], k['2.5, 2'], k['3.5, 2'], k['4.5, 2'], k['5.5, 2'], k['6.5, 2'], k['7.5, 2'], k['8.5, 2'], k['0, 0'], k['1.5, 1'], k['2.5, 1'], k['3.5, 1'], k['4.5, 1'], k['5.5, 1'], k['6.5, 1'], k['7.5, 1'], k['5.5, 0'])
+                         _______________________________________
+                        |                                       |
+                        |                       {27}               |
+                        |_______________________________________|
+		'''.format(k[1], k[2], k[3], k[4], k[5], k[6], k[7], k[8], k[9], k[10], k[11], k[12], k[13], k[14], k[15], k[16], k[17], k[18], k[19], k[20], k[21], k[22], k[23], k[24], k[25], k[26], k[27], k[28])
 
 def distance(p0, p1):
 	return math.sqrt((p0[0] - p1[0])**2 + (p0[1] - p1[1])**2)
@@ -57,7 +58,7 @@ def convertToCoord(string, localDict):
 def invertDict(thisDict):
 	newDict = {}
 	for k in thisDict:
-		newDict[str(thisDict[k])[1:-1]] = k
+		newDict[thisDict[k]] = k
 	return newDict
 
 def changeCapitals(myInput):
@@ -94,7 +95,7 @@ def mobileTest(inputText, letterNumberDict, numberCoordDict):
 					update('left',nextKeynumber)
 	return totalDistance/totalTransitions
 
-def update(thumb,destination): #weakness of this is that az za are both calculated
+def update(thumb,destination):
 #if something is not in right or left only than distance is called twice, for closer thumb and update
 	global totalDistance
 	global leftPosition
@@ -136,19 +137,8 @@ def numberToCoord(keyCoords):
 	return ntcDict
 
 if __name__ == '__main__':
-	# q1, w2, e3, r4, t5, y6, u7, i8, o9, p10,
-	# a11, s12, d13, f14, g15, h16, j17, k18, l19,
-	# ^20, z21, x22, c23, v24, b25, n26, m27,
-	#_28
-	leftOnly = [
-	1,2,3,4,5,
-	11,12,13,14,
-	20,21,22,23]
-	rightOnly = [
-	6,7,8,9,10,
-	16,17,18,19,
-	25,26,27,
-	28]
+	leftOnly = [1,2,3,4,5,11,12,13,14,20,21,22,23]
+	rightOnly = [6,7,8,9,10,16,17,18,19,25,26,27,28]
 	letters = [
 	'q','w','e','r','t','y','u','i','o','p',
 	'a','s','d','f','g','h','j','k','l',
@@ -165,15 +155,12 @@ if __name__ == '__main__':
 	theInput = 'With a little plumbing we can create a system that allows one module to directly ask for the interface object of another module without going through the global scope Our goal is a require function that when given a module name will load that modules file from disk or the Web depending on the platform we are running on and return the appropriate interface value'
 	lowerInput = changeCapitals(theInput)
 
-	best = 1.55
-	bestDict = {}
-
 	solNumber = 0
 	checkValue = 1.5
 	#can test roughly 1100 per second
 	answerString = ''
 	distanceMatrix = numpy.zeros(shape=(29,29))
-	for i in range(0,50000):
+	for i in range(0,100000):
 		letterNum = letterToNumber(letters)
 		numCoord = numberToCoord(coordinates)
 		totalDistance = 0
@@ -181,7 +168,8 @@ if __name__ == '__main__':
 		if answer < checkValue:
 			answerString = answerString + str(answer) + ' ' + str(letterNum) + '\n'
 			solNumber += 1
+			print answer
+			print keyboardDisplay(letterNum)
 	with open("results3.txt", "a") as myfile:
 		myfile.write(str(answerString))
-	print distanceMatrix
 	print solNumber
