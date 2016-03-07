@@ -173,7 +173,7 @@ if __name__ == '__main__':
 	possibleSwaps = [list(i) for i in possibleSwaps]
 	# print letterNum
 	results = []
-	for thing in range(0,50):
+	for thing in range(100):
 		letterNum = letterToNumber(letters)
 		previousBest = 100
 		while True:
@@ -191,3 +191,5 @@ if __name__ == '__main__':
 			if index == len(possibleSwaps):
 				break
 		print previousBest
+		with open("pickleTest", "a") as myfile:
+			pickle.dump([previousBest,letterNum], myfile)

@@ -11,9 +11,12 @@ shapes and positions of keys
 predictive text
 human testing
 
-1.2600 is the average of randomGradient
-1.25844526825
-1.25498090165
-1.25244968817
+including pickling
+50 in 80
+30 in 53.284
+100 in 170.546
+100 in 162.414
+100 in 162.464
+100 in 170.482 
 
-1.25646896452 big average
+The duplicates from the resultTraverser are possibly due to symmetry issues

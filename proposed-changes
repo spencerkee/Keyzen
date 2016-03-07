@@ -23,3 +23,6 @@ kalq test, and kalq style test
 instead of recalculating input string every time just check changes
 
 pickling results
+
+add a timeit funciton at the beginning of the for loop and also find out how long the beginning of the program takes
+for resultsTraverser have the top 2 results with percents for letter placement
