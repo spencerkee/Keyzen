@@ -17,6 +17,7 @@ including pickling
 100 in 170.546
 100 in 162.414
 100 in 162.464
-100 in 170.482 
+100 in 170.482
 
 The duplicates from the resultTraverser are possibly due to symmetry issues
+probably a lot of duplicates in the picklefile

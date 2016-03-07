@@ -173,7 +173,7 @@ if __name__ == '__main__':
 	possibleSwaps = [list(i) for i in possibleSwaps]
 	# print letterNum
 	results = []
-	for thing in range(100):
+	for thing in range(200):
 		letterNum = letterToNumber(letters)
 		previousBest = 100
 		while True:
