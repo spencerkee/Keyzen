@@ -26,12 +26,17 @@ letters = [
 'a','s','d','f','g','h','j','k','l',
 '^','z','x','c','v','b','n','m',
 ' ']
+
+dupe = []
 for i in letters:
     letterOccurances[i] = []
 for j in lists:
+    dupe.append(j[1])
     for key in j[1]:
         letterOccurances[key] = letterOccurances[key] + [j[1][key]]
 
+dupe2 = [dict(t) for t in set([tuple(d.items()) for d in dupe])]
+print "dupe", len(dupe2)
 fixedLO = {}
 for k in letterOccurances:
     fixedLO[k] = most_common(letterOccurances[k])
