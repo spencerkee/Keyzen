@@ -165,25 +165,28 @@ if __name__ == '__main__':
 	distanceMatrix = numpy.zeros(shape=(29,29))
 	letterNum = letterToNumber(letters)
 
-
 	totalDistance = 0
 	previousBest = mobileFitness(lowerInput, letterNum, numCoord)
 	testBest = 100
-	print previousBest
-	for i in range(0,100):
-		possibleSwaps = itertools.combinations(letterNum, 2)
-		possibleSwaps = [list(i) for i in possibleSwaps]
-		index = 0
-		while index < len(possibleSwaps):
-			letterNum = swapKey(letterNum, possibleSwaps[index][0],possibleSwaps[index][1])
-			testBest = mobileFitness(lowerInput, letterNum, numCoord)
-			if testBest >= previousBest:
-				letterNum = swapKey(letterNum, possibleSwaps[index][0], possibleSwaps[index][1])
-			else:
-				previousBest = testBest
-				print previousBest
+	possibleSwaps = itertools.combinations(letterNum, 2)
+	possibleSwaps = [list(i) for i in possibleSwaps]
+	# print letterNum
+	results = []
+	for thing in range(0,50):
+		letterNum = letterToNumber(letters)
+		previousBest = 100
+		while True:
+			random.shuffle(possibleSwaps)
+			index = 0
+			while index < len(possibleSwaps):
+				letterNum = swapKey(letterNum, possibleSwaps[index][0],possibleSwaps[index][1])
+				testBest = mobileFitness(lowerInput, letterNum, numCoord)
+				if testBest >= previousBest:
+					letterNum = swapKey(letterNum, possibleSwaps[index][0], possibleSwaps[index][1])
+				else:
+					previousBest = testBest
+					break
+				index += 1
+			if index == len(possibleSwaps):
 				break
-			index += 1
-		if index == len(possibleSwaps):
-			break
-	print keyboardDisplay(letterNum)
+		print previousBest

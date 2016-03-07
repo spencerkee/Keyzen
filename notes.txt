@@ -11,4 +11,9 @@ shapes and positions of keys
 predictive text
 human testing
 
-kalq test, and kalq style test
+1.2600 is the average of randomGradient
+1.25844526825
+1.25498090165
+1.25244968817
+
+1.25646896452 big average
