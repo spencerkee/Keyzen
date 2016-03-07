@@ -21,3 +21,5 @@ numCoord global or not?
 
 kalq test, and kalq style test
 instead of recalculating input string every time just check changes
+
+pickling results

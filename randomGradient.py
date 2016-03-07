@@ -4,6 +4,7 @@ import random
 import copy
 import numpy
 import itertools
+import pickle
 
 def keyboardDisplay(keyDict):
 	k = invertDict(keyDict)
