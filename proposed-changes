@@ -28,3 +28,5 @@ add a timeit funciton at the beginning of the for loop and also find out how lon
 for resultsTraverser have the top 2 results with percents for letter placement
 work on a better visualizer using knowledge from images
 create a model where certain keys can't be changed
+
+work on duplicatesExist
