@@ -8,164 +8,164 @@ import numpy
 import pickle
 import random
 
+
 def keyboardDisplay(keyDict):
-	k = invertDict(keyDict)
-	print ''
-	return ''' _______ _______ _______ _______ _______ _______ _______ _______ _______ _______
+    k = invertDict(keyDict)
+    print ''
+    return ''' _______ _______ _______ _______ _______ _______ _______ _______ _______ _______
 |       |       |       |       |       |       |       |       |       |       |
 |   {0}   |   {1}   |   {2}   |   {3}   |   {4}   |   {5}   |   {6}   |   {7}   |   {8}   |   {9}   |
 |_______|_______|_______|_______|_______|_______|_______|_______|_______|_______|
-	 _______ _______ _______ _______ _______ _______ _______ _______ _______
-	|       |       |       |       |       |       |       |       |       |
-	|   {10}   |   {11}   |   {12}   |   {13}   |   {14}   |   {15}   |   {16}   |   {17}   |   {18}   |
-	|_______|_______|_______|_______|_______|_______|_______|_______|_______|
-	 _______ _______ _______ _______ _______ _______ _______ _______
-	|       |       |       |       |       |       |       |       |
-	|   {19}   |   {20}   |   {21}   |   {22}   |   {23}   |   {24}   |   {25}   |   {26}   |
-	|_______|_______|_______|_______|_______|_______|_______|_______|
+     _______ _______ _______ _______ _______ _______ _______ _______ _______
+    |       |       |       |       |       |       |       |       |       |
+    |   {10}   |   {11}   |   {12}   |   {13}   |   {14}   |   {15}   |   {16}   |   {17}   |   {18}   |
+    |_______|_______|_______|_______|_______|_______|_______|_______|_______|
+     _______ _______ _______ _______ _______ _______ _______ _______
+    |       |       |       |       |       |       |       |       |
+    |   {19}   |   {20}   |   {21}   |   {22}   |   {23}   |   {24}   |   {25}   |   {26}   |
+    |_______|_______|_______|_______|_______|_______|_______|_______|
                          _______________________________________
                         |                                       |
-                        |                           {27}           |
+                        |                       {27}               |
                         |_______________________________________|
-		'''.format(k[1], k[2], k[3], k[4], k[5], k[6], k[7], k[8], k[9], k[10], k[11], k[12], k[13], k[14], k[15], k[16], k[17], k[18], k[19], k[20], k[21], k[22], k[23], k[24], k[25], k[26], k[27], k[28])
+        '''.format(k[1], k[2], k[3], k[4], k[5], k[6], k[7], k[8], k[9], k[10], k[11], k[12], k[13], k[14], k[15], k[16], k[17], k[18], k[19], k[20], k[21], k[22], k[23], k[24], k[25], k[26], k[27], k[28])
 
 def distance(p0, p1):
-	return math.sqrt((p0[0] - p1[0])**2 + (p0[1] - p1[1])**2)
+    return math.sqrt((p0[0] - p1[0])**2 + (p0[1] - p1[1])**2)
 
 def closerThumb(lPoint, rPoint, destination):#trying the distanceMatrix and catching it might be faster
-	global distanceMatrix
-	localNumCoord = {1: [0, 3], 2: [1, 3], 3: [2, 3], 4: [3, 3], 5: [4, 3], 6: [5, 3], 7: [6, 3], 8: [7, 3], 9: [8, 3], 10: [9, 3], 11: [0.5, 2], 12: [1.5, 2], 13: [2.5, 2], 14: [3.5, 2], 15: [4.5, 2], 16: [5.5, 2], 17: [6.5, 2], 18: [7.5, 2], 19: [8.5, 2], 20: [0, 0], 21: [1.5, 1], 22: [2.5, 1], 23: [3.5, 1], 24: [4.5, 1], 25: [5.5, 1], 26: [6.5, 1], 27: [7.5, 1], 28: [5.5, 0]}
-	if distanceMatrix[lPoint,destination] == 0.0:
-		distanceMatrix[lPoint,destination] == distance(localNumCoord[lPoint],localNumCoord[destination])
-		distanceMatrix[destination, lPoint] = distanceMatrix[lPoint, destination]
-		leftDist = distanceMatrix[lPoint,destination]
-	else:
-		leftDist = distanceMatrix[lPoint,destination]
-	if distanceMatrix[rPoint,destination] == 0.0:
-		distanceMatrix[rPoint,destination] == distance(localNumCoord[rPoint],localNumCoord[destination])
-		distanceMatrix[destination,rPoint] = distanceMatrix[rPoint,destination]
-		rightDist = distanceMatrix[rPoint,destination]
-	else:
-		rightDist = distanceMatrix[rPoint,destination]
-	if leftDist <= rightDist:
-		return 'l'
-	else:
-		return 'r'
+    global distanceMatrix
+    localNumCoord = {1: [0, 3], 2: [1, 3], 3: [2, 3], 4: [3, 3], 5: [4, 3], 6: [5, 3], 7: [6, 3], 8: [7, 3], 9: [8, 3], 10: [9, 3], 11: [0.5, 2], 12: [1.5, 2], 13: [2.5, 2], 14: [3.5, 2], 15: [4.5, 2], 16: [5.5, 2], 17: [6.5, 2], 18: [7.5, 2], 19: [8.5, 2], 20: [0, 0], 21: [1.5, 1], 22: [2.5, 1], 23: [3.5, 1], 24: [4.5, 1], 25: [5.5, 1], 26: [6.5, 1], 27: [7.5, 1], 28: [5.5, 0]}
+    if distanceMatrix[lPoint,destination] == 0.0:
+        distanceMatrix[lPoint,destination] == distance(localNumCoord[lPoint],localNumCoord[destination])
+        distanceMatrix[destination, lPoint] = distanceMatrix[lPoint, destination]
+        leftDist = distanceMatrix[lPoint,destination]
+    else:
+        leftDist = distanceMatrix[lPoint,destination]
+    if distanceMatrix[rPoint,destination] == 0.0:
+        distanceMatrix[rPoint,destination] == distance(localNumCoord[rPoint],localNumCoord[destination])
+        distanceMatrix[destination,rPoint] = distanceMatrix[rPoint,destination]
+        rightDist = distanceMatrix[rPoint,destination]
+    else:
+        rightDist = distanceMatrix[rPoint,destination]
+    if leftDist <= rightDist:
+        return 'l'
+    else:
+        return 'r'
 
 def convertToCoord(string, localDict):
-	coordList = []
-	for i in range(0,len(string)):
-		coordList.append(localDict[string[i]])
-	return coordList
+    coordList = []
+    for i in range(0,len(string)):
+        coordList.append(localDict[string[i]])
+    return coordList
 
 def invertDict(thisDict):
-	newDict = {}
-	for k in thisDict:
-		newDict[thisDict[k]] = k
-	return newDict
+    newDict = {}
+    for k in thisDict:
+        newDict[thisDict[k]] = k
+    return newDict
 
 def changeCapitals(myInput):
-	firstMarker = 0
-	stringList = []
-	for i in range(0,len(myInput)):
-		if myInput[i].isupper() == True:
-			stringList.append(myInput[firstMarker:-(len(myInput)-i)])
-			stringList.append('^{0}'.format(myInput[i].lower()))
-			firstMarker = i+1
-	stringList.append(myInput[firstMarker:len(myInput)])
-	return "".join(stringList)
+    firstMarker = 0
+    stringList = []
+    for i in range(0,len(myInput)):
+        if myInput[i].isupper() == True:
+            stringList.append(myInput[firstMarker:-(len(myInput)-i)])
+            stringList.append('^{0}'.format(myInput[i].lower()))
+            firstMarker = i+1
+    stringList.append(myInput[firstMarker:len(myInput)])
+    return "".join(stringList)
 
 def mobileFitness(inputText, letterNumberDict):
 
-	totalTransitions = len(inputText)
-	global distanceMatrix
-	global totalDistance
-	global rightPosition
-	global leftPosition
-	totalDistance = 0
+    totalTransitions = len(inputText)
+    global distanceMatrix
+    global totalDistance
+    global rightPosition
+    global leftPosition
+    totalDistance = 0
 
-	for j in range(0,len(inputText)):
-		nextLetter = inputText[j]
-		nextKeynumber = letterNumberDict[nextLetter]
-		if nextKeynumber != leftPosition and nextKeynumber != rightPosition:
-			if nextKeynumber in rightOnly and nextKeynumber:
-				update('right', nextKeynumber)
-			elif nextKeynumber in leftOnly and nextKeynumber:
-				update('left', nextKeynumber)
-			else:
-				if closerThumb(leftPosition,rightPosition,nextKeynumber) == 'r':
-					update('right',nextKeynumber)
-				else:
-					update('left',nextKeynumber)
-	return totalDistance/totalTransitions
+    for j in range(0,len(inputText)):
+        nextLetter = inputText[j]
+        nextKeynumber = letterNumberDict[nextLetter]
+        if nextKeynumber != leftPosition and nextKeynumber != rightPosition:
+            if nextKeynumber in rightOnly and nextKeynumber:
+                update('right', nextKeynumber)
+            elif nextKeynumber in leftOnly and nextKeynumber:
+                update('left', nextKeynumber)
+            else:
+                if closerThumb(leftPosition,rightPosition,nextKeynumber) == 'r':
+                    update('right',nextKeynumber)
+                else:
+                    update('left',nextKeynumber)
+    return totalDistance/totalTransitions
 
 def update(thumb,destination):
 #if something is not in right or left only than distance is called twice, for closer thumb and update
-	global totalDistance
-	global leftPosition
-	global rightPosition
-	global distanceMatrix
-	localNumCoord = {1: [0, 3], 2: [1, 3], 3: [2, 3], 4: [3, 3], 5: [4, 3], 6: [5, 3], 7: [6, 3], 8: [7, 3], 9: [8, 3], 10: [9, 3], 11: [0.5, 2], 12: [1.5, 2], 13: [2.5, 2], 14: [3.5, 2], 15: [4.5, 2], 16: [5.5, 2], 17: [6.5, 2], 18: [7.5, 2], 19: [8.5, 2], 20: [0, 0], 21: [1.5, 1], 22: [2.5, 1], 23: [3.5, 1], 24: [4.5, 1], 25: [5.5, 1], 26: [6.5, 1], 27: [7.5, 1], 28: [5.5, 0]}
+    global totalDistance
+    global leftPosition
+    global rightPosition
+    global distanceMatrix
+    localNumCoord = {1: [0, 3], 2: [1, 3], 3: [2, 3], 4: [3, 3], 5: [4, 3], 6: [5, 3], 7: [6, 3], 8: [7, 3], 9: [8, 3], 10: [9, 3], 11: [0.5, 2], 12: [1.5, 2], 13: [2.5, 2], 14: [3.5, 2], 15: [4.5, 2], 16: [5.5, 2], 17: [6.5, 2], 18: [7.5, 2], 19: [8.5, 2], 20: [0, 0], 21: [1.5, 1], 22: [2.5, 1], 23: [3.5, 1], 24: [4.5, 1], 25: [5.5, 1], 26: [6.5, 1], 27: [7.5, 1], 28: [5.5, 0]}
 
-	if thumb == 'right':
-		if distanceMatrix[rightPosition, destination] == 0.0:
-			distanceMatrix[rightPosition, destination] = distance(localNumCoord[rightPosition], localNumCoord[destination])
-			distanceMatrix[destination, rightPosition] = distanceMatrix[rightPosition, destination]
-		totalDistance += distanceMatrix[rightPosition, destination]
-		rightPosition = destination
-	elif thumb == 'left':
-		if distanceMatrix[leftPosition, destination] == 0.0:
-			distanceMatrix[leftPosition, destination] = distance(localNumCoord[leftPosition], localNumCoord[destination])
-			distanceMatrix[destination, leftPosition] = distanceMatrix[leftPosition, destination]
-		totalDistance += distanceMatrix[leftPosition, destination]
-		leftPosition = destination
+    if thumb == 'right':
+        if distanceMatrix[rightPosition, destination] == 0.0:
+            distanceMatrix[rightPosition, destination] = distance(localNumCoord[rightPosition], localNumCoord[destination])
+            distanceMatrix[destination, rightPosition] = distanceMatrix[rightPosition, destination]
+        totalDistance += distanceMatrix[rightPosition, destination]
+        rightPosition = destination
+    elif thumb == 'left':
+        if distanceMatrix[leftPosition, destination] == 0.0:
+            distanceMatrix[leftPosition, destination] = distance(localNumCoord[leftPosition], localNumCoord[destination])
+            distanceMatrix[destination, leftPosition] = distanceMatrix[leftPosition, destination]
+        totalDistance += distanceMatrix[leftPosition, destination]
+        leftPosition = destination
 
 
 def letterToNumber(inputLetters):
-	numbersForKeys = range(1,len(inputLetters)+1)
-	if len(inputLetters) != len(numbersForKeys):
-		print "l2n problem"
-	random.shuffle(numbersForKeys)
-	myKeyboard = {}
-	for i in range(0,len(inputLetters)):
-		myKeyboard[inputLetters[i]] = numbersForKeys[i]
-	return myKeyboard
+    numbersForKeys = range(1,len(inputLetters)+1)
+    if len(inputLetters) != len(numbersForKeys):
+        print "l2n problem"
+    random.shuffle(numbersForKeys)
+    myKeyboard = {}
+    for i in range(0,len(inputLetters)):
+        myKeyboard[inputLetters[i]] = numbersForKeys[i]
+    return myKeyboard
 
 def numberToCoord(keyCoords):
-	keyNumbers = range(1,29)
-	ntcDict = {}
-	if len(keyNumbers) != len(keyCoords):
-		print "n2c not equal"
-	for i in range(0, len(keyNumbers)):
-		ntcDict[keyNumbers[i]] = keyCoords[i]
-	return ntcDict
+    keyNumbers = range(1,29)
+    ntcDict = {}
+    if len(keyNumbers) != len(keyCoords):
+        print "n2c not equal"
+    for i in range(0, len(keyNumbers)):
+        ntcDict[keyNumbers[i]] = keyCoords[i]
+    return ntcDict
 
 def swapKey(d,k1,k2):
-	d[k1], d[k2] = d[k2], d[k1]
-	return d
+    d[k1], d[k2] = d[k2], d[k1]
+    return d
 
 def randomGradient(number, filename):
-	for keyboardNumber in range(number):
-		print str(keyboardNumber + 1) + '/' + str(number)
-		letterNum = letterToNumber(letters)
-		previousBest = 100
-		while True:
-			random.shuffle(possibleSwaps)
-			index = 0
-			while index < len(possibleSwaps):
-				letterNum = swapKey(letterNum, possibleSwaps[index][0],possibleSwaps[index][1])
-				testBest = mobileFitness(lowerInput, letterNum)
-				if testBest >= previousBest:
-					letterNum = swapKey(letterNum, possibleSwaps[index][0], possibleSwaps[index][1])
-				else:
-					previousBest = testBest
-					break
-				index += 1
-			if index == len(possibleSwaps):
-				break
-		with open(filename, "a") as myfile:
-			pickle.dump([previousBest,letterNum], myfile)
+    for keyboardNumber in range(number):
         print str(keyboardNumber + 1) + '/' + str(number)
+        letterNum = letterToNumber(letters)
+        previousBest = 100
+        while True:
+            random.shuffle(possibleSwaps)
+            index = 0
+            while index < len(possibleSwaps):
+                letterNum = swapKey(letterNum, possibleSwaps[index][0],possibleSwaps[index][1])
+                testBest = mobileFitness(lowerInput, letterNum)
+                if testBest >= previousBest:
+                    letterNum = swapKey(letterNum, possibleSwaps[index][0], possibleSwaps[index][1])
+                else:
+                    previousBest = testBest
+                    break
+                index += 1
+            if index == len(possibleSwaps):
+                break
+        with open(filename, "a") as myfile:
+            pickle.dump([previousBest,letterNum], myfile)
 
 def most_common(lst):
     return max(set(lst), key=lst.count)
@@ -194,8 +194,9 @@ def extractPickles(filename):
     infile.close()
     return lists
 
-def getMinKeyboard(pickledResults):
-    return min(pickledResults)[0][1]
+def getMinKeyboard(filename):
+    pickledResults = extractPickles(filename)
+    return min(pickledResults)[0]
 
 def duplicatesExist(results):
     resultsNum = len(results)
@@ -230,20 +231,17 @@ def resultsTraverser(filename):#produces dictionary for every letter in the form
     resultsNum = len(lists)
     print "There are", resultsNum, "pickled keyboards"
     lettersAreHere = lettersOccurWhere(lists)
-
     freqSortedLetters = [' ','e','t','a','o','i','n','s','h','r','d','l','c','u','m','w','f','g','y','p','b','v','k','j','x','q','z','^']
     qwer = {' ': 28, '^': 20, 'a': 11, 'c': 23, 'b': 25, 'e': 3, 'd': 13, 'g': 15, 'f': 14, 'i': 8, 'h': 16, 'k': 18, 'j': 17, 'm': 27, 'l': 19, 'o': 9, 'n': 26, 'q': 1, 'p': 10, 's': 12, 'r': 4, 'u': 7, 't': 5, 'w': 2, 'v': 24, 'y': 6, 'x': 22, 'z': 21}
     qwer = invertDict(qwer)
     #converts from lettersAreHere['a'] = [(12, 174), (13, 173), (17, 165), (16, 145), (18, 133), (3, 122), (26, 111), (14, 108), (22, 101), (8, 90), (7, 69), (4, 57), (25, 45), (27, 41), (21, 37), (2, 24), (11, 18), (9, 17), (23, 17), (15, 15), (19, 8), (24, 7), (5, 5), (6, 3), (1, 1), (28, 1)]
     #to lettersAreHere['a'] = ['a', ['s', 10.3, 12], ['d', 10.3, 13], ['j', 9.8, 17], ['h', 8.6, 16], ['k', 7.9, 18], ['e', 7.2, 3], ['n', 6.6, 26], ['f', 6.4, 14], ['x', 6.0, 22], ['i', 5.3, 8], ['u', 4.1, 7], ['r', 3.4, 4], ['b', 2.7, 25], ['m', 2.4, 27], ['z', 2.2, 21], ['w', 1.4, 2], ['a', 1.1, 11], ['o', 1.0, 9], ['c', 1.0, 23], ['g', 0.9, 15], ['l', 0.5, 19], ['v', 0.4, 24], ['t', 0.3, 5], ['y', 0.2, 6], ['q', 0.1, 1], [' ', 0.1, 28]]
     #['s', 10.3, 12] is letter, percent of keyboards it occurs in, keyNumber
-    # print lettersAreHere['a']
     for l in lettersAreHere:
         line = [l]
         for y in lettersAreHere[l]:
             line.append([qwer[y[0]], round((y[1]/resultsNum)*100,1), y[0]])
         lettersAreHere[l] = line
-    # print lettersAreHere['a']
     return lettersAreHere
 
 def returnStrongestLetterPlacements(percentOccuranceDict):#returns list of keys that strongly tend to one position
@@ -254,8 +252,15 @@ def returnStrongestLetterPlacements(percentOccuranceDict):#returns list of keys 
     strongestOccuringLetters.sort(reverse = True)
     return strongestOccuringLetters
 
-def strongestKeyboard(occuranceDict):#greedy algorithm that itereates over frequencySortedLetters and places letters in their strongest position that isn't already filled
+def strongestKeyboard(occuranceDict,presetKeyNum):#greedy algorithm that itereates over freqSortedLetters and places letters in their strongest position that isn't already filled
     freqSortedLetters = [' ','e','t','a','o','i','n','s','h','r','d','l','c','u','m','w','f','g','y','p','b','v','k','j','x','q','z','^']
+    strongestOccuringLetters = returnStrongestLetterPlacements(lettersAreHere)[:presetKeyNum]
+    for i in strongestOccuringLetters:
+        freqSortedLetters.remove(i[1])
+    prependLetters = []
+    for i in strongestOccuringLetters:
+        prependLetters.append(i[1])
+    freqSortedLetters = prependLetters + freqSortedLetters
     newDict = {}
     occupiedPositions = []
     for i in freqSortedLetters:
@@ -296,10 +301,17 @@ testBest = 100 #arbitrarily large
 possibleSwaps = itertools.combinations(letterNum, 2)
 possibleSwaps = [list(i) for i in possibleSwaps]
 if __name__ == '__main__':
-	randomGradient(5,'pickleTest')
+    randomGradient(5,'pickleTest')
 
     lettersAreHere = resultsTraverser('pickleTest')
-    strongestOccuringLetters = returnStrongestLetterPlacements(lettersAreHere)
-    print 'strong', strongestOccuringLetters
-    theoreticalBestKeyboard = strongestKeyboard(lettersAreHere)
-    print keyboardDisplay(theoreticalBestKeyboard)
+    # strongestOccuringLetters = returnStrongestLetterPlacements(lettersAreHere)
+    # print 'strongestOccuringLetters', strongestOccuringLetters
+    # for i in range(29):
+    #     theoreticalBestKeyboard = strongestKeyboard(lettersAreHere, i)
+    #     print i, mobileFitness(lowerInput, theoreticalBestKeyboard)
+    # print '\n', theoreticalBestKeyboard
+    theoreticalBestKeyboard = strongestKeyboard(lettersAreHere, 28)
+    print mobileFitness(lowerInput, theoreticalBestKeyboard), keyboardDisplay(theoreticalBestKeyboard)
+
+    bestOfPickles = getMinKeyboard('pickleTest')
+    print bestOfPickles[0], keyboardDisplay(bestOfPickles[1])

@@ -1,6 +1,3 @@
-switching to numpy sped up the program by approximately 750, 960
-
-coordData is worse than the stringData method
 systematic approach to get out of local maximum
 
 linear and integer programming
@@ -11,22 +8,8 @@ shapes and positions of keys
 predictive text
 human testing
 
-including pickling
-50 in 80
-30 in 53.284
-100 in 170.546
-100 in 162.414
-100 in 162.464
-100 in 170.482
-200 in 301.333 s
-
 The duplicates from the resultTraverser are possibly due to symmetry issues
-probably a lot of duplicates in the picklefile
-how to check if there are duplicate dictionaries?
+#probably a lot of duplicates in the picklefile
+#how to check if there are duplicate dictionaries?
 
 how can i find archetypical dictionaries? perhaps post on stackoverflow
-# 't','a','o','l','n','s','h','r','d','l','c','u','m','w','f','g','y','p','b','v','k','j','q',,'^']
-# y = {'q':1, 'c':2, 'n':3, 'u':4, 'y':5, 'p':6, 'm':7, 'l':8, 'g':9, 'z':10,
-# 'b':11, 'o':12, 'e':13, 'n':14, 's':15, 'a':16, ' ':17, 't':18, 'k':19,
-# 'x':20, 'd':21, 'r':22, 'f':}fvwihj
-# a_tkxdrfvwihj
