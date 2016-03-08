@@ -23,3 +23,5 @@ including pickling
 The duplicates from the resultTraverser are possibly due to symmetry issues
 probably a lot of duplicates in the picklefile
 how to check if there are duplicate dictionaries?
+
+how can i find archetypical dictionaries? perhaps post on stackoverflow
