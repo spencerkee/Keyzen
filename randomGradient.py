@@ -173,23 +173,25 @@ if __name__ == '__main__':
 	possibleSwaps = [list(i) for i in possibleSwaps]
 	# print letterNum
 	results = []
-	for thing in range(500):
-		print thing
-		letterNum = letterToNumber(letters)
-		previousBest = 100
-		while True:
-			random.shuffle(possibleSwaps)
-			index = 0
-			while index < len(possibleSwaps):
-				letterNum = swapKey(letterNum, possibleSwaps[index][0],possibleSwaps[index][1])
-				testBest = mobileFitness(lowerInput, letterNum, numCoord)
-				if testBest >= previousBest:
-					letterNum = swapKey(letterNum, possibleSwaps[index][0], possibleSwaps[index][1])
-				else:
-					previousBest = testBest
-					break
-				index += 1
-			if index == len(possibleSwaps):
-				break
-		with open("pickleTest", "a") as myfile:
-			pickle.dump([previousBest,letterNum], myfile)
+	newDict = {' ': 17, '^': 14, 'a': 12, 'c': 2, 'b': 11, 'e': 13, 'd': 21, 'g': 9, 'f': 23, 'i': 3, 'h': 27, 'k': 24, 'j': 1, 'm': 7, 'l': 8, 'o': 16, 'n': 26, 'q': 5, 'p': 6, 's': 15, 'r': 22, 'u': 4, 't': 18, 'w': 25, 'v': 19, 'y': 28, 'x': 20, 'z': 10}
+	print mobileFitness(lowerInput, newDict, numCoord)
+	# for thing in range(100):
+	# 	print thing
+	# 	letterNum = letterToNumber(letters)
+	# 	previousBest = 100
+	# 	while True:
+	# 		random.shuffle(possibleSwaps)
+	# 		index = 0
+	# 		while index < len(possibleSwaps):
+	# 			letterNum = swapKey(letterNum, possibleSwaps[index][0],possibleSwaps[index][1])
+	# 			testBest = mobileFitness(lowerInput, letterNum, numCoord)
+	# 			if testBest >= previousBest:
+	# 				letterNum = swapKey(letterNum, possibleSwaps[index][0], possibleSwaps[index][1])
+	# 			else:
+	# 				previousBest = testBest
+	# 				break
+	# 			index += 1
+	# 		if index == len(possibleSwaps):
+	# 			break
+	# 	with open("pickleTest", "a") as myfile:
+	# 		pickle.dump([previousBest,letterNum], myfile)

@@ -25,3 +25,8 @@ probably a lot of duplicates in the picklefile
 how to check if there are duplicate dictionaries?
 
 how can i find archetypical dictionaries? perhaps post on stackoverflow
+# 't','a','o','l','n','s','h','r','d','l','c','u','m','w','f','g','y','p','b','v','k','j','q',,'^']
+# y = {'q':1, 'c':2, 'n':3, 'u':4, 'y':5, 'p':6, 'm':7, 'l':8, 'g':9, 'z':10,
+# 'b':11, 'o':12, 'e':13, 'n':14, 's':15, 'a':16, ' ':17, 't':18, 'k':19,
+# 'x':20, 'd':21, 'r':22, 'f':}fvwihj
+# a_tkxdrfvwihj
