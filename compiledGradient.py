@@ -145,7 +145,7 @@ def swapKey(d,k1,k2):
     d[k1], d[k2] = d[k2], d[k1]
     return d
 
-def randomGradient(number, filename):
+def randomGradient(number, threshold):
     for keyboardNumber in range(number):
         print str(keyboardNumber + 1) + '/' + str(number)
         letterNum = letterToNumber(letters)
@@ -164,8 +164,9 @@ def randomGradient(number, filename):
                 index += 1
             if index == len(possibleSwaps):
                 break
-        with open(filename, "a") as myfile:
-            pickle.dump([previousBest,letterNum], myfile)
+        if previousBest < threshold:
+            with open(str(threshold) + 'results', "a") as myfile:
+                pickle.dump([previousBest,letterNum], myfile)
 
 def most_common(lst):
     return max(set(lst), key=lst.count)
@@ -301,17 +302,14 @@ testBest = 100 #arbitrarily large
 possibleSwaps = itertools.combinations(letterNum, 2)
 possibleSwaps = [list(i) for i in possibleSwaps]
 if __name__ == '__main__':
-    randomGradient(5,'pickleTest')
+    randomGradient(10,1.3)
 
-    lettersAreHere = resultsTraverser('pickleTest')
+    # lettersAreHere = resultsTraverser('pickleTest')
+
     # strongestOccuringLetters = returnStrongestLetterPlacements(lettersAreHere)
     # print 'strongestOccuringLetters', strongestOccuringLetters
-    # for i in range(29):
-    #     theoreticalBestKeyboard = strongestKeyboard(lettersAreHere, i)
-    #     print i, mobileFitness(lowerInput, theoreticalBestKeyboard)
-    # print '\n', theoreticalBestKeyboard
-    theoreticalBestKeyboard = strongestKeyboard(lettersAreHere, 28)
-    print mobileFitness(lowerInput, theoreticalBestKeyboard), keyboardDisplay(theoreticalBestKeyboard)
+    # theoreticalBestKeyboard = strongestKeyboard(lettersAreHere, 28)
+    # print mobileFitness(lowerInput, theoreticalBestKeyboard), keyboardDisplay(theoreticalBestKeyboard)
 
-    bestOfPickles = getMinKeyboard('pickleTest')
-    print bestOfPickles[0], keyboardDisplay(bestOfPickles[1])
+    # bestOfPickles = getMinKeyboard('pickleTest')
+    # print bestOfPickles[0], keyboardDisplay(bestOfPickles[1])

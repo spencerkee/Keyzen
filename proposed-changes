@@ -3,30 +3,27 @@ calculate time spent on what rows, letter frequencies, bigraph frequencies
 #find out how the time changes for longer input strings/more capitals
 #once the is a coordList find areas where things are on 1 finger and calculate them together without looking for what hand they are on
 #make mobileCoordTest return the keyboard?
-remove extra totalDistance = 0 lines?
-are there even letters that are pressed by both?
+#remove extra totalDistance = 0 lines?
+#are there even letters that are pressed by both?
+#should I replace every function call with in program alternatives?
+3preprocess coordList to just calculate the distances of all 1 finger sections together? not sure if this changes the total number of calculations
+#numCoord global or not?
+#probably would take around 5 hours do to a 5 bounded bfs, colemak changes 27, dvorak 33
+#pickling results
+identify rounding error, possibly don't need so many significant figures
+#kalq test, and kalq style test
+#add a timeit funciton at the beginning of the for loop and also find out how long the beginning of the program takes
+#for resultsTraverser have the top 2 results with percents for letter placement
 
 accurately rename functions and variables more
-should I replace every function call with in program alternatives?
-preprocess coordList to just calculate the distances of all 1 finger sections together? not sure if this changes the total number of calculations
-
-probably would take around 5 hours do to a 5 bounded bfs, colemak changes 27, dvorak 33
-identify rounding error, possibly don't need so many significant figures
-
 heatmap
 mating
-test small keyboard
-
-numCoord global or not?
-
-kalq test, and kalq style test
-instead of recalculating input string every time just check changes
-
-pickling results
-
-add a timeit funciton at the beginning of the for loop and also find out how long the beginning of the program takes
-for resultsTraverser have the top 2 results with percents for letter placement
-work on a better visualizer using knowledge from images
-create a model where certain keys can't be changed
-
+test small keyboard?
 work on duplicatesExist
+
+work on a better visualizer using knowledge from images
+
+===instead of recalculating input string every time just check changes
+randomGradient does a ton of shuffleing, check if that is necessary
+create a model where certain keys can't be changed
+run this continuously on spare computer
