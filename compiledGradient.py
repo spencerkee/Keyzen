@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/python2.7
 from __future__ import division
 import collections
 import copy
@@ -11,7 +11,7 @@ import random
 
 def keyboardDisplay(keyDict):
     k = invertDict(keyDict)
-    print ''
+    print ('')
     return ''' _______ _______ _______ _______ _______ _______ _______ _______ _______ _______
 |       |       |       |       |       |       |       |       |       |       |
 |   {0}   |   {1}   |   {2}   |   {3}   |   {4}   |   {5}   |   {6}   |   {7}   |   {8}   |   {9}   |
@@ -125,9 +125,22 @@ def update(thumb,destination):
 def letterToNumber(inputLetters):
     numbersForKeys = range(1,len(inputLetters)+1)
     if len(inputLetters) != len(numbersForKeys):
-        print "l2n problem"
+        print ("l2n problem")
     random.shuffle(numbersForKeys)
     myKeyboard = {}
+    for i in range(0,len(inputLetters)):
+        myKeyboard[inputLetters[i]] = numbersForKeys[i]
+    return myKeyboard
+
+#example presetDict = {' ':17, 'e':13}
+def presetLetterToNumber(inputLetters, presetDict):
+    numbersForKeys = range(1,len(inputLetters)+1)
+    random.shuffle(numbersForKeys)
+    myKeyboard = {}
+    for i in presetDict:
+        myKeyboard[i] = presetDict[i]
+        inputLetters.remove(i)
+        numbersForKeys.remove(presetDict[i])
     for i in range(0,len(inputLetters)):
         myKeyboard[inputLetters[i]] = numbersForKeys[i]
     return myKeyboard
@@ -136,7 +149,7 @@ def numberToCoord(keyCoords):
     keyNumbers = range(1,29)
     ntcDict = {}
     if len(keyNumbers) != len(keyCoords):
-        print "n2c not equal"
+        print ("n2c not equal")
     for i in range(0, len(keyNumbers)):
         ntcDict[keyNumbers[i]] = keyCoords[i]
     return ntcDict
@@ -145,11 +158,11 @@ def swapKey(d,k1,k2):
     d[k1], d[k2] = d[k2], d[k1]
     return d
 
-def randomGradient(number, threshold):
+def randomGradient(number, threshold): 
     for keyboardNumber in range(number):
-        print str(keyboardNumber + 1) + '/' + str(number)
+        print (str(keyboardNumber + 1) + '/' + str(number))
         letterNum = letterToNumber(letters)
-        previousBest = 100
+        previousBest = 100 #arbitrarily large
         while True:
             random.shuffle(possibleSwaps)
             index = 0
@@ -166,6 +179,35 @@ def randomGradient(number, threshold):
                 break
         if previousBest < threshold:
             with open(str(threshold) + 'results', "a") as myfile:
+                pickle.dump([previousBest,letterNum], myfile)
+
+def presetRandomGradient(number, threshold, presetDict):
+    localPossSwaps = list(possibleSwaps)
+    fixedSwaps = []
+    for i in localPossSwaps:
+        if i[0] not in presetDict and i[1] not in presetDict:
+            fixedSwaps.append(i)
+    for keyboardNumber in range(number):
+        print (str(keyboardNumber + 1) + '/' + str(number))
+        letterNum = presetLetterToNumber(letters, presetDict)
+        previousBest = 100 #arbitrarily large
+        while True:
+            random.shuffle(fixedSwaps)
+            index = 0
+            while index < len(fixedSwaps):
+                letterNum = swapKey(letterNum, fixedSwaps[index][0],fixedSwaps[index][1])
+                testBest = mobileFitness(lowerInput, letterNum)
+                if testBest >= previousBest:
+                    letterNum = swapKey(letterNum, fixedSwaps[index][0], fixedSwaps[index][1])
+                else:
+                    previousBest = testBest
+                    break
+                index += 1
+            if index == len(fixedSwaps):
+                break
+        if previousBest < threshold:
+            print letterNum
+            with open('preset' + str(threshold) + 'results', "a") as myfile:
                 pickle.dump([previousBest,letterNum], myfile)
 
 def most_common(lst):
@@ -203,9 +245,9 @@ def duplicatesExist(results):
     resultsNum = len(results)
     results2 = [dict(t) for t in set([tuple(d.items()) for d in results])]
     if len(results2) < resultsNum:
-        print "DUPLICATES EXIST"
+        print ("DUPLICATES EXIST")
     else:
-        print "NO DUPliCATES"
+        print ("NO DUPliCATES")
 
 def lettersOccurWhere(results): #create dictionary with letters for keys and list of tuples in the form (keyNumber, numOccurances)
     letterOccurances = {}
@@ -230,7 +272,7 @@ def lettersOccurWhere(results): #create dictionary with letters for keys and lis
 def resultsTraverser(filename):#produces dictionary for every letter in the form ['s', 10.3, 12] letter, percent of keyboards it occurs in, keyNumber
     lists = extractPickles('pickleTest')
     resultsNum = len(lists)
-    print "There are", resultsNum, "pickled keyboards"
+    print ("There are", resultsNum, "pickled keyboards")
     lettersAreHere = lettersOccurWhere(lists)
     freqSortedLetters = [' ','e','t','a','o','i','n','s','h','r','d','l','c','u','m','w','f','g','y','p','b','v','k','j','x','q','z','^']
     qwer = {' ': 28, '^': 20, 'a': 11, 'c': 23, 'b': 25, 'e': 3, 'd': 13, 'g': 15, 'f': 14, 'i': 8, 'h': 16, 'k': 18, 'j': 17, 'm': 27, 'l': 19, 'o': 9, 'n': 26, 'q': 1, 'p': 10, 's': 12, 'r': 4, 'u': 7, 't': 5, 'w': 2, 'v': 24, 'y': 6, 'x': 22, 'z': 21}
@@ -299,17 +341,18 @@ letterNum = letterToNumber(letters)
 totalDistance = 0
 previousBest = mobileFitness(lowerInput, letterNum)
 testBest = 100 #arbitrarily large
-possibleSwaps = itertools.combinations(letterNum, 2)
+possibleSwaps = itertools.combinations(letters, 2)
 possibleSwaps = [list(i) for i in possibleSwaps]
 if __name__ == '__main__':
-    randomGradient(10,1.3)
+    # presetRandomGradient(1,1.5,{' ':17, 'e':13})
+
+    randomGradient(30,1.3)
 
     # lettersAreHere = resultsTraverser('pickleTest')
-
     # strongestOccuringLetters = returnStrongestLetterPlacements(lettersAreHere)
-    # print 'strongestOccuringLetters', strongestOccuringLetters
+    # print ('strongestOccuringLetters', strongestOccuringLetters)
     # theoreticalBestKeyboard = strongestKeyboard(lettersAreHere, 28)
-    # print mobileFitness(lowerInput, theoreticalBestKeyboard), keyboardDisplay(theoreticalBestKeyboard)
-
+    # print (mobileFitness(lowerInput, theoreticalBestKeyboard), keyboardDisplay(theoreticalBestKeyboard))
+    #
     # bestOfPickles = getMinKeyboard('pickleTest')
-    # print bestOfPickles[0], keyboardDisplay(bestOfPickles[1])
+    # print (bestOfPickles[0], keyboardDisplay(bestOfPickles[1]))

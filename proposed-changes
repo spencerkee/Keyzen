@@ -6,7 +6,7 @@ calculate time spent on what rows, letter frequencies, bigraph frequencies
 #remove extra totalDistance = 0 lines?
 #are there even letters that are pressed by both?
 #should I replace every function call with in program alternatives?
-3preprocess coordList to just calculate the distances of all 1 finger sections together? not sure if this changes the total number of calculations
+preprocess coordList to just calculate the distances of all 1 finger sections together? not sure if this changes the total number of calculations
 #numCoord global or not?
 #probably would take around 5 hours do to a 5 bounded bfs, colemak changes 27, dvorak 33
 #pickling results
@@ -24,6 +24,6 @@ work on a better visualizer using knowledge from images
 
 mating
 ===instead of recalculating input string every time just check changes
-randomGradient does a ton of shuffleing, check if that is necessary
-create a model where certain keys can't be changed
+randomGradient probably does a ton of shuffleing, check if that is necessary
+#create a model where certain keys can't be changed
 run this continuously on spare computer
