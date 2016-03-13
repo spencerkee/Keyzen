@@ -7,6 +7,10 @@ import math
 import numpy
 import pickle
 import random
+import sys
+sys.path.insert(0, '/Keyzen/Image')
+from keyboardImage import makeKeyboardImage
+# from wand.image import Image
 
 
 def keyboardDisplay(keyDict):
@@ -160,7 +164,7 @@ def swapKey(d,k1,k2):
 
 def randomGradient(number, threshold): 
     for keyboardNumber in range(number):
-        print (str(keyboardNumber + 1) + '/' + str(number))
+        # print (str(keyboardNumber + 1) + '/' + str(number))
         letterNum = letterToNumber(letters)
         previousBest = 100 #arbitrarily large
         while True:
@@ -178,8 +182,9 @@ def randomGradient(number, threshold):
             if index == len(possibleSwaps):
                 break
         if previousBest < threshold:
-            with open(str(threshold) + 'results', "a") as myfile:
-                pickle.dump([previousBest,letterNum], myfile)
+            print letterNum
+            # with open(str(threshold) + 'results', "a") as myfile:
+            #     pickle.dump([previousBest,letterNum], myfile)
 
 def presetRandomGradient(number, threshold, presetDict):
     localPossSwaps = list(possibleSwaps)
@@ -188,7 +193,7 @@ def presetRandomGradient(number, threshold, presetDict):
         if i[0] not in presetDict and i[1] not in presetDict:
             fixedSwaps.append(i)
     for keyboardNumber in range(number):
-        print (str(keyboardNumber + 1) + '/' + str(number))
+        # print (str(keyboardNumber + 1) + '/' + str(number))
         letterNum = presetLetterToNumber(letters, presetDict)
         previousBest = 100 #arbitrarily large
         while True:
@@ -206,7 +211,6 @@ def presetRandomGradient(number, threshold, presetDict):
             if index == len(fixedSwaps):
                 break
         if previousBest < threshold:
-            print letterNum
             with open('preset' + str(threshold) + 'results', "a") as myfile:
                 pickle.dump([previousBest,letterNum], myfile)
 
@@ -316,6 +320,16 @@ def strongestKeyboard(occuranceDict,presetKeyNum):#greedy algorithm that itereat
             break
     return newDict
 
+# def keyboardImage(dict1,dict2):
+#     for i in letters:
+#         print ("convert -size 100x100 xc:transparent '{0}.png'".format(i))
+#         print ("convert '{0}.png' -fill white -stroke black -strokewidth 3 -draw 'rectangle 3,3 96,96' {0}.png -gravity Center -fill black -stroke black -pointsize 70 -annotate 0 '{0}' {0}.png".format(i))
+#     with Image(width=1000, height = 1000, background=None) as board:
+#         with Image(filename='q.png' as tile:
+#             board.composite(tile, left=500, top=500)
+#         board.save(filename='KEYBOARD.png')
+
+
 leftOnly = [1,2,3,4,5,11,12,13,14,20,21,22,23]
 rightOnly = [6,7,8,9,10,16,17,18,19,25,26,27,28]
 letters = [
@@ -338,6 +352,8 @@ numCoord = numberToCoord(coordinates)
 distanceMatrix = numpy.zeros(shape=(29,29))
 letterNum = letterToNumber(letters)
 
+
+
 totalDistance = 0
 previousBest = mobileFitness(lowerInput, letterNum)
 testBest = 100 #arbitrarily large
@@ -346,7 +362,12 @@ possibleSwaps = [list(i) for i in possibleSwaps]
 if __name__ == '__main__':
     # presetRandomGradient(1,1.5,{' ':17, 'e':13})
 
-    randomGradient(30,1.3)
+    # for i in range(1):
+    #     randomGradient(2,1.3)
+
+    # data = extractPickles('pickleTest')
+    print getMinKeyboard('pickleTest')
+
 
     # lettersAreHere = resultsTraverser('pickleTest')
     # strongestOccuringLetters = returnStrongestLetterPlacements(lettersAreHere)
