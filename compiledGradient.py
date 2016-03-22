@@ -9,8 +9,8 @@ import pickle
 import random
 import sys
 sys.path.insert(0, '/Keyzen/Image')
-from keyboardImage import makeKeyboardImage
-# from wand.image import Image
+# from keyboardImage import makeKeyboardImage
+# # from wand.image import Image
 
 
 def keyboardDisplay(keyDict):
@@ -320,16 +320,6 @@ def strongestKeyboard(occuranceDict,presetKeyNum):#greedy algorithm that itereat
             break
     return newDict
 
-# def keyboardImage(dict1,dict2):
-#     for i in letters:
-#         print ("convert -size 100x100 xc:transparent '{0}.png'".format(i))
-#         print ("convert '{0}.png' -fill white -stroke black -strokewidth 3 -draw 'rectangle 3,3 96,96' {0}.png -gravity Center -fill black -stroke black -pointsize 70 -annotate 0 '{0}' {0}.png".format(i))
-#     with Image(width=1000, height = 1000, background=None) as board:
-#         with Image(filename='q.png' as tile:
-#             board.composite(tile, left=500, top=500)
-#         board.save(filename='KEYBOARD.png')
-
-
 leftOnly = [1,2,3,4,5,11,12,13,14,20,21,22,23]
 rightOnly = [6,7,8,9,10,16,17,18,19,25,26,27,28]
 letters = [
@@ -352,7 +342,8 @@ numCoord = numberToCoord(coordinates)
 distanceMatrix = numpy.zeros(shape=(29,29))
 letterNum = letterToNumber(letters)
 
-
+# print numCoord
+# print letterNum
 
 totalDistance = 0
 previousBest = mobileFitness(lowerInput, letterNum)
