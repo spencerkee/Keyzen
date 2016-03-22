@@ -1,5 +1,4 @@
 #if the input string is preprocessed with shift it won't have to check uppper
-calculate time spent on what rows, letter frequencies, bigraph frequencies
 #find out how the time changes for longer input strings/more capitals
 #once the is a coordList find areas where things are on 1 finger and calculate them together without looking for what hand they are on
 #make mobileCoordTest return the keyboard?
@@ -20,10 +19,16 @@ heatmap
 test small keyboard?
 work on duplicatesExist
 
-work on a better visualizer using knowledge from images
+#work on a better visualizer using knowledge from graphics class
+figure out what data type the visualizer should accept, or which different data types
+have the visualizer display a correctly sized spacebar
 
-mating
+~IMPORTANT~
+work out how mating should function
 ===instead of recalculating input string every time just check changes
 randomGradient probably does a ton of shuffleing, check if that is necessary
 #create a model where certain keys can't be changed
 run this continuously on spare computer
+add support for the mod key on iphone keyboards
+calculate time spent on what rows, letter frequencies, bigraph frequencies
+calculate time spent in what zones instead of rows on normal keyboards
