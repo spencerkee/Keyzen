@@ -360,10 +360,11 @@ if __name__ == '__main__':
     print getMinKeyboard('pickleTest')
 
 
-    # lettersAreHere = resultsTraverser('pickleTest')
+    lettersAreHere = resultsTraverser('pickleTest')
     # strongestOccuringLetters = returnStrongestLetterPlacements(lettersAreHere)
     # print ('strongestOccuringLetters', strongestOccuringLetters)
-    # theoreticalBestKeyboard = strongestKeyboard(lettersAreHere, 28)
+    theoreticalBestKeyboard = strongestKeyboard(lettersAreHere, 28)
+    print theoreticalBestKeyboard
     # print (mobileFitness(lowerInput, theoreticalBestKeyboard), keyboardDisplay(theoreticalBestKeyboard))
     #
     # bestOfPickles = getMinKeyboard('pickleTest')
