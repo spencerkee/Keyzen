@@ -32,3 +32,4 @@ run this continuously on spare computer
 add support for the mod key on iphone keyboards
 calculate time spent on what rows, letter frequencies, bigraph frequencies
 calculate time spent in what zones instead of rows on normal keyboards
+correct spreadkeys by having it prioritize important keys
