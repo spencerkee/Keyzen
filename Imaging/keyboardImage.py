@@ -117,6 +117,7 @@ y = greedySpreadKeys(x)
 # for i in y:
 # 	print y[i]
 makeKeyboardImage(y,'GREEDY')
+makeKeyboardImage(best,'BEST')
 
 # if __name__ == '__main__':
 # 	minimum = {' ': 17, '^': 5, 'a': 13, 'c': 9, 'b': 15, 'e': 18, 'd': 26, 'g': 16, 'f': 21, 'i': 7, 'h': 4, 'k': 24, 'j': 25, 'm': 27, 'l': 22, 'o': 12, 'n': 3, 'q': 1, 'p': 19, 's': 23, 'r': 2, 'u': 11, 't': 8, 'w': 14, 'v': 10, 'y': 6, 'x': 28, 'z': 20}

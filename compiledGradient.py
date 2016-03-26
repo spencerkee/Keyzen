@@ -8,9 +8,9 @@ import numpy
 import pickle
 import random
 import sys
-sys.path.insert(0, '/Keyzen/Image')
-# from keyboardImage import makeKeyboardImage
-# # from wand.image import Image
+sys.path.insert(0, '/Keyzen/Imaging')
+print sys.path
+import keyboardImage
 
 
 def keyboardDisplay(keyDict):
