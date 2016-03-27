@@ -33,3 +33,6 @@ add support for the mod key on iphone keyboards
 calculate time spent on what rows, letter frequencies, bigraph frequencies
 calculate time spent in what zones instead of rows on normal keyboards
 correct spreadkeys by having it prioritize important keys
+
+===Determine cost of pressing the same key without moving your finger by watching video of key transitions and pressing the same buttons
+if modkeys are added, there must be one in every third of the keyboard
