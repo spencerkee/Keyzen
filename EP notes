@@ -1,3 +1,10 @@
 Here’s something I’ve had some success with in preventing early plateauing: Watch the standard deviations of the parameters you’re optimizing (in your case, keys). When a parameter’s standard deviation gets below a certain point (i.e., most individuals have the same character on a particular key), randomly choose an individual and reset that parameter (i.e., swap the “stale” key with any other key). Do this for all parameters at the beginning or end of every generation.
 
 The nice thing about this method is, since it’s not fitness-based, it can help shake the population off a local extremum before it has the chance to get really stuck there (i.e., when only one or two parameters have settled across the population, rather than every parameter).
+
+work out a good mutation percentage
+fix variable and local variable names
+#add elitism
+in roulette selection should i increase variability between values to select worse ones more often?
+address comments
+clean up print statements
