@@ -9,8 +9,8 @@ import pickle
 import random
 import sys
 sys.path.insert(0, '/Keyzen/Imaging')
-print sys.path
-import keyboardImage
+# print sys.path
+# import keyboardImage
 
 
 def keyboardDisplay(keyDict):
@@ -336,7 +336,7 @@ leftPosition = 14
 rightPosition = 17
 
 theInput = 'With a little plumbing we can create a system that allows one module to directly ask for the interface object of another module without going through the global scope Our goal is a require function that when given a module name will load that modules file from disk or the Web depending on the platform we are running on and return the appropriate interface value'
-lowerInput = changeCapitals(theInput)
+slowerInput = changeCapitals(theInput)
 
 numCoord = numberToCoord(coordinates)
 distanceMatrix = numpy.zeros(shape=(29,29))
