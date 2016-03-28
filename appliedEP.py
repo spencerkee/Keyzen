@@ -22,14 +22,7 @@ Either the well was very deep, or she fell very slowly, for she had plenty of ti
 'Well!' thought Alice to herself, 'after such a fall as this, I shall think nothing of tumbling down stairs! How brave they'll all think me at home! Why, I wouldn't say anything about it, even if I fell off the top of the house!' (Which was very likely true.)
 Down, down, down. Would the fall never come to an end! 'I wonder how many miles I've fallen by this time?' she said aloud. 'I must be getting somewhere near the centre of the earth. Let me see: that would be four thousand miles down, I think' (for, you see, Alice had learnt several things of this sort in her lessons in the schoolroom, and though this was not a very good opportunity for showing off her knowledge, as there was no one to listen to her, still it was good practice to say it over) 'yes, that's about the right distancebut then I wonder what Latitude or Longitude I've got to?' (Alice had no idea what Latitude was, or Longitude either, but thought they were nice grand words to say.)'''
 
-# Step 1: Create a pool containing p randomly-generated keyboard layouts.
-# Step 2: Score each keyboard according to a fitness function and sort the keyboards by score.
-# Step 3: Randomly delete half of the pool (giving preference to keyboards with lower fitness) and create a copy of each remaining keyboard.
-# Step 4: Mutate the copies by randomly swapping the positions of two keys m times.
-# Step 5: Repeat steps 2-4 until the best keyboard in the pool has not changed for b rounds.
-# Step 6: Place this best k keyboards in pool O and sort each keyboard in O by score.
-# Step 7: Repeat steps 2-6 until O contains o layouts.
-# Step 8: Repeat steps 2-4 using pool O until the best keyboard in the pool has not changed for q rounds.
+
 
 letterString = 'qwertyuiopasdfghjkl^zxcvbnm '
 
