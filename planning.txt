@@ -49,3 +49,5 @@ should there be another dictionary for capital letters or just calculated?
 should coordinates be strings?
 you can move 2 thumbs at once
 too much focus on perfect typing, where is backspace
+
+look at other people's commit messages

@@ -29,6 +29,25 @@ def makeKeyboardImage(thisDict, filename):
 				board.composite(key, left=int(thisDict[i][0]*100), top=(h-int(thisDict[i][1]*100))-100)
 		board.save(filename=filename+'.png')
 
+def makeStringImage(inputString, filename):#filename must include extension
+	coordinates = [[0,3],[1,3],[2,3],[3,3],[4,3],[5,3],[6,3],[7,3],[8,3],[9,3],
+	[0.5,2],[1.5,2],[2.5,2],[3.5,2],[4.5,2],[5.5,2],[6.5,2],[7.5,2],[8.5,2],
+	[0,0],[1.5,1],[2.5,1],[3.5,1],[4.5,1],[5.5,1],[6.5,1],[7.5,1],
+	[5.5,0]]
+	w = 1000
+	h = 400
+	with Image(width=w, height=h, background=None) as board:
+		for i in range(len(inputString)):
+			if inputString[i] == ' ':
+				name = '_.png'
+			else:
+				name = inputString[i] + '.png'
+			with Image(filename=name) as letter:
+				board.composite(letter, left=int(coordinates[i][0]*100), top=(h-int(coordinates[i][1]*100))-100)
+		board.save(filename = filename)
+
+makeStringImage('vhtdzu^gcko aqrpeilwnbxmsfyj', 'STRINGTEST.png')
+
 def midpoint(c1, c2):
 	theMidpoint = [(c1[0]+c2[0])/2,(c1[1]+c2[1])/2]
 	return theMidpoint
@@ -107,17 +126,17 @@ def greedySpreadKeys(d):
 		letters.remove(minimum[2])
 	return finalDict
 
-best  = {' ': 17, '^': 5, 'a': 13, 'c': 9, 'b': 15, 'e': 18, 'd': 26, 'g': 16, 'f': 21, 'i': 7, 'h': 4, 'k': 24, 'j': 25, 'm': 27, 'l': 22, 'o': 12, 'n': 3, 'q': 1, 'p': 19, 's': 23, 'r': 2, 'u': 11, 't': 8, 'w': 14, 'v': 10, 'y': 6, 'x': 28, 'z': 20}
-theoretical = {' ': 17, '^': 5, 'a': 16, 'c': 8, 'b': 9, 'e': 13, 'd': 14, 'g': 23, 'f': 27, 'i': 3, 'h': 21, 'k': 24, 'j': 1, 'm': 25, 'l': 7, 'o': 12, 'n': 26, 'q': 28, 'p': 15, 's': 2, 'r': 22, 'u': 4, 't': 18, 'w': 11, 'v': 19, 'y': 6, 'x': 20, 'z': 10}
-x = averageKeyboard(best,theoretical)
+# best  = {' ': 17, '^': 5, 'a': 13, 'c': 9, 'b': 15, 'e': 18, 'd': 26, 'g': 16, 'f': 21, 'i': 7, 'h': 4, 'k': 24, 'j': 25, 'm': 27, 'l': 22, 'o': 12, 'n': 3, 'q': 1, 'p': 19, 's': 23, 'r': 2, 'u': 11, 't': 8, 'w': 14, 'v': 10, 'y': 6, 'x': 28, 'z': 20}
+# theoretical = {' ': 17, '^': 5, 'a': 16, 'c': 8, 'b': 9, 'e': 13, 'd': 14, 'g': 23, 'f': 27, 'i': 3, 'h': 21, 'k': 24, 'j': 1, 'm': 25, 'l': 7, 'o': 12, 'n': 26, 'q': 28, 'p': 15, 's': 2, 'r': 22, 'u': 4, 't': 18, 'w': 11, 'v': 19, 'y': 6, 'x': 20, 'z': 10}
+# x = averageKeyboard(best,theoretical)
 
-# z = randomModify(x)
-# makeKeyboardImage(z,'KEYBOARD')
-y = greedySpreadKeys(x)
-# for i in y:
-# 	print y[i]
-makeKeyboardImage(y,'GREEDY')
-makeKeyboardImage(best,'BEST')
+# # z = randomModify(x)
+# # makeKeyboardImage(z,'KEYBOARD')
+# y = greedySpreadKeys(x)
+# # for i in y:
+# # 	print y[i]
+# makeKeyboardImage(y,'GREEDY')
+# makeKeyboardImage(best,'BEST')
 
 # if __name__ == '__main__':
 # 	minimum = {' ': 17, '^': 5, 'a': 13, 'c': 9, 'b': 15, 'e': 18, 'd': 26, 'g': 16, 'f': 21, 'i': 7, 'h': 4, 'k': 24, 'j': 25, 'm': 27, 'l': 22, 'o': 12, 'n': 3, 'q': 1, 'p': 19, 's': 23, 'r': 2, 'u': 11, 't': 8, 'w': 14, 'v': 10, 'y': 6, 'x': 28, 'z': 20}

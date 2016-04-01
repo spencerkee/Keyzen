@@ -99,17 +99,6 @@ def stringFitnesses(inputText, keyboardStrings):#returns the list of fitnesses o
 		returnList.append((totalDistance/totalTransitions))
 	return returnList
 
-# def mutateKeyboards(keyboardList, swapNumber):
-# 	returnList = []
-# 	for i in keyboardList:
-# 		lst = list(i)
-# 		for l in range(swapNumber):
-# 			j = random.randint(0,len(i)-1)
-# 			k = random.randint(0,len(i)-1)
-# 			lst[j], lst[k] = lst[k], lst[j]
-# 		returnList.append(''.join(lst))
-# 	return returnList
-
 #this can't be good because 1% of 50 is nothing
 def mutateKeyboards(keyboardList, mutationPercent, swapNumber):#if the percent is 40, and there are 2 keyboards, no mutations are made
 	returnList = []
@@ -162,8 +151,6 @@ def eliteRouletteSelection(inputFitnessList, elitePercent):
 	splitPoint = int(len(inputFitnessList)*(elitePercent/100))
 	eliteSelection = inputFitnessList[0:splitPoint]
 	remainingFitnesses = inputFitnessList[splitPoint:len(inputFitnessList)]
-	# print eliteSelection
-	# print remainingFitnesses
 
 	numberDeleted = 0
 	goal = int(len(remainingFitnesses)/2)
@@ -179,12 +166,9 @@ def eliteRouletteSelection(inputFitnessList, elitePercent):
 			index+=1
 		remainingFitnesses.pop(index)
 		numberDeleted+=1
-	# print remainingFitnesses
 	returnList = eliteSelection + remainingFitnesses
-	# print returnList
-	random.shuffle(returnList)#should probably be randome pick
+	random.shuffle(returnList)#should probably be random pick
 	returnList = returnList + returnList[0:originalLength-len(returnList)]
-	# print returnList
 	return returnList
 
 #currently will never end using allSame. Should maybe try something based on the average or the best keyboard not changing for a while
@@ -201,7 +185,7 @@ def mateAndMutate(fitnessList, selectedList, keyboardList):#without mutation the
 	for i in range(int(len(thisPopulation)/2)):#should parents have 2 children?
 		j = i + int(len(thisPopulation)/2)
 		nextGeneration.append(singlePointCrossover(thisPopulation[i],thisPopulation[j]))
-	nextGeneration = mutateKeyboards(nextGeneration, 10, 1)
+	# nextGeneration = mutateKeyboards(nextGeneration, 10, 1)
 	return nextGeneration + nextGeneration
 
 def allSame(lst):
@@ -211,14 +195,14 @@ def allSame(lst):
 			return False
 	return True
 
-newPopulation= createNKeyboards(50 )
+newPopulation= createNKeyboards(50)
 for i in range(300):
 	if allSame(newPopulation):
 		break
 	fitnesses = stringFitnesses(theInput, newPopulation)
 	avg = sum(fitnesses)/len(fitnesses)
 	minIndex = fitnesses.index(min(fitnesses))
-	print avg, min(fitnesses),newPopulation[minIndex], i
+	print 'average', avg, min(fitnesses),newPopulation[minIndex], i
 	# print 'fitnesses', fitnesses
 	selected = eliteRouletteSelection(fitnesses, 5)
 	# print 'selected', selected
@@ -226,7 +210,13 @@ for i in range(300):
 	# print 'newPopulation', newPopulation
 print newPopulation[0]
 
-#if the last 5 values are the same, exit
 
+
+
+
+
+
+
+#if the last 5 values are the same, exit
 #converged a35fter 128, 118, 1
 #50 keys 99, 94, 121, 113, 52, 119
