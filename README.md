@@ -1,3 +1,3 @@
 # Keyzen
 
-Undergraduate CompSci student testing keyboard project.
+Using genetic algorithms to create mobile keyboard layouts
