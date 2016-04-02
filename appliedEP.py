@@ -99,20 +99,25 @@ def stringFitnesses(inputText, keyboardStrings):#returns the list of fitnesses o
 		returnList.append((totalDistance/totalTransitions))
 	return returnList
 
-#this can't be good because 1% of 50 is nothing
-def mutateKeyboards(keyboardList, mutationPercent, swapNumber):#if the percent is 40, and there are 2 keyboards, no mutations are made
+def mutateKeyboards(keyboardList, mutationPercent, swapNumber):
 	returnList = []
-	swapIndicies = range(len(keyboardList))
-	random.shuffle(swapIndicies)
-	swapIndicies = swapIndicies[0:int(len(keyboardList)*(mutationPercent/100))]
-	for i in swapIndicies:
-		lst = list(keyboardList[i])
-		for l in range(swapNumber):
-			j = random.randint(0,len(keyboardList[i])-1)
-			k = random.randint(0,len(keyboardList[i])-1)
-			lst[j], lst[k] = lst[k], lst[j]
-		keyboardList[i] = (''.join(lst))
-	return keyboardList
+	for i in keyboardList:
+		if random.uniform(0,100) < mutationPercent:
+			print 'chosen'
+			lst = list(i)
+			for l in range(swapNumber):
+				j = random.randint(0,len(i)-1)
+				k = random.randint(0,len(i)-1)
+				lst[j], lst[k] = lst[k], lst[j]
+			lst = (''.join(lst))
+			returnList.append(lst)
+		else:
+			print 'not chosen'
+			returnList.append(i)
+	return returnList
+x = ['qwer','qwer','qwer','qwer','qwer','qwer','qwer','qwer','qwer','qwer']
+print mutateKeyboards(x, 50, 1)
+
 
 def singlePointCrossover(parent1, parent2):
 	crossoverPoint = random.randint(0,len(parent1)-1)
@@ -195,20 +200,20 @@ def allSame(lst):
 			return False
 	return True
 
-newPopulation= createNKeyboards(50)
-for i in range(300):
-	if allSame(newPopulation):
-		break
-	fitnesses = stringFitnesses(theInput, newPopulation)
-	avg = sum(fitnesses)/len(fitnesses)
-	minIndex = fitnesses.index(min(fitnesses))
-	print 'average', avg, min(fitnesses),newPopulation[minIndex], i
-	# print 'fitnesses', fitnesses
-	selected = eliteRouletteSelection(fitnesses, 5)
-	# print 'selected', selected
-	newPopulation = mateAndMutate(fitnesses, selected,newPopulation)
-	# print 'newPopulation', newPopulation
-print newPopulation[0]
+# newPopulation= createNKeyboards(50)
+# for i in range(300):
+# 	if allSame(newPopulation):
+# 		break
+# 	fitnesses = stringFitnesses(theInput, newPopulation)
+# 	avg = sum(fitnesses)/len(fitnesses)
+# 	minIndex = fitnesses.index(min(fitnesses))
+# 	print 'average', avg, min(fitnesses),newPopulation[minIndex], i
+# 	# print 'fitnesses', fitnesses
+# 	selected = eliteRouletteSelection(fitnesses, 5)
+# 	# print 'selected', selected
+# 	newPopulation = mateAndMutate(fitnesses, selected,newPopulation)
+# 	# print 'newPopulation', newPopulation
+# print newPopulation[0]
 
 
 
