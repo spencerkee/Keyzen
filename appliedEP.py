@@ -5,6 +5,8 @@ import random
 # import compiledGradient
 import numpy
 import math
+import time
+start_time = time.time()
 #keyboard format is qwertyuiopasdfghjkl↑zxcvbnm←
 #← LEFT ARROW = backspace
 #↑ UP ARROW = shift
@@ -103,7 +105,6 @@ def mutateKeyboards(keyboardList, mutationPercent, swapNumber):
 	returnList = []
 	for i in keyboardList:
 		if random.uniform(0,100) < mutationPercent:
-			print 'chosen'
 			lst = list(i)
 			for l in range(swapNumber):
 				j = random.randint(0,len(i)-1)
@@ -112,12 +113,8 @@ def mutateKeyboards(keyboardList, mutationPercent, swapNumber):
 			lst = (''.join(lst))
 			returnList.append(lst)
 		else:
-			print 'not chosen'
 			returnList.append(i)
 	return returnList
-x = ['qwer','qwer','qwer','qwer','qwer','qwer','qwer','qwer','qwer','qwer']
-print mutateKeyboards(x, 50, 1)
-
 
 def singlePointCrossover(parent1, parent2):
 	crossoverPoint = random.randint(0,len(parent1)-1)
@@ -128,6 +125,29 @@ def singlePointCrossover(parent1, parent2):
 			addLetters.append(i)
 	newKeyboard = newKeyboard + ''.join(addLetters)
 	return newKeyboard
+
+def singlePointCrossover2Offspring(parent1, parent2):#probably useless
+	returnList = []
+	crossoverPoint = random.randint(0,len(parent1)-1)
+	newKeyboard = parent1[:crossoverPoint]
+	addLetters = []
+	for i in parent2:
+		if i not in newKeyboard:
+			addLetters.append(i)
+	newKeyboard = newKeyboard + ''.join(addLetters)
+	returnList.append(newKeyboard)
+
+	parent1, parent2 = parent2, parent1
+
+	crossoverPoint = random.randint(0,len(parent1)-1)
+	newKeyboard = parent1[:crossoverPoint]
+	addLetters = []
+	for i in parent2:
+		if i not in newKeyboard:
+			addLetters.append(i)
+	newKeyboard = newKeyboard + ''.join(addLetters)
+	returnList.append(newKeyboard)
+	return returnList
 
 def rouletteSelection(inputFitnessList):#higher chance of removing large (bad) fitnesses. Removes 50%, then duplicates remaining fitnesses
 	inputFitnessList = list(inputFitnessList)
@@ -150,7 +170,7 @@ def rouletteSelection(inputFitnessList):#higher chance of removing large (bad) f
 
 def eliteRouletteSelection(inputFitnessList, elitePercent):
 	#the lowest elitePercent are saved, then half of the remaining are roulette deleted, then random selections are added until the returnList is the same length as it originally was
-	inputFitnessList = list(inputFitnessList)
+	inputFitnessList = list(inputFitnessList)#probably superfluous
 	originalLength = len(inputFitnessList)
 	inputFitnessList.sort()
 	splitPoint = int(len(inputFitnessList)*(elitePercent/100))
@@ -176,6 +196,35 @@ def eliteRouletteSelection(inputFitnessList, elitePercent):
 	returnList = returnList + returnList[0:originalLength-len(returnList)]
 	return returnList
 
+#the goal is to perserve elitepercent of the best values, then delete (half the keyboards-elite percent) leaving
+#half the original number of keyboards
+# have 10 things, save 1, have 9 things. delete 4 things. have 5 things
+
+def eliteRouletteDeletion(inputFitnessList, elitePercent):#problem if size is 10 and elite percent is 1
+	originalLength = len(inputFitnessList)
+	inputFitnessList.sort()
+	splitPoint = int(len(inputFitnessList)*(elitePercent/100))
+	eliteSelection = inputFitnessList[0:splitPoint]
+	remainingFitnesses = inputFitnessList[splitPoint:len(inputFitnessList)]
+
+	numberDeleted = 0
+	goal = int((originalLength/2)-splitPoint)
+	while numberDeleted <= goal:
+		max = sum(remainingFitnesses)
+		pick = random.uniform(0,max)
+		currentValue = 0
+		index = 0
+		for i in remainingFitnesses:
+			currentValue += i
+			if currentValue > pick:
+				break
+			index+=1
+		del remainingFitnesses[index]
+		numberDeleted+=1
+	returnList = eliteSelection + remainingFitnesses
+	random.shuffle(returnList)
+	return returnList
+
 #currently will never end using allSame. Should maybe try something based on the average or the best keyboard not changing for a while
 def mateAndMutate(fitnessList, selectedList, keyboardList):#without mutation there are some nice ones
 	keyboardIndicies = []
@@ -187,11 +236,32 @@ def mateAndMutate(fitnessList, selectedList, keyboardList):#without mutation the
 	thisPopulation = thisPopulation + thisPopulation
 	random.shuffle(thisPopulation)
 	nextGeneration = []
-	for i in range(int(len(thisPopulation)/2)):#should parents have 2 children?
+	for i in range(int(len(thisPopulation)/2)):#possible problem if not even number of keyboards
 		j = i + int(len(thisPopulation)/2)
 		nextGeneration.append(singlePointCrossover(thisPopulation[i],thisPopulation[j]))
-	# nextGeneration = mutateKeyboards(nextGeneration, 10, 1)
+	nextGeneration = mutateKeyboards(nextGeneration, 2, 1)
 	return nextGeneration + nextGeneration
+
+#fitness list is all fitnesses, selectedList is fitnesses selected by roulette selection, keyboard list is all keyboards
+def newMateAndMutate(fitnessList, selectedList, keyboardList):
+	keyboardIndicies = []
+	for i in range(int(len(selectedList)/2)):
+		keyboardIndicies.append(fitnessList.index(selectedList[i]))
+	parentPopulation = []
+	for i in keyboardIndicies:
+		parentPopulation.append(keyboardList[i])
+	returnList = parentPopulation
+	while len(returnList) < len(keyboardList):
+		j = random.randint(0,len(parentPopulation)-1)
+		k = random.randint(0,len(parentPopulation)-1)
+		newChildKeyboard = singlePointCrossover(parentPopulation[j],parentPopulation[k])
+		returnList.append(newChildKeyboard)
+	mostElite = returnList[:5]
+	returnList = returnList[5:]
+	returnList = mutateKeyboards(returnList, 3, 1)#don't want to mutate best keyboards
+	returnList = mostElite + returnList
+	random.shuffle(returnList)
+	return returnList
 
 def allSame(lst):
 	firstValue = lst[0]
@@ -200,25 +270,41 @@ def allSame(lst):
 			return False
 	return True
 
-# newPopulation= createNKeyboards(50)
-# for i in range(300):
-# 	if allSame(newPopulation):
-# 		break
-# 	fitnesses = stringFitnesses(theInput, newPopulation)
-# 	avg = sum(fitnesses)/len(fitnesses)
-# 	minIndex = fitnesses.index(min(fitnesses))
-# 	print 'average', avg, min(fitnesses),newPopulation[minIndex], i
-# 	# print 'fitnesses', fitnesses
-# 	selected = eliteRouletteSelection(fitnesses, 5)
-# 	# print 'selected', selected
-# 	newPopulation = mateAndMutate(fitnesses, selected,newPopulation)
-# 	# print 'newPopulation', newPopulation
-# print newPopulation[0]
+def valid(string):
+	if sorted(string) != sorted('qwertyuiopasdfghjkl^zxcvbnm '):
+		return False
+	else:
+		return True
+
+newPopulation= createNKeyboards(50)
+i = 0
+bestScore = 100
+bestKeyboard = ''
+while True:
+	if i == 1000:
+		print("--- %s seconds ---" % (time.time() - start_time))
+		break
+	fitnesses = stringFitnesses(theInput, newPopulation)
+	avg = sum(fitnesses)/len(fitnesses)
+	minIndex = fitnesses.index(min(fitnesses))
+
+	if min(fitnesses) < bestScore:
+		bestScore = min(fitnesses)
+		bestKeyboard = str(newPopulation[minIndex])
+	print i, avg, min(fitnesses), newPopulation[minIndex], bestScore, bestKeyboard 
+
+
+	selected = eliteRouletteDeletion(fitnesses, 10)
+	newPopulation = newMateAndMutate(fitnesses, selected, newPopulation)
+	# selected = eliteRouletteSelection(fitnesses, 5)
+	# newPopulation = mateAndMutate(fitnesses, selected,newPopulation)
+	i += 1
+print newPopulation[0]
 
 
 
 
-
+#592 seconds for 50 keyboards and 2000 generations
 
 
 
