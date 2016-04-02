@@ -6,6 +6,7 @@ import random
 import numpy
 import math
 import time
+from collections import Counter
 start_time = time.time()
 #keyboard format is qwertyuiopasdfghjkl↑zxcvbnm←
 #← LEFT ARROW = backspace
@@ -169,7 +170,9 @@ def rouletteSelection(inputFitnessList):#higher chance of removing large (bad) f
 	return inputFitnessList
 
 def eliteRouletteSelection(inputFitnessList, elitePercent):
-	#the lowest elitePercent are saved, then half of the remaining are roulette deleted, then random selections are added until the returnList is the same length as it originally was
+	#the lowest elitePercent are saved, then half of the remaining are roulette deleted, then 
+	#random selections are added until the returnList is the same length as it originally was
+	#no parents are perserved
 	inputFitnessList = list(inputFitnessList)#probably superfluous
 	originalLength = len(inputFitnessList)
 	inputFitnessList.sort()
@@ -239,7 +242,7 @@ def mateAndMutate(fitnessList, selectedList, keyboardList):#without mutation the
 	for i in range(int(len(thisPopulation)/2)):#possible problem if not even number of keyboards
 		j = i + int(len(thisPopulation)/2)
 		nextGeneration.append(singlePointCrossover(thisPopulation[i],thisPopulation[j]))
-	nextGeneration = mutateKeyboards(nextGeneration, 2, 1)
+	nextGeneration = mutateKeyboards(nextGeneration, 10, 1)
 	return nextGeneration + nextGeneration
 
 #fitness list is all fitnesses, selectedList is fitnesses selected by roulette selection, keyboard list is all keyboards
@@ -258,7 +261,7 @@ def newMateAndMutate(fitnessList, selectedList, keyboardList):
 		returnList.append(newChildKeyboard)
 	mostElite = returnList[:5]
 	returnList = returnList[5:]
-	returnList = mutateKeyboards(returnList, 3, 1)#don't want to mutate best keyboards
+	returnList = mutateKeyboards(returnList, 3, 1)
 	returnList = mostElite + returnList
 	random.shuffle(returnList)
 	return returnList
@@ -291,13 +294,13 @@ while True:
 	if min(fitnesses) < bestScore:
 		bestScore = min(fitnesses)
 		bestKeyboard = str(newPopulation[minIndex])
-	print i, avg, min(fitnesses), newPopulation[minIndex], bestScore, bestKeyboard 
+	count = Counter(newPopulation)
+	print i, avg, min(fitnesses), newPopulation[minIndex], bestScore, bestKeyboard, count.most_common()[0]
 
-
-	selected = eliteRouletteDeletion(fitnesses, 10)
-	newPopulation = newMateAndMutate(fitnesses, selected, newPopulation)
-	# selected = eliteRouletteSelection(fitnesses, 5)
-	# newPopulation = mateAndMutate(fitnesses, selected,newPopulation)
+	# selected = eliteRouletteDeletion(fitnesses, 10)
+	# newPopulation = newMateAndMutate(fitnesses, selected, newPopulation) #repetition converges around generation 30
+	selected = eliteRouletteSelection(fitnesses, 10) #this repetition stays low, around 4-8 for at least 150 generations, likely more
+	newPopulation = mateAndMutate(fitnesses, selected,newPopulation)
 	i += 1
 print newPopulation[0]
 

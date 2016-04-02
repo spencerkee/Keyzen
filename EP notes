@@ -16,3 +16,8 @@ proposed mutation function: take in a percent, for every letter in the chromosom
 Better way is to iterate over chromosomes and if it is randomly chosen then perform swaps
 heatmap
 assign each a random number, sort by a random number, then take the 40% smallest
+when printing results, change them so that they are spaced uniformly for increased readability
+
+====roulette selection should select mating. parents besides the elite should not be preserved.
+should elite keyboards have a chance of being mutated? probably
+check mutation and elite selection probabilities before running because they are set very high right now
