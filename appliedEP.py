@@ -1,6 +1,7 @@
 #!/usr/bin/python2.7
 # -*- coding: utf-8 -*-1
 from __future__ import division
+import sys
 import random
 # import compiledGradient
 import numpy
@@ -280,12 +281,17 @@ def valid(string):
 		return True
 
 def main():
-	newPopulation= createNKeyboards(50)
+	if len(sys.argv) != 3:
+		sys.exit('Usage: ' + sys.argv[0] + ' [numKeyboards] [numGenerations]')
+	numKeyboards = int(sys.argv[1])
+	numGenerations = int(sys.argv[2])
+
+	newPopulation= createNKeyboards(numKeyboards)
 	i = 0
 	bestScore = 100
 	bestKeyboard = ''
 	while True:
-		if i == 1000:
+		if i == numGenerations:
 			print("--- %s seconds ---" % (time.time() - start_time))
 			break
 		fitnesses = stringFitnesses(theInput, newPopulation)
