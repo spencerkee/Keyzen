@@ -290,6 +290,11 @@ def main():
 	i = 0
 	bestScore = 100
 	bestKeyboard = ''
+
+	printList = ["#", "Avg. Fitness", "Min. Fitness", "Min. Fitness Keyboard", "Best Score", "Best Keyboard", "Most Common (Keyboard, Occurences)"]
+	# 15 spaces for scores, 30 for keyboard strings
+	rowFormat ="{:<5}" + "{:<15}"*2 + "{:<30}" + "{:<15}" + "{:<30}"*2
+	print rowFormat.format(*printList)
 	while True:
 		if i == numGenerations:
 			print("--- %s seconds ---" % (time.time() - start_time))
@@ -302,7 +307,7 @@ def main():
 			bestScore = min(fitnesses)
 			bestKeyboard = str(newPopulation[minIndex])
 		count = Counter(newPopulation)
-		print i, avg, min(fitnesses), newPopulation[minIndex], bestScore, bestKeyboard, count.most_common()[0]
+		print rowFormat.format(i, avg, min(fitnesses), newPopulation[minIndex], bestScore, bestKeyboard, count.most_common()[0])
 
 		# selected = eliteRouletteDeletion(fitnesses, 10)
 		# newPopulation = newMateAndMutate(fitnesses, selected, newPopulation) #repetition converges around generation 30
