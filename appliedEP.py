@@ -1,6 +1,7 @@
 #!/usr/bin/python2.7
 # -*- coding: utf-8 -*-1
 from __future__ import division
+import sys
 import random
 # import compiledGradient
 import numpy
@@ -279,30 +280,44 @@ def valid(string):
 	else:
 		return True
 
-newPopulation= createNKeyboards(50)
-i = 0
-bestScore = 100
-bestKeyboard = ''
-while True:
-	if i == 1000:
-		print("--- %s seconds ---" % (time.time() - start_time))
-		break
-	fitnesses = stringFitnesses(theInput, newPopulation)
-	avg = sum(fitnesses)/len(fitnesses)
-	minIndex = fitnesses.index(min(fitnesses))
+def main():
+	if len(sys.argv) != 3:
+		sys.exit('Usage: ' + sys.argv[0] + ' [numKeyboards] [numGenerations]')
+	numKeyboards = int(sys.argv[1])
+	numGenerations = int(sys.argv[2])
 
-	if min(fitnesses) < bestScore:
-		bestScore = min(fitnesses)
-		bestKeyboard = str(newPopulation[minIndex])
-	count = Counter(newPopulation)
-	print i, avg, min(fitnesses), newPopulation[minIndex], bestScore, bestKeyboard, count.most_common()[0]
+	newPopulation= createNKeyboards(numKeyboards)
+	i = 0
+	bestScore = 100
+	bestKeyboard = ''
 
-	# selected = eliteRouletteDeletion(fitnesses, 10)
-	# newPopulation = newMateAndMutate(fitnesses, selected, newPopulation) #repetition converges around generation 30
-	selected = eliteRouletteSelection(fitnesses, 10) #this repetition stays low, around 4-8 for at least 150 generations, likely more
-	newPopulation = mateAndMutate(fitnesses, selected,newPopulation)
-	i += 1
-print newPopulation[0]
+	printList = ["#", "Avg. Fitness", "Min. Fitness", "Min. Fitness Keyboard", "Best Score", "Best Keyboard", "Most Common (Keyboard, Occurences)"]
+	# 15 spaces for scores, 30 for keyboard strings
+	rowFormat ="{:<5}" + "{:<15}"*2 + "{:<30}" + "{:<15}" + "{:<30}"*2
+	print rowFormat.format(*printList)
+	while True:
+		if i == numGenerations:
+			print("--- %s seconds ---" % (time.time() - start_time))
+			break
+		fitnesses = stringFitnesses(theInput, newPopulation)
+		avg = sum(fitnesses)/len(fitnesses)
+		minIndex = fitnesses.index(min(fitnesses))
+
+		if min(fitnesses) < bestScore:
+			bestScore = min(fitnesses)
+			bestKeyboard = str(newPopulation[minIndex])
+		count = Counter(newPopulation)
+		print rowFormat.format(i, avg, min(fitnesses), newPopulation[minIndex], bestScore, bestKeyboard, count.most_common()[0])
+
+		# selected = eliteRouletteDeletion(fitnesses, 10)
+		# newPopulation = newMateAndMutate(fitnesses, selected, newPopulation) #repetition converges around generation 30
+		selected = eliteRouletteSelection(fitnesses, 10) #this repetition stays low, around 4-8 for at least 150 generations, likely more
+		newPopulation = mateAndMutate(fitnesses, selected,newPopulation)
+		i += 1
+	print newPopulation[0]
+
+if __name__ == '__main__':
+	main()
 
 
 
