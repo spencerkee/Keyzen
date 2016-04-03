@@ -279,30 +279,34 @@ def valid(string):
 	else:
 		return True
 
-newPopulation= createNKeyboards(50)
-i = 0
-bestScore = 100
-bestKeyboard = ''
-while True:
-	if i == 1000:
-		print("--- %s seconds ---" % (time.time() - start_time))
-		break
-	fitnesses = stringFitnesses(theInput, newPopulation)
-	avg = sum(fitnesses)/len(fitnesses)
-	minIndex = fitnesses.index(min(fitnesses))
+def main():
+	newPopulation= createNKeyboards(50)
+	i = 0
+	bestScore = 100
+	bestKeyboard = ''
+	while True:
+		if i == 1000:
+			print("--- %s seconds ---" % (time.time() - start_time))
+			break
+		fitnesses = stringFitnesses(theInput, newPopulation)
+		avg = sum(fitnesses)/len(fitnesses)
+		minIndex = fitnesses.index(min(fitnesses))
 
-	if min(fitnesses) < bestScore:
-		bestScore = min(fitnesses)
-		bestKeyboard = str(newPopulation[minIndex])
-	count = Counter(newPopulation)
-	print i, avg, min(fitnesses), newPopulation[minIndex], bestScore, bestKeyboard, count.most_common()[0]
+		if min(fitnesses) < bestScore:
+			bestScore = min(fitnesses)
+			bestKeyboard = str(newPopulation[minIndex])
+		count = Counter(newPopulation)
+		print i, avg, min(fitnesses), newPopulation[minIndex], bestScore, bestKeyboard, count.most_common()[0]
 
-	# selected = eliteRouletteDeletion(fitnesses, 10)
-	# newPopulation = newMateAndMutate(fitnesses, selected, newPopulation) #repetition converges around generation 30
-	selected = eliteRouletteSelection(fitnesses, 10) #this repetition stays low, around 4-8 for at least 150 generations, likely more
-	newPopulation = mateAndMutate(fitnesses, selected,newPopulation)
-	i += 1
-print newPopulation[0]
+		# selected = eliteRouletteDeletion(fitnesses, 10)
+		# newPopulation = newMateAndMutate(fitnesses, selected, newPopulation) #repetition converges around generation 30
+		selected = eliteRouletteSelection(fitnesses, 10) #this repetition stays low, around 4-8 for at least 150 generations, likely more
+		newPopulation = mateAndMutate(fitnesses, selected,newPopulation)
+		i += 1
+	print newPopulation[0]
+
+if __name__ == '__main__':
+	main()
 
 
 
