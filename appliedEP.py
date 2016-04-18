@@ -7,6 +7,7 @@ import random
 import numpy
 import math
 import time
+import itertools
 from collections import Counter
 start_time = time.time()
 #keyboard format is qwertyuiopasdfghjkl↑zxcvbnm←
@@ -180,6 +181,34 @@ def diversify(threshold, keyboard_list):
 
 	return returnList
 
+def gradientDescent():
+	possSwaps = list(itertools.combinations(range(len(letterString)), 2))
+	random.shuffle(possSwaps)
+	keyboard = createNKeyboards(1)[0]
+	previousBest = stringFitnesses(theInput, [keyboard])[0]
+	i = 0
+	while i < len(letterString):
+		lst = list(keyboard)
+		indices = possSwaps[i]
+		j = indices[0]
+		k = indices[1]
+		lst[j], lst[k] = lst[k], lst[j]
+		lst = (''.join(lst))
+		if stringFitnesses(theInput, [lst])[0] < previousBest:
+			previousBest = stringFitnesses(theInput, [lst])[0]
+			keyboard = lst
+			i = 0
+			random.shuffle(possSwaps)
+		else:
+			lst = list(lst)
+			lst[j], lst[k] = lst[k], lst[j]
+			keyboard = (''.join(lst))
+			i+=1
+	return previousBest, keyboard
+
+
+
+
 def main():
 	if len(sys.argv) != 3:
 		sys.exit('Usage: ' + sys.argv[0] + ' [numKeyboards] [numGenerations]')
@@ -221,6 +250,7 @@ def main():
 
 if __name__ == '__main__':
 	theInput = processText(theInput)
+	gradientDescent()
 	# main()
 	# keyboard = createNKeyboards(1)[0]
 	# previousBest = 100
