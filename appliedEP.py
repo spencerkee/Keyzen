@@ -3,20 +3,12 @@
 from __future__ import division
 import sys
 import random
-# import compiledGradient
 import numpy
 import math
 import time
 import itertools
 from collections import Counter
 start_time = time.time()
-#keyboard format is qwertyuiopasdfghjkl↑zxcvbnm←
-#← LEFT ARROW = backspace
-#↑ UP ARROW = shift
-#■ BLACK SQUARE = mod key (123)
-# backspaceKey = '←'
-# shiftKey = '↑'
-# modKey = '■'
 
 theInput = '''Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do: once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it, 'and what is the use of a book,' thought Alice 'without pictures or conversations?'
 So she was considering in her own mind (as well as she could, for the hot day made her feel very sleepy and stupid), whether the pleasure of making a daisy-chain would be worth the trouble of getting up and picking the daisies, when suddenly a White Rabbit with pink eyes ran close by her.
@@ -101,8 +93,6 @@ def stringFitnesses(inputText, keyboardStrings):#returns the list of fitnesses o
 		returnList.append((totalDistance/totalTransitions))
 	return returnList
 
-# print stringFitnesses(theInput, ['zb^imjflwqkn tcuoayxdehpgrsv'])
-
 def mutateKeyboards(keyboardList, mutationPercent, swapNumber):
 	returnList = []
 	for i in keyboardList:
@@ -149,7 +139,6 @@ def simpleGeneticAlgorithm(keyboard_list, fitness_list, elite_num, death_percent
 			parent1 = keyboard_list[fitness_list.index(simpleRouletteSelection(fitness_list))]
 			parent2 = keyboard_list[fitness_list.index(simpleRouletteSelection(fitness_list))]
 			child = singlePointCrossover(parent1,parent2)
-			# iteration += 1
 			if stringFitnesses(theInput, [child])[0] < sum(stringFitnesses(theInput, [parent1,parent2]))/2:
 				returnList.append(child)
 				break
@@ -157,8 +146,6 @@ def simpleGeneticAlgorithm(keyboard_list, fitness_list, elite_num, death_percent
 				if random.uniform(0,100) >= death_percent:
 					returnList.append(child)
 					break
-			# break
-
 
 	# returnList = mutateKeyboards(returnList, 40, 3)
 	returnList = mutateKeyboards(returnList, 2, 1)
@@ -167,18 +154,16 @@ def simpleGeneticAlgorithm(keyboard_list, fitness_list, elite_num, death_percent
 		returnList.append(keyboard_list[fitness_list.index(i)])
 	return returnList
 
-def diversify(threshold, keyboard_list):
+def diversify(threshold, keyboard_list):#if a keyboard occurs more than (threshold) times, mutate all but 1 of them.
 	count = Counter(keyboard_list)
 	returnList = list(keyboard_list)
 	for i in count.most_common():
-		# print i
 		if i[1] >= threshold:
 			returnList[:] = [x for x in returnList if x != i[0]]
 			for j in range(i[1]-1):
 				newKeyboard = mutateKeyboards([i[0]], 100, 1)[0]
 				returnList.append(newKeyboard)
 			returnList.append(i[0])
-
 	return returnList
 
 def gradientDescent():
@@ -205,9 +190,6 @@ def gradientDescent():
 			keyboard = (''.join(lst))
 			i+=1
 	return previousBest, keyboard
-
-
-
 
 def main():
 	if len(sys.argv) != 3:
@@ -250,24 +232,4 @@ def main():
 
 if __name__ == '__main__':
 	theInput = processText(theInput)
-	gradientDescent()
-	# main()
-	# keyboard = createNKeyboards(1)[0]
-	# previousBest = 100
-	# while True:
-	# 	lst = list(keyboard)
-	# 	indices = random.sample(range(0, len(keyboard)), 2)
-	# 	j = indices[0]
-	# 	k = indices[1]
-	# 	lst[j], lst[k] = lst[k], lst[j]
-	# 	lst = (''.join(lst))
-	# 	if stringFitnesses(theInput, [lst])[0] < previousBest:
-	# 		print stringFitnesses(theInput, [lst])[0], lst
-	# 		previousBest = stringFitnesses(theInput, [lst])[0]
-	# 		keyboard = lst
-
-
-#592 seconds for 50 keyboards and 2000 generations
-#if the last 5 values are the same, exit
-#converged a35fter 128, 118, 1
-#50 keys 99, 94, 121, 113, 52, 119
+	main()
