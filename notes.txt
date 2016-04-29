@@ -13,3 +13,15 @@ The duplicates from the resultTraverser are possibly due to symmetry issues
 #how to check if there are duplicate dictionaries?
 
 how can i find archetypical dictionaries? perhaps post on stackoverflow
+
+try to improve fitness function
+markov estimation
+how well does it do just optimized for bigrams
+can you construct a short corpus that is representitive?
+
+Overview: problem, goals, etc
+background... (process)
+description of the program, full code in appendex, hypertext functions
+results: fitness convergence, final keyboard, heatmapping
+discussion, survey (process)
+future:improvements,learning curve, mod keys
