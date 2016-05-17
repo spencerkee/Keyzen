@@ -77,28 +77,22 @@ def stringFitnesses(inputText, keyboardStrings):#returns the list of fitnesses o
 		totalDistance = 0
 		leftPosition = 13
 		rightPosition = 16
-		# myString.index('s')
 		for letter in inputText:
-			# print letter
 			if letterNum[letter] == leftPosition or letterNum[letter] == rightPosition:
 				totalDistance += sameLetterCost
 			elif letterNum[letter] != leftPosition and letterNum[letter] != rightPosition:
 				if letterNum[letter] in rightOnly:
 					totalDistance += distanceMatrix[rightPosition, letterNum[letter]]
-					# print distanceMatrix[rightPosition, letterNum[letter]]
 					rightPosition = letterNum[letter]
 				elif letterNum[letter] in leftOnly:
 					totalDistance += distanceMatrix[leftPosition, letterNum[letter]]
-					# print distanceMatrix[leftPosition, letterNum[letter]]
 					leftPosition = letterNum[letter]
 				else:
 					if distanceMatrix[rightPosition, letterNum[letter]] <= distanceMatrix[leftPosition, letterNum[letter]]:
 						totalDistance += distanceMatrix[rightPosition, letterNum[letter]]
-						# print distanceMatrix[rightPosition, letterNum[letter]]
 						rightPosition = letterNum[letter]
 					else:
 						totalDistance += distanceMatrix[leftPosition, letterNum[letter]]
-						# print distanceMatrix[leftPosition, letterNum[letter]]
 						leftPosition = letterNum[letter]
 		returnList.append((totalDistance/totalTransitions))
 	return returnList
@@ -268,15 +262,40 @@ def frequencyFitness(keyboard):
 'o':7.41507990637,'p':2.14681185439,'q':0.101035966795,'r':6.57070724088,'s':6.88783871261,'t':8.94593736877,'u':2.56241658647,
 'v':1.04965603373,'w':1.72204517838,'x':0.201144083561,'y':1.77340052726,'z':0.110472431636, ' ':22.2596873, '^':5.41006961}
 
+	# x = 0
+	# for i in freq_dict:
+	# 	x += freq_dict[i]
+	# print x
 
 	for i in keyboard:
 		left_distance = distance(coordinates[12],coordinates[keyboard.index(i)])
 		right_distance = distance(coordinates[16],coordinates[keyboard.index(i)])
 		fitness_score += min(left_distance,right_distance)*freq_dict[i]
 
-	# bigrams = {'th': 1.52,'en': 0.55,'ng': 0.18,'he':1.28,'ed':0.53,'of':0.16,'in':0.94,'to':0.52,'al':0.09,'er':0.94,'it': 0.50,'de':0.09,
-	#  'an':0.82,'ou':0.50,'se': 0.08,'re': 0.68,'ea': 0.47,'le': 0.08,'nd': 0.63,'hi': 0.46,'sa': 0.06,'at': 0.59,'is': 0.46,'si': 0.05,
-	#  'on': 0.57,'or': 0.43,'ar': 0.04,'nt': 0.56,'ti': 0.34,'ve': 0.04,'ha': 0.56,'as': 0.33,'ra': 0.04,'es': 0.56,'te': 0.27,'ld': 0.02,'st': 0.55,'et': 0.19,'ur': 0.02}
+	bigrams = {'th': 1.52,'en': 0.55,'ng': 0.18,'he':1.28,'ed':0.53,'of':0.16,'in':0.94,'to':0.52,'al':0.09,'er':0.94,'it': 0.50,'de':0.09,
+	 'an':0.82,'ou':0.50,'se': 0.08,'re': 0.68,'ea': 0.47,'le': 0.08,'nd': 0.63,'hi': 0.46,'sa': 0.06,'at': 0.59,'is': 0.46,'si': 0.05,
+	 'on': 0.57,'or': 0.43,'ar': 0.04,'nt': 0.56,'ti': 0.34,'ve': 0.04,'ha': 0.56,'as': 0.33,'ra': 0.04,'es': 0.56,'te': 0.27,'ld': 0.02,'st': 0.55,'et': 0.19,'ur': 0.02}
+	leftOnly = [0,1,2,3,4,10,11,12,13,19,20,21,22]#qwerasdfzxcv
+	rightOnly = [5,6,7,8,9,15,16,17,18,24,25,26,27]#yuiophjklbn m
+	for bigram in bigrams:
+		left_position = 12
+		right_position = 16
+		for i in bigram:
+		 	if keyboard.index(i) in leftOnly:
+		 		fitness_score += distance(coordinates[12],coordinates[keyboard.index(i)])
+		 		left_position = keyboard.index(i)
+		 	elif keyboard.index(i) in rightOnly:
+		 		right_distance = distance(coordinates[16],coordinates[keyboard.index(i)])
+		 		right_position = keyboard.index(i)
+		 	else:
+		 		left_distance = distance(coordinates[left_position],coordinates[keyboard.index(i)])
+				right_distance = distance(coordinates[right_position],coordinates[keyboard.index(i)])
+				if left_distance < right_distance:
+					left_position = keyboard.index(i)
+					fitness_score += left_distance
+				else:
+					right_position = keyboard.index(i)
+					fitness_score += right_distance
 
 	return fitness_score
 
@@ -285,12 +304,12 @@ if __name__ == '__main__':
 
 
 	# min2 = 'qforbvlwkx^teuya hjzingpdscm'
-	# print frequencyFitness(min2)
+	# # print frequencyFitness(min2)
 	# print frequencyFitness('zpl^wyshgqvo rmieakxctdbfnuj')
 	# print frequencyFitness('qwertyuiopasdfghjkl^zxcvbnm ')
 
 	# print ''
-	# print stringFitnesses(theInput, ['qysrufhdwjvnaebo igxmtpzc^lk'])[0]
+	# # print stringFitnesses(theInput, ['qysrufhdwjvnaebo igxmtpzc^lk'])[0]
 	# print stringFitnesses(theInput, ['zpl^wyshgqvo rmieakxctdbfnuj'])[0]
 	# print stringFitnesses(theInput, ['qwertyuiopasdfghjkl^zxcvbnm '])[0]
 
@@ -331,9 +350,10 @@ if __name__ == '__main__':
 	main()
 # 
 
-	# for i in range(10):
+	# for i in range(100):
 	# 	x = gradientDescent()
-	# 	print x, frequencyFitness(x)
+	# 	if frequencyFitness(x) < 115:
+	# 		print x, frequencyFitness(x)
 
 	
 	# print stringFitnesses(theInput, [min2])[0]
