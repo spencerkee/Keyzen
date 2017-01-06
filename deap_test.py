@@ -12,10 +12,14 @@ def create_keyboard(input_chars):
 def distance(p0, p1):#simple distance formula
     return math.sqrt((p0[0] - p1[0])**2 + (p0[1] - p1[1])**2)
 
-def frequencyFitness(input_indices):
+def indices_to_keyboard(input_indices):
     keyboard = []
     for index in input_indices:
         keyboard.append(CHARACTERS[index])
+    return keyboard
+
+def frequencyFitness(input_indices):
+    keyboard = indices_to_keyboard(input_indices)
     fitness_score = 0
     # a b   c   d   e   f   g   h   i   j   k   l   m
     # 8.2   1.5 2.8 4.3 12.7    2.2 2.0 6.1 7.0 0.2 0.8 4.0 2.4
