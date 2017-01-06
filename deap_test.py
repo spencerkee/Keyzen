@@ -1,5 +1,4 @@
 import random
-
 from deap import algorithms
 from deap import base
 from deap import creator
@@ -82,7 +81,6 @@ creator.create("FitnessMin", base.Fitness, weights=(-1.0,))
 creator.create("Individual", list, fitness=creator.FitnessMin)
 
 CHARACTERS = 'qwertyuiopasdfghjkl^zxcvbnm '
-NUM_POPULATION = 100
 
 toolbox = base.Toolbox()
 toolbox.register("indices", random.sample, range(len(CHARACTERS)), len(CHARACTERS))
@@ -100,16 +98,22 @@ toolbox.register("mate", tools.cxOrdered)
 toolbox.register("mutate", tools.mutShuffleIndexes, indpb=0.05)
 toolbox.register("select", tools.selTournament, tournsize=3)
 
+population = toolbox.population(n=NUM_POPULATION)
 
-# ind1 = toolbox.individual()
-# print (ind1)
-# ind1.fitness.values = frequencyFitness(ind1)
+# result, log = algorithms.eaSimple(population, toolbox,
+#                              cxpb=0.8, mutpb=0.2,
+#                              ngen=400, verbose=False)
+# best_individual = tools.selBest(result, k=1)[0]
+
+NUM_POPULATION = 500
+NGEN=200
+for gen in range(NGEN):
+    offspring = algorithms.varAnd(population, toolbox, cxpb=0.5, mutpb=0.1)
+    fits = toolbox.map(toolbox.evaluate, offspring)
+    for fit, ind in zip(fits, offspring):
+        ind.fitness.values = fit
+    population = toolbox.select(offspring, k=len(population))
+    best_individual = tools.selBest(population, k=1)[0]
+    print (frequencyFitness(best_individual), indices_to_keyboard(best_individual))
 
 
-
-pop = toolbox.population(n=NUM_POPULATION)
-result, log = algorithms.eaSimple(pop, toolbox,
-                             cxpb=0.8, mutpb=0.2,
-                             ngen=10, verbose=False)
-best_individual = tools.selBest(result, k=1)[0]
-print (best_individual)
