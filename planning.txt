@@ -1,3 +1,7 @@
+DEAP
+python reload image
+ipython notebook
+
 home row most optimial?
 fitness:
 
