@@ -5,7 +5,7 @@ import math
 from random import shuffle
 from random import uniform
 from random import choice
-import heatmap
+# import heatmap
 from collections import Counter
 import random
 def distance(p0, p1):
@@ -66,7 +66,7 @@ def mapping(keyboard):
 	freqDict = {'v':0,'h':0,'t':0,'d':0,'z':0,'u':0,'^':0,'g':0,'c':0,'k':0,'o':0,' ':0,'a':0,'q':0,'r':0,'p':0,'e':0,'i':0,'l':0,'w':0,'n':0,'b':0,'x':0,'m':0,'s':0,'f':0,'y':0,'j':0}
 	for i in frequencyData:
 		freqDict[i] = int((frequencyData[i]/3259)*150)
-	print freqDict
+	print (freqDict)
 	ind = 0
 	modifier=0
 	for letter in keyboard:
@@ -87,12 +87,15 @@ def mapping(keyboard):
 	pts.append([0,400])
 	pts.append([1000,0])
 	pts.append([1000,400])
-	print pts
-	print "Processing %d points..." % len(pts)
+	print (pts)
+	print ("Processing %d points..." % len(pts))
 
 	hm = heatmap.Heatmap()
 	img = hm.heatmap(pts,size=(1000,400),dotsize=150)
 	img.save("classic.png")
 
-mapping('xahtusngzqweoir dpkjvfb^lmcy')
-makeStringImage('xahtusngzqweoir dpkjvfb^lmcy', 'STRINGTEST.png')
+# mapping('qforbvlwkx^teuya hjzingpdscm')
+# mapping('qwertyuiopasdfghjkl^zxcvbnm ')
+# makeStringImage('qyanuc^lgjbt rkheivzfspwmodx', 'FREQMIN.png')#115.12
+# makeStringImage('qwertyuiopasdfghjkl^zxcvbnm ', 'STRINGTEST.png')
+
