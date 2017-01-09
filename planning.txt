@@ -1,4 +1,5 @@
-DEAP
+-DEAP
+need to use deal to maintain population diversity
 python reload image
 ipython notebook
 
