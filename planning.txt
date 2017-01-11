@@ -1,7 +1,15 @@
+2017:
+	Documentation/Writeup/clean up project
+	Add support for multiple keyboards using "mod" key
+	Somewhat interactive website
+	Fitness function for fleksy-like keyboard
+	Fitness function that could prioritize ease of learning?
+
 -DEAP
-need to use deal to maintain population diversity
+need to use deap to maintain population diversity
 python reload image
 ipython notebook
+
 
 home row most optimial?
 fitness:

@@ -12,8 +12,6 @@ The duplicates from the resultTraverser are possibly due to symmetry issues
 #probably a lot of duplicates in the picklefile
 #how to check if there are duplicate dictionaries?
 
-how can i find archetypical dictionaries? perhaps post on stackoverflow
-
 try to improve fitness function
 markov estimation
 how well does it do just optimized for bigrams
