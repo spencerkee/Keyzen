@@ -62,3 +62,57 @@ should there be another dictionary for capital letters or just calculated?
 should coordinates be strings?
 you can move 2 thumbs at once
 too much focus on perfect typing, where is backspace
+
+#if the input string is preprocessed with shift it won't have to check uppper
+#find out how the time changes for longer input strings/more capitals
+#once the is a coordList find areas where things are on 1 finger and calculate them together without looking for what hand they are on
+#make mobileCoordTest return the keyboard?
+#remove extra totalDistance = 0 lines?
+#are there even letters that are pressed by both?
+#should I replace every function call with in program alternatives?
+preprocess coordList to just calculate the distances of all 1 finger sections together? not sure if this changes the total number of calculations
+#numCoord global or not?
+#probably would take around 5 hours do to a 5 bounded bfs, colemak changes 27, dvorak 33
+#pickling results
+identify rounding error, possibly don't need so many significant figures
+#kalq test, and kalq style test
+#add a timeit funciton at the beginning of the for loop and also find out how long the beginning of the program takes
+#for resultsTraverser have the top 2 results with percents for letter placement
+
+accurately rename functions and variables more
+#heatmap
+test small keyboard?
+work on duplicatesExist
+
+#work on a better visualizer using knowledge from graphics class
+#figure out what data type the visualizer should accept, or which different data types
+have the visualizer display a correctly sized spacebar
+
+~IMPORTANT~
+#work out how mating should function
+===instead of recalculating input string every time just check changes
+randomGradient probably does a ton of shuffleing, check if that is necessary
+#create a model where certain keys can't be changed
+#run this continuously on spare computer
+add support for the mod key on iphone keyboards
+calculate time spent on what rows, letter frequencies, bigraph frequencies
+calculate time spent in what zones instead of rows on normal keyboards
+#correct spreadkeys by having it prioritize important keys
+
+===Determine cost of pressing the same key without moving your finger by watching video of key transitions and pressing the same buttons
+if modkeys are added, there must be one in every third of the keyboard
+
+
+
+MOVING FORWARD:
+need better idea of shape of fitness landscape
+need a better idea of when it convolves and how certain things affect it
+experiment with modkeys
+experiment with sizes of keys
+increase layout size
+repeat key costs, and is alternating better?
+flesh out heatmapping
+physical implementation 
+get frequency of usage of symbols, etc, possibly from keylogger
+try to optimize for 1 finger and 2 finger at the same time
+support for moving 2 thumbs at once
