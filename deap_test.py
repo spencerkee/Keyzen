@@ -106,21 +106,22 @@ if __name__ == "__main__":
     NUM_POPULATION = 100
     NGEN=100
     population = toolbox.population(n=NUM_POPULATION)
-    with open('deap_results','w') as f:
+    with open('deap_results', 'w') as f:
         for gen in range(NGEN):
-            offspring = algorithms.varAnd(population, toolbox, cxpb=0.5, mutpb=0.1)
+            offspring = algorithms.varAnd(population, toolbox,
+                                          cxpb=0.5, mutpb=0.1)
             fits = toolbox.map(toolbox.evaluate, offspring)
             for fit, ind in zip(fits, offspring):
                 ind.fitness.values = fit
             population = toolbox.select(offspring, k=len(population))
             best_individual = tools.selBest(population, k=1)[0]
 
-            f.write(str(gen) + ' ' + str(frequencyFitness(best_individual)) + ' ' + str(indices_to_keyboard(best_individual)))
+            f.write(str(gen) + ' ' + str(frequencyFitness(best_individual)) +
+                    ' ' + str(indices_to_keyboard(best_individual)))
             f.write('\n')
     top10 = tools.selBest(population, k=10)
     for i in population:
-        print (i)
-    # print ('top10')
-    # for i in top10:
-    #     print (frequencyFitness(i), ''.join(indices_to_keyboard(i)))
-
+        print(i)
+    print('top10')
+    for i in top10:
+        print(frequencyFitness(i), ''.join(indices_to_keyboard(i)))
