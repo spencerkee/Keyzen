@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import random
 from deap import algorithms
 from deap import base
@@ -36,11 +37,6 @@ def frequencyFitness(input_indices):
 'o':7.41507990637,'p':2.14681185439,'q':0.101035966795,'r':6.57070724088,'s':6.88783871261,'t':8.94593736877,'u':2.56241658647,
 'v':1.04965603373,'w':1.72204517838,'x':0.201144083561,'y':1.77340052726,'z':0.110472431636, ' ':22.2596873, '^':5.41006961}
 
-    # x = 0
-    # for i in freq_dict:
-    #   x += freq_dict[i]
-    # print x
-
     for i in keyboard:
         left_distance = distance(coordinates[12],coordinates[keyboard.index(i)])
         right_distance = distance(coordinates[16],coordinates[keyboard.index(i)])
@@ -73,47 +69,58 @@ def frequencyFitness(input_indices):
 
     return (fitness_score,)
 
-#What creator.create does is that it creates a new class. Its name is the first argument of the function.
-# Here on the first line we create a class named FitnessMax().base.Fitness tells you that this class is derived from the class base.Fitness().weight() is explained in the tutorial.
+if __name__ == "__main__":
 
-creator.create("FitnessMin", base.Fitness, weights=(-1.0,))
-# On the second line we create a class named Individual() derived from a list. We add the class creator.Fitness as one of its additionnal attribute.
-creator.create("Individual", list, fitness=creator.FitnessMin)
+    #What creator.create does is that it creates a new class. Its name is the first argument of the function.
+    # Here on the first line we create a class named FitnessMax().base.Fitness tells you that this class is derived from the class base.Fitness().weight() is explained in the tutorial.
 
-CHARACTERS = 'qwertyuiopasdfghjkl^zxcvbnm '
+    creator.create("FitnessMin", base.Fitness, weights=(-1.0,))
+    # On the second line we create a class named Individual() derived from a list. We add the class creator.Fitness as one of its additionnal attribute.
+    creator.create("Individual", list, fitness=creator.FitnessMin)
 
-toolbox = base.Toolbox()
-toolbox.register("indices", random.sample, range(len(CHARACTERS)), len(CHARACTERS))
-# container – The type to put in the data from func.
-# generator – A function returning an iterable (list, tuple, ...), the content of this iterable will fill the container.
-toolbox.register("individual", tools.initIterate, creator.Individual,
-                 toolbox.indices)
+    CHARACTERS = 'qwertyuiopasdfghjkl^zxcvbnm '
 
-toolbox.register("population", tools.initRepeat, list, 
-                 toolbox.individual)
-toolbox.register("evaluate", frequencyFitness)
-#ordered crossover
-toolbox.register("mate", tools.cxOrdered)
-#mutation we will swap elements from two points of the individual.
-toolbox.register("mutate", tools.mutShuffleIndexes, indpb=0.05)
-toolbox.register("select", tools.selTournament, tournsize=3)
+    toolbox = base.Toolbox()
+    toolbox.register("indices", random.sample, range(len(CHARACTERS)), len(CHARACTERS))
+    # container – The type to put in the data from func.
+    # generator – A function returning an iterable (list, tuple, ...), the content of this iterable will fill the container.
+    toolbox.register("individual", tools.initIterate, creator.Individual,
+                     toolbox.indices)
 
-population = toolbox.population(n=NUM_POPULATION)
+    toolbox.register("population", tools.initRepeat, list, 
+                     toolbox.individual)
+    toolbox.register("evaluate", frequencyFitness)
+    #ordered crossover
+    toolbox.register("mate", tools.cxOrdered)
+    #mutation we will swap elements from two points of the individual.
+    toolbox.register("mutate", tools.mutShuffleIndexes, indpb=0.05)
+    toolbox.register("select", tools.selTournament, tournsize=3)
 
-# result, log = algorithms.eaSimple(population, toolbox,
-#                              cxpb=0.8, mutpb=0.2,
-#                              ngen=400, verbose=False)
-# best_individual = tools.selBest(result, k=1)[0]
 
-NUM_POPULATION = 500
-NGEN=200
-for gen in range(NGEN):
-    offspring = algorithms.varAnd(population, toolbox, cxpb=0.5, mutpb=0.1)
-    fits = toolbox.map(toolbox.evaluate, offspring)
-    for fit, ind in zip(fits, offspring):
-        ind.fitness.values = fit
-    population = toolbox.select(offspring, k=len(population))
-    best_individual = tools.selBest(population, k=1)[0]
-    print (frequencyFitness(best_individual), indices_to_keyboard(best_individual))
 
+    # result, log = algorithms.eaSimple(population, toolbox,
+    #                              cxpb=0.8, mutpb=0.2,
+    #                              ngen=400, verbose=False)
+    # best_individual = tools.selBest(result, k=1)[0]
+
+    NUM_POPULATION = 100
+    NGEN=100
+    population = toolbox.population(n=NUM_POPULATION)
+    with open('deap_results','w') as f:
+        for gen in range(NGEN):
+            offspring = algorithms.varAnd(population, toolbox, cxpb=0.5, mutpb=0.1)
+            fits = toolbox.map(toolbox.evaluate, offspring)
+            for fit, ind in zip(fits, offspring):
+                ind.fitness.values = fit
+            population = toolbox.select(offspring, k=len(population))
+            best_individual = tools.selBest(population, k=1)[0]
+
+            f.write(str(gen) + ' ' + str(frequencyFitness(best_individual)) + ' ' + str(indices_to_keyboard(best_individual)))
+            f.write('\n')
+    top10 = tools.selBest(population, k=10)
+    for i in population:
+        print (i)
+    # print ('top10')
+    # for i in top10:
+    #     print (frequencyFitness(i), ''.join(indices_to_keyboard(i)))
 
