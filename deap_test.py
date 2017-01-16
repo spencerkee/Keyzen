@@ -69,16 +69,13 @@ def frequencyFitness(input_indices):
 
     return (fitness_score,)
 
-if __name__ == "__main__":
-
-    #What creator.create does is that it creates a new class. Its name is the first argument of the function.
+def genetic_keyboard(pop_num, gen_num, input_pop=None):
+        #What creator.create does is that it creates a new class. Its name is the first argument of the function.
     # Here on the first line we create a class named FitnessMax().base.Fitness tells you that this class is derived from the class base.Fitness().weight() is explained in the tutorial.
 
     creator.create("FitnessMin", base.Fitness, weights=(-1.0,))
     # On the second line we create a class named Individual() derived from a list. We add the class creator.Fitness as one of its additionnal attribute.
     creator.create("Individual", list, fitness=creator.FitnessMin)
-
-    CHARACTERS = 'qwertyuiopasdfghjkl^zxcvbnm '
 
     toolbox = base.Toolbox()
     toolbox.register("indices", random.sample, range(len(CHARACTERS)), len(CHARACTERS))
@@ -96,32 +93,37 @@ if __name__ == "__main__":
     toolbox.register("mutate", tools.mutShuffleIndexes, indpb=0.05)
     toolbox.register("select", tools.selTournament, tournsize=3)
 
-
-
     # result, log = algorithms.eaSimple(population, toolbox,
     #                              cxpb=0.8, mutpb=0.2,
-    #                              ngen=400, verbose=False)
+    #                              gen_num=400, verbose=False)
     # best_individual = tools.selBest(result, k=1)[0]
 
-    NUM_POPULATION = 100
-    NGEN=100
-    population = toolbox.population(n=NUM_POPULATION)
+    # pop_num = 100
+    # gen_num=100
+    population = toolbox.population(n=pop_num)
     with open('deap_results', 'w') as f:
-        for gen in range(NGEN):
+        for gen in range(gen_num):
             offspring = algorithms.varAnd(population, toolbox,
                                           cxpb=0.5, mutpb=0.1)
             fits = toolbox.map(toolbox.evaluate, offspring)
             for fit, ind in zip(fits, offspring):
                 ind.fitness.values = fit
             population = toolbox.select(offspring, k=len(population))
-            best_individual = tools.selBest(population, k=1)[0]
+            # best_individual = tools.selBest(population, k=1)[0]
+            # f.write(str(gen) + ' ' + str(frequencyFitness(best_individual)) +
+            #         ' ' + str(indices_to_keyboard(best_individual)))
+            # f.write('\n')
+    return population
+    # top10 = tools.selBest(population, k=10)
+    # for i in population:
+    #     print(i)
+    # print('top10')
+    # for i in top10:
+    #     print(frequencyFitness(i), ''.join(indices_to_keyboard(i)))
 
-            f.write(str(gen) + ' ' + str(frequencyFitness(best_individual)) +
-                    ' ' + str(indices_to_keyboard(best_individual)))
-            f.write('\n')
-    top10 = tools.selBest(population, k=10)
-    for i in population:
-        print(i)
-    print('top10')
-    for i in top10:
-        print(frequencyFitness(i), ''.join(indices_to_keyboard(i)))
+
+
+
+if __name__ == "__main__":
+    CHARACTERS = 'qwertyuiopasdfghjkl^zxcvbnm '
+    print (genetic_keyboard(100,5))
