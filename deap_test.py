@@ -71,25 +71,22 @@ def frequencyFitness(input_indices):
     return (fitness_score,)
 
 def genetic_keyboard(pop_num, gen_num, input_pop=None):
-    # What creator.create does is that it creates a new class. Its name is the first argument of the function.
-    # Here on the first line we create a class named FitnessMax().base.Fitness tells you that this class is derived from the class base.Fitness().weight() is explained in the tutorial.
     creator.create("FitnessMin", base.Fitness, weights=(-1.0,))
-    # On the second line we create a class named Individual() derived from a list. We add the class creator.Fitness as one of its additionnal attribute.
+    # We create a class named Individual() derived from a list. We add the class
+    # creator.Fitness as one of its additional attributes.
     creator.create("Individual", list, fitness=creator.FitnessMin)
 
     toolbox = base.Toolbox()
     toolbox.register("indices", random.sample, range(len(CHARACTERS)), len(CHARACTERS))
-    # container – The type to put in the data from func.
-    # generator – A function returning an iterable (list, tuple, ...), the content of this iterable will fill the container.
     toolbox.register("individual", tools.initIterate, creator.Individual,
                      toolbox.indices)
 
     toolbox.register("population", tools.initRepeat, list, 
                      toolbox.individual)
     toolbox.register("evaluate", frequencyFitness)
-    #ordered crossover
+    # We use ordered crossover
     toolbox.register("mate", tools.cxOrdered)
-    #mutation we will swap elements from two points of the individual.
+    # For mutation we will swap elements from two points on the individual.
     toolbox.register("mutate", tools.mutShuffleIndexes, indpb=0.05)
     toolbox.register("select", tools.selTournament, tournsize=3)
 
