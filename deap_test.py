@@ -1,10 +1,16 @@
 #!/usr/bin/env python
+import math
 import random
 from deap import algorithms
 from deap import base
 from deap import creator
 from deap import tools
-import math
+
+
+FREQ_DICT = {'a':8.50357834949,'b':1.58827987693,'c':3.35831867318,'d':3.8332505962,'e':12.0854920097,'f':2.1435268052,'g':1.99366445597,
+'h':4.72281799311,'i':7.28576061687,'j':0.221705546931,'k':0.778118038872,'l':4.07968142936,'m':2.64836003734,'n':7.27089968004,
+'o':7.41507990637,'p':2.14681185439,'q':0.101035966795,'r':6.57070724088,'s':6.88783871261,'t':8.94593736877,'u':2.56241658647,
+'v':1.04965603373,'w':1.72204517838,'x':0.201144083561,'y':1.77340052726,'z':0.110472431636, ' ':22.2596873, '^':5.41006961}
 
 def create_keyboard(input_chars):
     return random.sample(input_chars,len(input_chars))
@@ -31,16 +37,11 @@ def frequencyFitness(input_indices):
     [5.5,0]]
     # freq_dict = {'a':8.2,'b':1.5, 'c':2.8, 'd':4.3, 'e':12.7,'f':2.2,'g':2.0,'h':6.1,'i':7.0,'j':0.2,'k':0.8,'l':4.0,'m':2.4,
     # 'n':6.7,'o':7.5,'p':1.9,'q':0.1,'r':6.0,'s':6.3,'t':9.1,'u':2.8,'v':1.0,'w':2.4,'x':0.2,'y':2.0,'z':0.1, '^':2.8,' ':13.6}
-    
-    freq_dict = {'a':8.50357834949,'b':1.58827987693,'c':3.35831867318,'d':3.8332505962,'e':12.0854920097,'f':2.1435268052,'g':1.99366445597,
-'h':4.72281799311,'i':7.28576061687,'j':0.221705546931,'k':0.778118038872,'l':4.07968142936,'m':2.64836003734,'n':7.27089968004,
-'o':7.41507990637,'p':2.14681185439,'q':0.101035966795,'r':6.57070724088,'s':6.88783871261,'t':8.94593736877,'u':2.56241658647,
-'v':1.04965603373,'w':1.72204517838,'x':0.201144083561,'y':1.77340052726,'z':0.110472431636, ' ':22.2596873, '^':5.41006961}
 
     for i in keyboard:
         left_distance = distance(coordinates[12],coordinates[keyboard.index(i)])
         right_distance = distance(coordinates[16],coordinates[keyboard.index(i)])
-        fitness_score += min(left_distance,right_distance)*freq_dict[i]
+        fitness_score += min(left_distance,right_distance)*FREQ_DICT[i]
 
     bigrams = {'th': 1.52,'en': 0.55,'ng': 0.18,'he':1.28,'ed':0.53,'of':0.16,'in':0.94,'to':0.52,'al':0.09,'er':0.94,'it': 0.50,'de':0.09,
      'an':0.82,'ou':0.50,'se': 0.08,'re': 0.68,'ea': 0.47,'le': 0.08,'nd': 0.63,'hi': 0.46,'sa': 0.06,'at': 0.59,'is': 0.46,'si': 0.05,
@@ -70,9 +71,8 @@ def frequencyFitness(input_indices):
     return (fitness_score,)
 
 def genetic_keyboard(pop_num, gen_num, input_pop=None):
-        #What creator.create does is that it creates a new class. Its name is the first argument of the function.
+    # What creator.create does is that it creates a new class. Its name is the first argument of the function.
     # Here on the first line we create a class named FitnessMax().base.Fitness tells you that this class is derived from the class base.Fitness().weight() is explained in the tutorial.
-
     creator.create("FitnessMin", base.Fitness, weights=(-1.0,))
     # On the second line we create a class named Individual() derived from a list. We add the class creator.Fitness as one of its additionnal attribute.
     creator.create("Individual", list, fitness=creator.FitnessMin)
@@ -120,9 +120,6 @@ def genetic_keyboard(pop_num, gen_num, input_pop=None):
     # print('top10')
     # for i in top10:
     #     print(frequencyFitness(i), ''.join(indices_to_keyboard(i)))
-
-
-
 
 if __name__ == "__main__":
     CHARACTERS = 'qwertyuiopasdfghjkl^zxcvbnm '
