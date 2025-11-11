@@ -48,7 +48,7 @@ def main():
     # CXPB  is the probability with which two individuals are crossed
     # MUTPB is the probability for mutating an individual
     # NGEN is the number of generations before quitting
-    CXPB, MUTPB, NGEN = 0.5, 0.2, 90
+    CXPB, MUTPB, NGEN = 0.5, 0.2, 9000
     # Independent probability for each attribute to be exchanged to another position.
     indpb = 0.05
     # The number of individuals participating in each tournament.

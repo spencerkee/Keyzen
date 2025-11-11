@@ -45,9 +45,10 @@ assert len(LEFT_LETTERS) + len(RIGHT_LETTERS) == len(LETTER_COORDS)
 # assert characters are in the same order as the LETTER_COORDS
 assert [CHARACTERS[i] for i in range(len(CHARACTERS))] == list(LETTER_COORDS.keys())
 
-# todo: get better numbers
-SIMULTANEOUS_LATENCY_MS = 30
-MOVEMENT_LATENCY_MS = 15
+# todo: get better numbers these are random numbers from chatgpt
+# https://chatgpt.com/share/69139551-b4c8-800b-b393-cbaa93bdde23
+SIMULTANEOUS_LATENCY_MS = 150
+MOVEMENT_LATENCY_MS = 270
 
 BIGRAM_DICT = json.load(open("fitness/bigram_dict.json"))
 
@@ -70,8 +71,6 @@ def get_fitness(character_indexes: str) -> float:
         index = character_indexes[i]
         character_sequence[i] = CHARACTERS[index]
     character_sequence = "".join(character_sequence)
-    # print(character_sequence)
-    # check validity of sequence
     if len(character_sequence) != len(LETTER_COORDS):
         return float('inf')
     for letter in LETTER_COORDS.keys():
@@ -89,20 +88,3 @@ def get_fitness(character_indexes: str) -> float:
     for bigram, weight in BIGRAM_DICT.items():
         fitness += get_bigram_fitness(NEW_LETTER_COORDS, NEW_RIGHT_LETTERS, NEW_LEFT_LETTERS, bigram) * weight
     return (fitness / total_weight,)
-
-if __name__ == "__main__":
-    # string1 = "qwertyuiopasdfghjkl^zxcvbnm " # should work
-    # string2 = "qbertyuiopasdfghjkl^zxcvwnm " # should work
-    # string3 = "^bertyuiomasdfghjklqzxcvwnp " # should work
-    # string4 = "^bertyuiomasdfghjklqzxcvwnp  " # breaks
-    # string5 = "^bertyuiomasdfghjklzxcvwnp ]" # breaks
-    # string6 = "^bertyuizxcvwnp ]^" # breaks
-    # string7 = "qwertyuiopasdfggjkl^zxcvbnm " # should break
-    # print(get_fitness(string1))
-    # print(get_fitness(string2))
-    # print(get_fitness(string3))
-    # print(get_fitness(string4))
-    # print(get_fitness(string5))
-    # print(get_fitness(string6))
-    # print(get_fitness(string7))
-    pass
