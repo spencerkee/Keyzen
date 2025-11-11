@@ -46,6 +46,7 @@ assert len(LEFT_LETTERS) + len(RIGHT_LETTERS) == len(LETTER_COORDS)
 assert [CHARACTERS[i] for i in range(len(CHARACTERS))] == list(LETTER_COORDS.keys())
 
 # todo: get better numbers these are random numbers from chatgpt
+# https://chatgpt.com/share/69139551-b4c8-800b-b393-cbaa93bdde23
 SIMULTANEOUS_LATENCY_MS = 150
 MOVEMENT_LATENCY_MS = 270
 
