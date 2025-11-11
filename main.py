@@ -18,7 +18,7 @@ def alphabetical_fitness(individual):
     return (fitness_score,)
 
 
-def create_toolbox():
+def create_toolbox(indpb, tournsize):
     # We have a single fitness function that we want to maximize
     creator.create("FitnessMax", base.Fitness, weights=(1.0,))
     creator.create("Individual", list, fitness=creator.FitnessMax)
@@ -35,14 +35,23 @@ def create_toolbox():
     # We use ordered crossover
     toolbox.register("mate", tools.cxOrdered)
     # For mutation we will swap elements from two points on the individual.
-    toolbox.register("mutate", tools.mutShuffleIndexes, indpb=0.05)
-    toolbox.register("select", tools.selTournament, tournsize=3)
+    toolbox.register("mutate", tools.mutShuffleIndexes, indpb=indpb)
+    toolbox.register("select", tools.selTournament, tournsize=tournsize)
 
     return toolbox
 
 
 def main():
-    toolbox = create_toolbox()
+    # CXPB  is the probability with which two individuals are crossed
+    # MUTPB is the probability for mutating an individual
+    # NGEN is the number of generations before quitting
+    CXPB, MUTPB, NGEN = 0.5, 0.2, 90
+    # Independent probability for each attribute to be exchanged to another position.
+    indpb = 0.05
+    # The number of individuals participating in each tournament.
+    tournsize = 30
+
+    toolbox = create_toolbox(indpb, tournsize)
 
     pop = toolbox.population(n=300)
     hof = tools.HallOfFame(1)
@@ -51,11 +60,6 @@ def main():
     stats.register("std", numpy.std)
     stats.register("min", numpy.min)
     stats.register("max", numpy.max)
-
-    # CXPB  is the probability with which two individuals are crossed
-    # MUTPB is the probability for mutating an individual
-    # NGEN is the number of generations before quitting
-    CXPB, MUTPB, NGEN = 0.5, 0.2, 40
 
     pop, log = algorithms.eaSimple(
         pop,
