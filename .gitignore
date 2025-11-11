@@ -1,1 +1,3 @@
 __pycache__
+fitness/corpus/*.txt
+
