@@ -5,6 +5,7 @@ import ipdb
 from deap import creator, base, tools, algorithms
 import numpy
 from Imaging.keyboardImage import makeStringImage
+from fitness.latency_map import get_fitness
 
 CHARACTERS = "qwertyuiopasdfghjkl^zxcvbnm "
 
@@ -35,6 +36,7 @@ def create_toolbox(indpb, tournsize):
     # Create a population of individuals.
     toolbox.register("population", tools.initRepeat, list, toolbox.individual)
     toolbox.register("evaluate", get_fitness)
+    # toolbox.register("evaluate", alphabetical_fitness)
     # We use ordered crossover
     toolbox.register("mate", tools.cxOrdered)
     # For mutation we will swap elements from two points on the individual.
@@ -45,10 +47,12 @@ def create_toolbox(indpb, tournsize):
 
 
 def main():
+    # POP_SIZE is the number of individuals in each generation
+    POP_SIZE = 300
     # CXPB  is the probability with which two individuals are crossed
     # MUTPB is the probability for mutating an individual
     # NGEN is the number of generations before quitting
-    CXPB, MUTPB, NGEN = 0.5, 0.2, 9000
+    CXPB, MUTPB, NGEN = 0.5, 0.2, 100
     # Independent probability for each attribute to be exchanged to another position.
     indpb = 0.05
     # The number of individuals participating in each tournament.
@@ -56,7 +60,7 @@ def main():
 
     toolbox = create_toolbox(indpb, tournsize)
 
-    pop = toolbox.population(n=300)
+    pop = toolbox.population(n=POP_SIZE)
     hof = tools.HallOfFame(1)
     stats = tools.Statistics(lambda ind: ind.fitness.values)
     stats.register("avg", numpy.mean)
