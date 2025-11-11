@@ -19,9 +19,11 @@ def alphabetical_fitness(individual):
 
 
 def create_toolbox(indpb, tournsize):
-    # We have a single fitness function that we want to maximize
-    creator.create("FitnessMax", base.Fitness, weights=(1.0,))
-    creator.create("Individual", list, fitness=creator.FitnessMax)
+    # We have a single fitness function that we want to minimize/maximize
+    # creator.create("FitnessMax", base.Fitness, weights=(1.0,))
+    # creator.create("Individual", list, fitness=creator.FitnessMax)
+    creator.create("FitnessMin", base.Fitness, weights=(-1.0,))
+    creator.create("Individual", list, fitness=creator.FitnessMin)
 
     toolbox = base.Toolbox()
     # Create an individual consisting of randomized characters from CHARACTERS.
