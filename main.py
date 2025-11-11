@@ -3,6 +3,7 @@ import random
 from pprint import pprint
 import ipdb
 from deap import creator, base, tools, algorithms
+import numpy
 
 CHARACTERS = "qwertyuiopasdfghjkl^zxcvbnm "
 
@@ -17,14 +18,14 @@ def alphabetical_fitness(individual):
     return (fitness_score,)
 
 
-def main():
+def create_toolbox():
     # We have a single fitness function that we want to maximize
     creator.create("FitnessMax", base.Fitness, weights=(1.0,))
     creator.create("Individual", list, fitness=creator.FitnessMax)
 
     toolbox = base.Toolbox()
     # Create an individual consisting of randomized characters from CHARACTERS.
-    toolbox.register("indices", random.sample, range(len(CHARACTERS)), len(CHARACTERS)) 
+    toolbox.register("indices", random.sample, range(len(CHARACTERS)), len(CHARACTERS))
     toolbox.register(
         "individual", tools.initIterate, creator.Individual, toolbox.indices
     )
@@ -37,12 +38,12 @@ def main():
     toolbox.register("mutate", tools.mutShuffleIndexes, indpb=0.05)
     toolbox.register("select", tools.selTournament, tournsize=3)
 
-    population = toolbox.population(n=300)
-    # Evaluate the entire population
+    return toolbox
 
-    # CXPB  is the probability with which two individuals
-    #       are crossed
-    #
+
+def old_main():
+    toolbox = create_toolbox()
+    # CXPB  is the probability with which two individuals are crossed
     # MUTPB is the probability for mutating an individual
     CXPB, MUTPB = 0.5, 0.2
 
@@ -68,6 +69,40 @@ def main():
             ind.fitness.values = fit
         population = toolbox.select(offspring, k=len(population))
     print("".join(sorted(CHARACTERS)))
+
+
+def main():
+    toolbox = create_toolbox()
+
+    pop = toolbox.population(n=300)
+    hof = tools.HallOfFame(1)
+    stats = tools.Statistics(lambda ind: ind.fitness.values)
+    stats.register("avg", numpy.mean)
+    stats.register("std", numpy.std)
+    stats.register("min", numpy.min)
+    stats.register("max", numpy.max)
+
+    # CXPB  is the probability with which two individuals are crossed
+    # MUTPB is the probability for mutating an individual
+    # NGEN is the number of generations before quitting
+    CXPB, MUTPB, NGEN = 0.5, 0.2, 40
+
+    pop, log = algorithms.eaSimple(
+        pop,
+        toolbox,
+        cxpb=CXPB,
+        mutpb=MUTPB,
+        ngen=NGEN,
+        stats=stats,
+        halloffame=hof,
+        verbose=True,
+    )
+
+    best_individual = hof[0]
+    best_individual_as_characters = "".join([CHARACTERS[i] for i in best_individual])
+    print(
+        f"Best individual: {best_individual_as_characters} with fitness: {best_individual.fitness.values}"
+    )
 
 
 if __name__ == "__main__":
