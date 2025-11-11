@@ -21,7 +21,7 @@ def alphabetical_fitness(individual):
 def create_toolbox():
     # We have a single fitness function that we want to maximize
     creator.create("FitnessMax", base.Fitness, weights=(1.0,))
-    creator.create("Individual", str, fitness=creator.FitnessMax)
+    creator.create("Individual", list, fitness=creator.FitnessMax)
 
     toolbox = base.Toolbox()
     # Create an individual consisting of randomized characters from CHARACTERS.
@@ -39,36 +39,6 @@ def create_toolbox():
     toolbox.register("select", tools.selTournament, tournsize=3)
 
     return toolbox
-
-
-# def old_main():
-#     toolbox = create_toolbox()
-#     # CXPB  is the probability with which two individuals are crossed
-#     # MUTPB is the probability for mutating an individual
-#     CXPB, MUTPB = 0.5, 0.2
-
-#     # Variable keeping track of the number of generations
-#     generation_num = 0
-#     # Begin the evolution
-#     while generation_num < 100:
-#         # A new generation
-#         generation_num += 1
-#         print("-- Generation %i --" % generation_num)
-
-#         best_individual = tools.selBest(population, k=1)[0]
-#         best_individual_as_characters = "".join(
-#             [CHARACTERS[i] for i in best_individual]
-#         )
-#         print(
-#             f"Best individual: {"".join(best_individual_as_characters)} with fitness: {best_individual.fitness.values}"
-#         )
-
-#         offspring = algorithms.varAnd(population, toolbox, cxpb=CXPB, mutpb=MUTPB)
-#         fits = toolbox.map(toolbox.evaluate, offspring)
-#         for fit, ind in zip(fits, offspring):
-#             ind.fitness.values = fit
-#         population = toolbox.select(offspring, k=len(population))
-#     print("".join(sorted(CHARACTERS)))
 
 
 def main():
@@ -105,5 +75,6 @@ def main():
     )
 
 
+# uv run main.py
 if __name__ == "__main__":
     main()
