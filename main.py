@@ -4,6 +4,7 @@ from pprint import pprint
 import ipdb
 from deap import creator, base, tools, algorithms
 import numpy
+from fitness.latency_map import get_fitness
 
 CHARACTERS = "qwertyuiopasdfghjkl^zxcvbnm "
 
@@ -31,7 +32,7 @@ def create_toolbox(indpb, tournsize):
     )
     # Create a population of individuals.
     toolbox.register("population", tools.initRepeat, list, toolbox.individual)
-    toolbox.register("evaluate", alphabetical_fitness)
+    toolbox.register("evaluate", get_fitness)
     # We use ordered crossover
     toolbox.register("mate", tools.cxOrdered)
     # For mutation we will swap elements from two points on the individual.
