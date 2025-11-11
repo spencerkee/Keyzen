@@ -4,7 +4,7 @@ from pprint import pprint
 import ipdb
 from deap import creator, base, tools, algorithms
 import numpy
-from fitness.latency_map import get_fitness
+from Imaging.keyboardImage import makeStringImage
 
 CHARACTERS = "qwertyuiopasdfghjkl^zxcvbnm "
 
@@ -80,8 +80,11 @@ def main():
     print(
         f"Best individual: {best_individual_as_characters} with fitness: {best_individual.fitness.values}"
     )
+    makeStringImage(best_individual_as_characters, "keyboard.png")
 
 
+# sudo apt update
+# sudo apt-get install libmagickwand-dev
 # uv run main.py
 if __name__ == "__main__":
     main()
