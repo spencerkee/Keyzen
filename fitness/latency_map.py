@@ -1,5 +1,9 @@
 import math
 import json
+
+# import this instead
+CHARACTERS = "qwertyuiopasdfghjkl^zxcvbnm "
+
 # original letter mapping
 LETTER_COORDS = {
     "q": (0, 3),
@@ -38,6 +42,8 @@ LEFT_LETTER_INDEXES = set([LETTER_TO_INDEX[letter] for letter in LEFT_LETTERS])
 RIGHT_LETTERS =set(["y", "u", "i", 'o', 'p', 'h', 'j', 'k', 'l', 'n', 'm', " "])
 RIGHT_LETTER_INDEXES = set([LETTER_TO_INDEX[letter] for letter in RIGHT_LETTERS])
 assert len(LEFT_LETTERS) + len(RIGHT_LETTERS) == len(LETTER_COORDS)
+# assert characters are in the same order as the LETTER_COORDS
+assert [CHARACTERS[i] for i in range(len(CHARACTERS))] == list(LETTER_COORDS.keys())
 
 # todo: get better numbers
 SIMULTANEOUS_LATENCY_MS = 30
@@ -56,7 +62,15 @@ def get_bigram_fitness(letter_coords, right_letters, left_letters, bigram):
         distance = math.sqrt((letter1[0] - letter2[0])**2 + (letter1[1] - letter2[1])**2)
         return distance * MOVEMENT_LATENCY_MS
 
-def get_fitness(character_sequence: str) -> float:
+def get_fitness(character_indexes: str) -> float:
+
+    # character indexes is a list of indexes of the characters in the CHARACTERS string
+    character_sequence = [""] * len(CHARACTERS)
+    for i in range(len(character_indexes)):
+        index = character_indexes[i]
+        character_sequence[i] = CHARACTERS[index]
+    character_sequence = "".join(character_sequence)
+    # print(character_sequence)
     # check validity of sequence
     if len(character_sequence) != len(LETTER_COORDS):
         return float('inf')
@@ -74,20 +88,21 @@ def get_fitness(character_sequence: str) -> float:
     total_weight = sum(BIGRAM_DICT.values())
     for bigram, weight in BIGRAM_DICT.items():
         fitness += get_bigram_fitness(NEW_LETTER_COORDS, NEW_RIGHT_LETTERS, NEW_LEFT_LETTERS, bigram) * weight
-    return fitness / total_weight
+    return (fitness / total_weight,)
 
 if __name__ == "__main__":
-    string1 = "qwertyuiopasdfghjkl^zxcvbnm " # should work
-    string2 = "qbertyuiopasdfghjkl^zxcvwnm " # should work
-    string3 = "^bertyuiomasdfghjklqzxcvwnp " # should work
-    string4 = "^bertyuiomasdfghjklqzxcvwnp  " # breaks
-    string5 = "^bertyuiomasdfghjklzxcvwnp ]" # breaks
-    string6 = "^bertyuizxcvwnp ]^" # breaks
-    string7 = "qwertyuiopasdfggjkl^zxcvbnm " # should break
-    print(get_fitness(string1))
-    print(get_fitness(string2))
-    print(get_fitness(string3))
-    print(get_fitness(string4))
-    print(get_fitness(string5))
-    print(get_fitness(string6))
-    print(get_fitness(string7))
+    # string1 = "qwertyuiopasdfghjkl^zxcvbnm " # should work
+    # string2 = "qbertyuiopasdfghjkl^zxcvwnm " # should work
+    # string3 = "^bertyuiomasdfghjklqzxcvwnp " # should work
+    # string4 = "^bertyuiomasdfghjklqzxcvwnp  " # breaks
+    # string5 = "^bertyuiomasdfghjklzxcvwnp ]" # breaks
+    # string6 = "^bertyuizxcvwnp ]^" # breaks
+    # string7 = "qwertyuiopasdfggjkl^zxcvbnm " # should break
+    # print(get_fitness(string1))
+    # print(get_fitness(string2))
+    # print(get_fitness(string3))
+    # print(get_fitness(string4))
+    # print(get_fitness(string5))
+    # print(get_fitness(string6))
+    # print(get_fitness(string7))
+    pass
