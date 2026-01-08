@@ -7,5 +7,6 @@ requires-python = ">=3.12"
 dependencies = [
     "deap>=1.4.3",
     "ipdb>=0.13.13",
+    "simpy>=4.1.1",
     "wand>=0.6.13",
 ]
