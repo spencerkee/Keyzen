@@ -73,13 +73,13 @@ def create_job_queues(input_text, left_chars, right_chars):
     current_thumb = None
     current_run = ""
     for char in input_text:
-        if char in LEFT_CHARS:
+        if char in left_chars:
             if current_thumb == "right":
                 right_queue.put(current_run)
                 current_run = ""
             current_thumb = "left"
             current_run += char
-        elif char in RIGHT_CHARS:
+        elif char in right_chars:
             if current_thumb == "left":
                 left_queue.put(current_run)
                 current_run = ""
@@ -120,20 +120,15 @@ def thumb(env, q, thumb_type, position, my_container, other_container, letter_co
         # )
 
 
-if __name__ == "__main__":
+def get_distance_for_chromosome(chromosome, preprocessed_input_text):
+    left_chars = set((chromosome[i] for i in LEFT_LETTERS))
+    right_chars = set((chromosome[i] for i in RIGHT_LETTERS))
+    letter_coords = {char: COORDS[i] for i, char in enumerate(chromosome)}
 
-    # CHROMOSOME = "qwertyuiopasdfghjkl^zxcvbnm " # QWERTY 6608.455772598619
-    CHROMOSOME = (
-        "qwertyuiopasdfgh kl^zxcvbnmj"  # J and space swapped, 5028.270082811743
-    )
-    LEFT_CHARS = set((CHROMOSOME[i] for i in LEFT_LETTERS))
-    RIGHT_CHARS = set((CHROMOSOME[i] for i in RIGHT_LETTERS))
-    LETTER_COORDS = {char: COORDS[i] for i, char in enumerate(CHROMOSOME)}
-
-    # jump red mum fad
     # left_queue, right_queue = create_job_queues("jumpredmumfad")
-    input_text = preprocess_input_text(TEXT_INPUT)
-    left_queue, right_queue = create_job_queues(input_text, LEFT_CHARS, RIGHT_CHARS)
+    left_queue, right_queue = create_job_queues(
+        preprocessed_input_text, left_chars, right_chars
+    )
 
     env = simpy.Environment()
     # TODO Start with the correct container.
@@ -143,12 +138,23 @@ if __name__ == "__main__":
     # TODO Start with the correct position of the thumbs.
     # Left thumb process
     env.process(
-        thumb(env, left_queue, "left", "f", left_cont, right_cont, LETTER_COORDS)
+        thumb(env, left_queue, "left", "f", left_cont, right_cont, letter_coords)
     )
     # Right thumb process
     env.process(
-        thumb(env, right_queue, "right", "j", right_cont, left_cont, LETTER_COORDS)
+        thumb(env, right_queue, "right", "j", right_cont, left_cont, letter_coords)
     )
 
     env.run()
     print(f"Final environment time: {env.now}")
+    return env.now
+
+
+if __name__ == "__main__":
+
+    # CHROMOSOME = "qwertyuiopasdfghjkl^zxcvbnm " # QWERTY 6608.455772598619
+    CHROMOSOME = (
+        "qwertyuiopasdfgh kl^zxcvbnmj"  # J and space swapped, 5028.270082811743
+    )
+    preprocess_input_text = preprocess_input_text(TEXT_INPUT)
+    get_distance_for_chromosome(CHROMOSOME, preprocess_input_text)
