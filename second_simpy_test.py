@@ -18,10 +18,10 @@ COORDS = (
     (9, 3),
     (0.5, 2),
     (1.5, 2),
-    (2.5, 2),
+    (2.5, 2),  # f
     (3.5, 2),
     (4.5, 2),
-    (5.5, 2),
+    (5.5, 2),  # j
     (6.5, 2),
     (7.5, 2),
     (8.5, 2),
@@ -144,12 +144,32 @@ def get_distance_for_chromosome(chromosome, preprocessed_input_text):
 
     # TODO Start with the correct position of the thumbs.
     # Left thumb process
+
+    # Equivalent to the positions of F and J on qwerty.
+    left_starting_letter = chromosome[12]
+    right_starting_letter = chromosome[15]
     env.process(
-        thumb(env, left_queue, "left", "f", left_cont, right_cont, letter_coords)
+        thumb(
+            env,
+            left_queue,
+            "left",
+            left_starting_letter,
+            left_cont,
+            right_cont,
+            letter_coords,
+        )
     )
     # Right thumb process
     env.process(
-        thumb(env, right_queue, "right", "j", right_cont, left_cont, letter_coords)
+        thumb(
+            env,
+            right_queue,
+            "right",
+            right_starting_letter,
+            right_cont,
+            left_cont,
+            letter_coords,
+        )
     )
 
     env.run()
