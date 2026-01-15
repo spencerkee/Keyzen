@@ -6,6 +6,8 @@ from deap import creator, base, tools, algorithms
 import numpy
 from Imaging.keyboardImage import makeStringImage
 from fitness.latency_map import get_fitness
+from second_simpy_test import get_distance_for_chromosome, preprocess_input_text
+from simpy_keyboard import TEXT_INPUT
 
 CHARACTERS = "qwertyuiopasdfghjkl^zxcvbnm "
 
@@ -20,7 +22,7 @@ def alphabetical_fitness(individual):
     return (fitness_score,)
 
 
-def create_toolbox(indpb, tournsize):
+def create_toolbox(indpb, tournsize, preprocessed_input_text):
     # We have a single fitness function that we want to minimize/maximize
     # creator.create("FitnessMax", base.Fitness, weights=(1.0,))
     # creator.create("Individual", list, fitness=creator.FitnessMax)
@@ -35,8 +37,17 @@ def create_toolbox(indpb, tournsize):
     )
     # Create a population of individuals.
     toolbox.register("population", tools.initRepeat, list, toolbox.individual)
-    toolbox.register("evaluate", get_fitness)
+
+    # toolbox.register("evaluate", get_fitness)
     # toolbox.register("evaluate", alphabetical_fitness)
+    # TODO If I don't set a keyword argument then then preprocessed_input text is set as the
+    # chromosome argument. I should try to learn why that is.
+    toolbox.register(
+        "evaluate",
+        get_distance_for_chromosome,
+        preprocessed_input_text=preprocessed_input_text,
+    )
+
     # We use ordered crossover
     toolbox.register("mate", tools.cxOrdered)
     # For mutation we will swap elements from two points on the individual.
@@ -58,7 +69,8 @@ def main():
     # The number of individuals participating in each tournament.
     tournsize = 30
 
-    toolbox = create_toolbox(indpb, tournsize)
+    preprocessed_input_text = preprocess_input_text(TEXT_INPUT)
+    toolbox = create_toolbox(indpb, tournsize, preprocessed_input_text)
 
     pop = toolbox.population(n=POP_SIZE)
     hof = tools.HallOfFame(1)

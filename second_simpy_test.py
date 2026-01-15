@@ -37,7 +37,8 @@ COORDS = (
 )
 LEFT_LETTERS = set([0, 1, 2, 3, 4, 10, 11, 12, 13, 19, 20, 21, 22])
 RIGHT_LETTERS = set([5, 6, 7, 8, 9, 15, 16, 17, 18, 24, 25, 26, 27])
-CHARACTER_SET = set("qwertyuiopasdfghjkl^zxcvbnm ")
+CHARACTERS = "qwertyuiopasdfghjkl^zxcvbnm "
+CHARACTER_SET = set(CHARACTERS)
 
 
 def insert_char_before_capitals(text, char_to_insert="^"):
@@ -120,7 +121,13 @@ def thumb(env, q, thumb_type, position, my_container, other_container, letter_co
         # )
 
 
+# Chromosome can be a string or a list (hopefully this won't come back to bite me).
 def get_distance_for_chromosome(chromosome, preprocessed_input_text):
+    # Chromosome is a list of indices (technically deap.creator.Individual),
+    # so we need to convert it to characters.
+    if type(chromosome) != str:
+        individual_as_characters = [CHARACTERS[i] for i in chromosome]
+        chromosome = "".join(individual_as_characters)
     left_chars = set((chromosome[i] for i in LEFT_LETTERS))
     right_chars = set((chromosome[i] for i in RIGHT_LETTERS))
     letter_coords = {char: COORDS[i] for i, char in enumerate(chromosome)}
@@ -146,8 +153,11 @@ def get_distance_for_chromosome(chromosome, preprocessed_input_text):
     )
 
     env.run()
-    print(f"Final environment time: {env.now}")
-    return env.now
+    # print(f"Final environment time: {env.now}")
+    # Fitness values must be iterable because single fitness functions
+    # are a special case of multi-fitness functions.
+    # https://deap.readthedocs.io/en/master/overview.html#operators
+    return (env.now,)
 
 
 if __name__ == "__main__":
