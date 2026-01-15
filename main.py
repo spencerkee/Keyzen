@@ -8,6 +8,7 @@ from Imaging.keyboardImage import makeStringImage
 from fitness.latency_map import get_fitness
 from second_simpy_test import get_distance_for_chromosome, preprocess_input_text
 from simpy_keyboard import TEXT_INPUT
+import time
 
 CHARACTERS = "qwertyuiopasdfghjkl^zxcvbnm "
 
@@ -79,7 +80,11 @@ def main():
     stats.register("std", numpy.std)
     stats.register("min", numpy.min)
     stats.register("max", numpy.max)
+    # TODO There's got to be a better way of writing this lambda.
+    # Feels weird that pop isn't used.
+    stats.register("best", lambda pop: "".join([CHARACTERS[i] for i in hof[0]]))
 
+    start_time = time.time()
     pop, log = algorithms.eaSimple(
         pop,
         toolbox,
@@ -90,6 +95,11 @@ def main():
         halloffame=hof,
         verbose=True,
     )
+    duration = time.time() - start_time
+    print(
+        f"{NGEN} generations of {POP_SIZE} individuals completed in {duration:.2f} seconds"
+    )
+    print(f"Generations per second {NGEN / duration:.2f}")
 
     best_individual = hof[0]
     best_individual_as_characters = "".join([CHARACTERS[i] for i in best_individual])
