@@ -180,11 +180,37 @@ def get_distance_for_chromosome(chromosome, preprocessed_input_text):
     return (env.now,)
 
 
+def predict_distance_for_chromosome(chromosome):
+    # Chromosome is a list of 28 indices.
+    # Create numpy array where each element corresponds to every pair (i,j) to indicate if i appears before j in the permutation.
+    n = len(chromosome)
+    pairwise_matrix = np.zeros((n, n), dtype=int)
+    for i in range(n):
+        for j in range(i + 1, n):
+            pairwise_matrix[chromosome[i], chromosome[j]] = 1
+    return pairwise_matrix
+
+
 if __name__ == "__main__":
 
-    # CHROMOSOME = "qwertyuiopasdfghjkl^zxcvbnm " # QWERTY 6608.455772598619
-    CHROMOSOME = (
-        "qwertyuiopasdfgh kl^zxcvbnmj"  # J and space swapped, 5028.270082811743
-    )
-    preprocess_input_text = preprocess_input_text(TEXT_INPUT)
-    get_distance_for_chromosome(CHROMOSOME, preprocess_input_text)
+    # # CHROMOSOME = "qwertyuiopasdfghjkl^zxcvbnm " # QWERTY 6608.455772598619
+    # CHROMOSOME = (
+    #     "qwertyuiopasdfgh kl^zxcvbnmj"  # J and space swapped, 5028.270082811743
+    # )
+    # preprocess_input_text = preprocess_input_text(TEXT_INPUT)
+    # get_distance_for_chromosome(CHROMOSOME, preprocess_input_text)
+
+    # from autogluon.tabular import TabularDataset, TabularPredictor
+
+    # data_url = "https://raw.githubusercontent.com/mli/ag-docs/main/knot_theory/"
+    # train_data = TabularDataset(f"{data_url}train.csv")
+    # train_data.head()
+    # label = "signature"
+    # train_data[label].describe()
+    # predictor = TabularPredictor(label=label).fit(train_data)
+    # test_data = TabularDataset(f"{data_url}test.csv")
+
+    # y_pred = predictor.predict(test_data.drop(columns=[label]))
+    # y_pred.head()
+    # predictor.evaluate(test_data)
+    # predictor.leaderboard(test_data)
