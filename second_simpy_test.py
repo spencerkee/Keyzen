@@ -3,6 +3,10 @@ import queue
 import math
 import ipdb
 import re
+import random
+import numpy as np
+import pandas as pd
+from autogluon.tabular import TabularDataset, TabularPredictor
 from simpy_keyboard import TEXT_INPUT
 
 COORDS = (
@@ -38,6 +42,7 @@ COORDS = (
 LEFT_LETTERS = set([0, 1, 2, 3, 4, 10, 11, 12, 13, 19, 20, 21, 22])
 RIGHT_LETTERS = set([5, 6, 7, 8, 9, 15, 16, 17, 18, 24, 25, 26, 27])
 CHARACTERS = "qwertyuiopasdfghjkl^zxcvbnm "
+SORTED_CHARACTERS = sorted(CHARACTERS)
 CHARACTER_SET = set(CHARACTERS)
 
 
@@ -180,37 +185,107 @@ def get_distance_for_chromosome(chromosome, preprocessed_input_text):
     return (env.now,)
 
 
-def predict_distance_for_chromosome(chromosome):
-    # Chromosome is a list of 28 indices.
-    # Create numpy array where each element corresponds to every pair (i,j) to indicate if i appears before j in the permutation.
-    n = len(chromosome)
-    pairwise_matrix = np.zeros((n, n), dtype=int)
-    for i in range(n):
-        for j in range(i + 1, n):
-            pairwise_matrix[chromosome[i], chromosome[j]] = 1
-    return pairwise_matrix
+# def predict_distance_for_chromosome(chromosome):
+    # # Chromosome is a list of 28 indices.
+    # # Create numpy array where each element corresponds to every pair (i,j) to indicate if i appears before j in the permutation.
+    # n = len(chromosome)
+    # pairwise_matrix = np.zeros((n, n), dtype=int)
+    # for i in range(n):
+    #     for j in range(i + 1, n):
+    #         pairwise_matrix[chromosome[i], chromosome[j]] = 1
+    # return pairwise_matrix
+
+def convert_index_list_to_one_hot(chromosome):
+    one_hot_encoding = np.zeros((len(chromosome), len(chromosome)))
+    one_hot_encoding[np.arange(len(chromosome)), chromosome] = 1
+    return one_hot_encoding
+
+def convert_one_hot_to_index_list(one_hot_encoding):
+    index_list = np.argmax(one_hot_encoding, axis=1)
+    # TODO Possibly need to cast this to a python list again.
+    return index_list
 
 
 if __name__ == "__main__":
-
     # # CHROMOSOME = "qwertyuiopasdfghjkl^zxcvbnm " # QWERTY 6608.455772598619
     # CHROMOSOME = (
     #     "qwertyuiopasdfgh kl^zxcvbnmj"  # J and space swapped, 5028.270082811743
     # )
-    # preprocess_input_text = preprocess_input_text(TEXT_INPUT)
+    preprocess_input_text = preprocess_input_text(TEXT_INPUT)
     # get_distance_for_chromosome(CHROMOSOME, preprocess_input_text)
+    
+    # Random chromosome for testing
+    # random_chromosome = random.sample(range(len(CHARACTERS)), len(CHARACTERS))
+    # one_hot = convert_index_list_to_one_hot(random_chromosome)
+    # recovered_chromosome = convert_one_hot_to_index_list(one_hot)
+    # distance = get_distance_for_chromosome(recovered_chromosome, preprocess_input_text)
+    # ipdb.set_trace()
+    # pass
 
-    from autogluon.tabular import TabularDataset, TabularPredictor
+    # 1) Create 500 random chromosomes
+    # 2) add all of their one hot encodings to a numpy array
+    # 3) add their computed distances as a final column onto the same numpy array.
+    num_samples = 500
+    one_hot_encodings = []
+    distances = []
+    for _ in range(num_samples):
+        random_chromosome = random.sample(range(len(CHARACTERS)), len(CHARACTERS))
+        one_hot = convert_index_list_to_one_hot(random_chromosome)
+        # TODO Maybe need to update this if I get multidimensional fitness values.
+        distance = get_distance_for_chromosome(
+            random_chromosome, preprocess_input_text
+        )[0]
+        # TODO Investigate if flattening is the right approach here.
+        one_hot_encodings.append(one_hot.flatten())
+        distances.append(distance)
+    one_hot_encodings = np.array(one_hot_encodings)
+    distances = np.array(distances).reshape(-1, 1)
+    # Combine one hot encodings and distances into a single dataframe with the columns "onehot" and "distance"
+    # data = {
+    #     "onehot": one_hot_encodings,
+    #     "distance": distances,
+    # }
+    # train_data = pd.DataFrame(data)
+    dataset = np.hstack((one_hot_encodings, distances))
+    df = pd.DataFrame(dataset)
+    df.columns = [*df.columns[:-1], 'distance']
+    # ipdb.set_trace()
+    # np.save("simpy_keyboard_dataset.npy", dataset)
+    
+    # Create a train_data dataset using 80% of the data and a test_data dataset using 20% of the data
+    train_size = int(0.8 * num_samples)
+    train_data = TabularDataset(df.iloc[:train_size])
+    test_data = TabularDataset(df.iloc[train_size:])
+    distance_col = "distance"
+    train_data[distance_col].describe()
+    ipdb.set_trace()
+    predictor_distance = TabularPredictor(
+        label=distance_col,
+        problem_type="regression"
+    ).fit(
+        train_data,
+        time_limit=30
+    )
+    # TabularPredictor saved. To load, use: predictor = TabularPredictor.load("/workspaces/Keyzen/AutogluonModels/ag-20260120_201752
+    y_pred = predictor_distance.predict(test_data)
+    # y_pred.head()
+    # y_pred_proba = predictor_distance.predict_proba(test_data)
+    # y_pred_proba.head()  # Prediction Probabilities
+    predictor_distance.leaderboard(test_data)
+    ipdb.set_trace()
 
-    data_url = "https://raw.githubusercontent.com/mli/ag-docs/main/knot_theory/"
-    train_data = TabularDataset(f"{data_url}train.csv")
-    train_data.head()
-    label = "signature"
-    train_data[label].describe()
-    predictor = TabularPredictor(label=label).fit(train_data)
-    test_data = TabularDataset(f"{data_url}test.csv")
+    
 
-    y_pred = predictor.predict(test_data.drop(columns=[label]))
-    y_pred.head()
-    predictor.evaluate(test_data)
-    predictor.leaderboard(test_data)
+    # data_url = "https://raw.githubusercontent.com/mli/ag-docs/main/knot_theory/"
+    # train_data = TabularDataset(f"{data_url}train.csv")
+    # train_data.head()
+    # ipdb.set_trace()
+    # label = "signature"
+    # train_data[label].describe()
+    # predictor = TabularPredictor(label=label).fit(train_data)
+    # test_data = TabularDataset(f"{data_url}test.csv")
+
+    # y_pred = predictor.predict(test_data.drop(columns=[label]))
+    # y_pred.head()
+    # predictor.evaluate(test_data)
+    # predictor.leaderboard(test_data)
