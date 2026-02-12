@@ -9,6 +9,8 @@ import pandas as pd
 from autogluon.tabular import TabularDataset, TabularPredictor
 from simpy_keyboard import TEXT_INPUT
 
+PREDICTOR = TabularPredictor.load("/home/me/Documents/scripts/Keyzen/AutogluonModels/ag-20260120_203227")
+
 COORDS = (
     (0, 3),
     (1, 3),
@@ -184,16 +186,19 @@ def get_distance_for_chromosome(chromosome, preprocessed_input_text):
     # https://deap.readthedocs.io/en/master/overview.html#operators
     return (env.now,)
 
-
-# def predict_distance_for_chromosome(chromosome):
-    # # Chromosome is a list of 28 indices.
-    # # Create numpy array where each element corresponds to every pair (i,j) to indicate if i appears before j in the permutation.
+def predict_distance_for_chromosome(chromosome):
+    # Chromosome is a list of 28 indices.
+    # Create numpy array where each element corresponds to every pair (i,j) to indicate if i appears before j in the permutation.
     # n = len(chromosome)
     # pairwise_matrix = np.zeros((n, n), dtype=int)
     # for i in range(n):
     #     for j in range(i + 1, n):
     #         pairwise_matrix[chromosome[i], chromosome[j]] = 1
     # return pairwise_matrix
+    one_hot = convert_index_list_to_one_hot(chromosome)
+    flattened_one_hot = one_hot.flatten()
+    predicted_value = PREDICTOR.predict(pd.DataFrame([flattened_one_hot]))[0]
+    return (predicted_value,)
 
 def convert_index_list_to_one_hot(chromosome):
     one_hot_encoding = np.zeros((len(chromosome), len(chromosome)))
@@ -225,7 +230,7 @@ if __name__ == "__main__":
     # 1) Create 500 random chromosomes
     # 2) add all of their one hot encodings to a numpy array
     # 3) add their computed distances as a final column onto the same numpy array.
-    num_samples = 500
+    num_samples = 50000
     one_hot_encodings = []
     distances = []
     for _ in range(num_samples):
@@ -258,13 +263,12 @@ if __name__ == "__main__":
     test_data = TabularDataset(df.iloc[train_size:])
     distance_col = "distance"
     train_data[distance_col].describe()
-    ipdb.set_trace()
     predictor_distance = TabularPredictor(
         label=distance_col,
         problem_type="regression"
     ).fit(
         train_data,
-        time_limit=30
+        time_limit=600
     )
     # TabularPredictor saved. To load, use: predictor = TabularPredictor.load("/workspaces/Keyzen/AutogluonModels/ag-20260120_201752
     y_pred = predictor_distance.predict(test_data)
@@ -274,6 +278,8 @@ if __name__ == "__main__":
     predictor_distance.leaderboard(test_data)
     ipdb.set_trace()
 
+    # convert_one_hot_to_index_list(one_hot_encodings[0].reshape((28, 28)))
+    pass
     
 
     # data_url = "https://raw.githubusercontent.com/mli/ag-docs/main/knot_theory/"
